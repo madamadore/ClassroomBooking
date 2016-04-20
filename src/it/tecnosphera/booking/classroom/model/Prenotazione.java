@@ -9,6 +9,7 @@ public class Prenotazione {
 	private User owner;
 	private Aula classRoom;
 	private String description;
+	
 	public long getId() {
 		return id;
 	}
