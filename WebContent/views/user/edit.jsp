@@ -7,17 +7,36 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<script language="Javascript" type="text/javascript">
+
+function testpass(User){
+   if (User.password.value == ""){
+    alert("Errore: inserire una password!")
+    User.password.focus()
+    return false
+  }
+
+  if (User.password.value != User.conferma_password.value) {
+    alert("La password inserita non coincide con la prima!")
+    User.password.focus()
+    User.password.select()
+    return false
+  }
+  return true
+}
+
+</script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>User</title>
-<link href=”bootstrap/css/bootstrap.min.css” rel=”stylesheet” type=”text/css” />
-<script type=”text/javascript” src=”bootstrap/js/bootstrap.min.js”></script>
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </head>
 
 <body>
     <div class="content">
-	<form action="create" method="POST">
-		<div>
-		   <label for="id">ID:</label>
+	<form action="view.jsp" method="POST" name="User" onsubmit="return testpass(this)">
+		<div hidden>
 		   <input type="text" readonly id="id" name="id" value="<%=user.getId()%>"/>
 		</div>
 		<div>
@@ -35,9 +54,12 @@
 		<div>
 		   <label for="name">Password:</label>
 		   <input type="password" id="password" name="password" value="<%=user.getPassword()%>" />
-		</div>				
+		   <input type="password" id="conferma_password" name="conferma_password" value="<%=user.getPassword()%>" />
+		</div>
+						
 		<div>
 		   <input type="submit" value="Salva" />
+		   <input type="submit" value="Edit" />
 		</div>
 	</form>	
     </div>

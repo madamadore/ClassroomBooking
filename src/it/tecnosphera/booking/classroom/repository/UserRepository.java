@@ -30,8 +30,12 @@ public class UserRepository implements UserRepositoryInterface {
 			ResultSet rs = stmt.executeQuery("SELECT * FROM user WHERE id='" + id + "'");
 			if (rs.next()) {
 				String name = rs.getString("Nome");
+				String cognome = rs.getString("Cognome");
+				String email = rs.getString("Email");
+				String password = rs.getString("Password");
 				
-				user = createUser(id, name);
+				
+				user = createUser(id, name,cognome,email,password);
 			}
 
 		} catch (ClassNotFoundException e) {
@@ -51,10 +55,13 @@ public class UserRepository implements UserRepositoryInterface {
 		return user;
 	}
 	
-	protected User createUser(long id, String nome) {
+	protected User createUser(long id, String nome,String cognome,String email,String password) {
 		User user = new User();
 		user.setId(id);
 		user.setName(nome);
+		user.setCognome(cognome);
+		user.setEmail(email);
+		user.setPassword(password);
 		return user;
 	}
 
@@ -73,8 +80,11 @@ public class UserRepository implements UserRepositoryInterface {
 			while (res.next()) {
 				long id = res.getLong("id");
 				String nome = res.getString("nome");
+				String cognome = res.getString("Cognome");
+				String email = res.getString("Email");
+				String password = res.getString("Password");
 				
-				User user = createUser(id, nome);
+				User user = createUser(id, nome, cognome, email, password);
 				lista.add(user);
 			}
 
@@ -112,11 +122,15 @@ public class UserRepository implements UserRepositoryInterface {
 		try {
 			conn = getConnection();
 			
-			String sql =("insert into user (nome) values (?)");
+			String sql =("insert into user (nome) values (?),(cognome) values (?),(email) values (?),(password) values (?)");
 			preparedStatement = conn
 			          .prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 						
 			preparedStatement.setString(1, user.getName());
+			preparedStatement.setString(2, user.getCognome());
+			preparedStatement.setString(3, user.getEmail());
+			preparedStatement.setString(4, user.getPassword());
+			
 						
 			preparedStatement.executeUpdate();
 			ResultSet rs = preparedStatement.getGeneratedKeys();

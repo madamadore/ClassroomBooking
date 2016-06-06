@@ -27,10 +27,11 @@
 		<div>
 		   <label for="description">Descrizione:</label>
 		   <textarea id="description" name="description" 
-		   	cols="50" rows="5"><%=aula.getDescription()%></textarea>
+		   	cols="50" rows="5"><%=aula.getDescription()%>
+		   	</textarea>
 		</div>
 		<div>
-			<button type=”submit” class=”btn btn-default”>Salva</button>
+		<button class = "btn btn-default" type = "submit">Salva</button>
 		</div>
 	</form>	
     </div>

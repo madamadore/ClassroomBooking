@@ -34,9 +34,11 @@ public class UserController extends HttpServlet  {
 		
 		request.setAttribute("user", user);
 		
+		//RequestDispatcher dispatcher = request.getRequestDispatcher("/views/user/insert");
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/views/user/edit.jsp");
 		dispatcher.forward(request, response);
 	}
+	
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
@@ -46,6 +48,9 @@ public class UserController extends HttpServlet  {
     		User user = new User();
     		user.setId(Long.parseLong(request.getParameter("id")));
     		user.setName(request.getParameter("name"));
+    		user.setCognome(request.getParameter("cognome"));
+    		user.setEmail(request.getParameter("email"));
+    		user.setPassword(request.getParameter("password"));
     		
     		userRepository.save(user);
 
