@@ -1,4 +1,4 @@
-package it.tecnosphera.booking.classroom.controller;
+package main.java.it.tecnosphera.booking.classroom.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;

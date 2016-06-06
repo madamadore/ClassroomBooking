@@ -1,8 +1,8 @@
-package it.tecnosphera.booking.classroom.repository;
+package main.java.it.tecnosphera.booking.classroom.repository;
 
 import java.util.List;
 
-import it.tecnosphera.booking.classroom.model.Aula;
+import main.java.it.tecnosphera.booking.classroom.model.Aula;
 
 public interface AulaRepositoryInterface {
 

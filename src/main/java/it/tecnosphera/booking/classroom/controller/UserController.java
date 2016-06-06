@@ -1,4 +1,4 @@
-package it.tecnosphera.booking.classroom.controller;
+package main.java.it.tecnosphera.booking.classroom.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -9,9 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import it.tecnosphera.booking.classroom.model.User;
-import it.tecnosphera.booking.classroom.repository.UserRepository;
-import it.tecnosphera.booking.classroom.repository.UserRepositoryInterface;
+import main.java.it.tecnosphera.booking.classroom.model.User;
+import main.java.it.tecnosphera.booking.classroom.repository.UserRepository;
+import main.java.it.tecnosphera.booking.classroom.repository.UserRepositoryInterface;
 
 public class UserController extends HttpServlet  {
 

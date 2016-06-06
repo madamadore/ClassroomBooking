@@ -1,4 +1,4 @@
-package it.tecnosphera.booking.classroom.controller;
+package main.java.it.tecnosphera.booking.classroom.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import it.tecnosphera.booking.classroom.model.Aula;
+import main.java.it.tecnosphera.booking.classroom.model.Aula;
 
 public class AulaController extends HttpServlet  {
 

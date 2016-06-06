@@ -1,4 +1,4 @@
-package it.tecnosphera.booking.classroom.model;
+package main.java.it.tecnosphera.booking.classroom.model;
 
 import java.util.Date;
 

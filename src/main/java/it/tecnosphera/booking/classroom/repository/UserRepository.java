@@ -1,4 +1,4 @@
-package it.tecnosphera.booking.classroom.repository;
+package main.java.it.tecnosphera.booking.classroom.repository;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,7 +9,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import it.tecnosphera.booking.classroom.model.User;
+import main.java.it.tecnosphera.booking.classroom.model.User;
 
 public class UserRepository implements UserRepositoryInterface {
 
