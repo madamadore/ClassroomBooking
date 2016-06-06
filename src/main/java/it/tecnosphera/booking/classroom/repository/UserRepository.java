@@ -1,5 +1,7 @@
 package it.tecnosphera.booking.classroom.repository;
 
+import it.tecnosphera.booking.classroom.model.User;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -8,8 +10,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
-import it.tecnosphera.booking.classroom.model.User;
 
 public class UserRepository implements UserRepositoryInterface {
 
@@ -103,15 +103,7 @@ public class UserRepository implements UserRepositoryInterface {
 			}
 		}
 		return lista;
-	}
-		
-
-	
-	@Override
-	public List<User> getUsers(String name) {
-		// TODO Auto-generated method stub
-		return null;
-	}		
+	}	
 	
 	public long insertUser (User user){
 		
@@ -174,13 +166,18 @@ public class UserRepository implements UserRepositoryInterface {
 			updateUser(user);
 		return 0;
 		
-	
 	}
 
 	@Override
 	public boolean delete(User user) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public List<User> getUsers(String name) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

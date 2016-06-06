@@ -1,8 +1,8 @@
 package it.tecnosphera.booking.classroom.repository;
 
-import java.util.List;
-
 import it.tecnosphera.booking.classroom.model.User;
+
+import java.util.List;
 
 public interface UserRepositoryInterface {
 
