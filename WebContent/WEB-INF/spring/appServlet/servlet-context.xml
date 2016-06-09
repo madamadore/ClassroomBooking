@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	    http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<mvc:annotation-driven />
+
+	<mvc:resources mapping="/resources/**" location="/resources/" />
+
+	<beans:bean id="templateResolver"
+		class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
+		<beans:property name="prefix" value="/WEB-INF/views/" />
+		<beans:property name="suffix" value=".jsp" />
+		<beans:property name="templateMode" value="HTML5" />
+		<!-- Template cache is set to false (default is true). -->
+		<beans:property name="cacheable" value="false" />
+	</beans:bean>
+
+	<beans:bean id="templateEngine" class="org.thymeleaf.spring3.SpringTemplateEngine">
+		<beans:property name="templateResolver" ref="templateResolver" />
+	</beans:bean>
+
+	<beans:bean class="org.thymeleaf.spring3.view.ThymeleafViewResolver">
+		<beans:property name="templateEngine" ref="templateEngine" />
+	</beans:bean>
+
+	<beans:bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<beans:property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<beans:property name="url"
+			value="jdbc:mysql://local.test:3306/awesome" />
+		<beans:property name="username" value="awesome" />
+		<beans:property name="password" value="awesome" />
+	</beans:bean>
+
+	<beans:bean id="sessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<beans:property name="dataSource" ref="dataSource" />
+		<beans:property name="packagesToScan" value="it.tecnosphera.booking.classroom.model" />
+		<beans:property name="hibernateProperties">
+			<beans:props>
+				<beans:prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</beans:prop>
+				<beans:prop key="hibernate.format_sql">true</beans:prop>
+				<beans:prop key="hibernate.show_sql">true</beans:prop>
+			</beans:props>
+		</beans:property>
+	</beans:bean>
+
+	<beans:bean id="transactionManager"
+		class="org.springframework.orm.jpa.JpaTransactionManager">
+		<beans:property name="entityManagerFactory" ref="myEmf" />
+	</beans:bean>
+	<component-scan base-package="it.tecnosphera.booking.classroom.*" />
+</beans:beans>
