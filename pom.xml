@@ -56,6 +56,7 @@
 			<version>${spring.version}</version>
 		</dependency>
 
+
 		<dependency>
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-jpa</artifactId>
@@ -90,6 +91,7 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.14</version>
 		</dependency>
+
 	</dependencies>
 
 </project>
