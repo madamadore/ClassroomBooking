@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>Utenti</title>
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+</head>
+<body>
+    <div class="container">
+    	<button type="button" class="btn btn-primary">Create new</button>
+	<table class="table table-striped">
+		<tr th:each="user :${users}">
+			<td th:text="${user.id}"></td>
+			<td th:text="${user.name}"></td>
+		</tr>
+	</table>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+</body>
+</html>
