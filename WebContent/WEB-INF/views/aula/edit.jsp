@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<jsp:useBean id="user" scope="request" 
+<jsp:useBean id="aula" scope="request" 
 	class="it.tecnosphera.booking.classroom.model.Aula">
 	<jsp:setProperty name="aula" property="*"/>
 </jsp:useBean>

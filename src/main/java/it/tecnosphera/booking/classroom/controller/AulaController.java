@@ -33,5 +33,6 @@ public class AulaController  {
         model.addAttribute("aula", aula);
         return "aula/view";
     }
+
        
 }
