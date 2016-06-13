@@ -20,16 +20,6 @@ public class UserRepository implements UserRepositoryInterface {
 		User user = entityManager.find(User.class, id);
 		return user;
 	}
-	
-	protected User createUser(long id, String nome, String cognome, String email, String password) {
-		User user = new User();
-		user.setId(id);
-		user.setName(nome);
-		user.setCognome(cognome);
-		user.setEmail(email);
-		user.setPassword(password);
-		return user;
-	}
 
 	@Override
 	public List<User> getUsers() {
@@ -52,8 +42,8 @@ public class UserRepository implements UserRepositoryInterface {
 
 	@Override
 	public List<User> getUsers(String name) {
-		List<User> lista = entityManager.createQuery("SELECT u FROM User u WHERE u.name=:name")
-				.setParameter("name", name)
+		List<User> lista = entityManager.createQuery("SELECT u FROM User u WHERE u.name LIKE :name")
+				.setParameter("name", "%" + name + "%")
 				.getResultList();
 		return lista;
 	}
