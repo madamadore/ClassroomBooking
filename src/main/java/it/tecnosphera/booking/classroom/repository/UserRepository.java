@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Repository;
 
@@ -27,6 +28,7 @@ public class UserRepository implements UserRepositoryInterface {
 		return lista;
 	}	
 
+	@Transactional
 	@Override
 	public long save(User user) {
 		entityManager.persist(user);
@@ -34,6 +36,7 @@ public class UserRepository implements UserRepositoryInterface {
 		return user.getId();	
 	}
 
+	@Transactional
 	@Override
 	public boolean delete(User user) {
 		entityManager.remove(user);

@@ -1,14 +1,15 @@
 package it.tecnosphera.booking.classroom.repository;
 
+import it.tecnosphera.booking.classroom.model.Aula;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Repository;
-
-import it.tecnosphera.booking.classroom.model.Aula;
 
 @Repository
 public class AulaRepositoryFake implements AulaRepositoryInterface {
@@ -46,6 +47,7 @@ public class AulaRepositoryFake implements AulaRepositoryInterface {
 	}
 
 	@Override
+	@Transactional
 	public long save(Aula aula) {
 		entityManager.persist(aula);
 		entityManager.flush();
