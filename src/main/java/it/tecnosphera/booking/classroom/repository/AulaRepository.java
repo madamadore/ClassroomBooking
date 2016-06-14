@@ -24,7 +24,6 @@ public class AulaRepository implements RepositoryInterface<Aula> {
 
 	@Override
 	public List<Aula> findAll() {
-		// TODO Auto-generated method stub
 		return em.createQuery("SELECT a FROM Aula a").getResultList();
 	}
 

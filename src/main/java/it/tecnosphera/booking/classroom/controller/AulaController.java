@@ -54,11 +54,9 @@ public class AulaController  {
     }
 
     @RequestMapping(value="/delete", method = RequestMethod.POST)
-    public String deleteAula(@PathVariable long id, Model model) {
+    public String deleteAula(@PathVariable long id) {
     		Aula aula = aulaRepository.find(id);
     		aulaRepository.delete(aula);
-    		List<Aula> aule = aulaRepository.findAll();
-        model.addAttribute("aule", aule);
-        return "aula/list";
+        return "redirect:list";
     }
 }
