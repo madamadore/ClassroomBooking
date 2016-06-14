@@ -1,7 +1,7 @@
 package it.tecnosphera.booking.classroom.controller;
 
 import it.tecnosphera.booking.classroom.model.User;
-import it.tecnosphera.booking.classroom.repository.UserRepositoryInterface;
+import it.tecnosphera.booking.classroom.repository.RepositoryInterface;
 
 import java.util.List;
 
@@ -17,11 +17,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class UserController {
 
 	@Autowired
-	UserRepositoryInterface userRepository;
+	RepositoryInterface<User> userRepository;
 
 	@RequestMapping(value="/")
 	public String listUsers(Model model) {
-		List<User> users = userRepository.getUsers();
+		List<User> users = userRepository.findAll();
 		model.addAttribute("users", users);
 		return "user/list";
 	}

@@ -11,19 +11,19 @@ import javax.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class UserRepository implements UserRepositoryInterface {
+public class UserRepository implements RepositoryInterface<User> {
 
 	@PersistenceContext
 	private EntityManager entityManager;
 	
 	@Override
-	public User getUser(long id) {
+	public User find(long id) {
 		User user = entityManager.find(User.class, id);
 		return user;
 	}
 
 	@Override
-	public List<User> getUsers() {
+	public List<User> findAll() {
 		List<User> lista = entityManager.createQuery("SELECT u FROM User u").getResultList();
 		return lista;
 	}	
@@ -44,7 +44,7 @@ public class UserRepository implements UserRepositoryInterface {
 	}
 
 	@Override
-	public List<User> getUsers(String name) {
+	public List<User> find(String name) {
 		List<User> lista = entityManager.createQuery("SELECT u FROM User u WHERE u.name LIKE :name")
 				.setParameter("name", "%" + name + "%")
 				.getResultList();
