@@ -2,16 +2,18 @@ package it.tecnosphera.booking.classroom.repository;
 
 import it.tecnosphera.booking.classroom.model.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
+import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class UserRepository implements RepositoryInterface<User> {
+public class UserRepository implements UserRepositoryInterface {
 
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -49,6 +51,23 @@ public class UserRepository implements RepositoryInterface<User> {
 				.setParameter("name", "%" + name + "%")
 				.getResultList();
 		return lista;
+	}
+	
+	public User findByUserName(String email) {
+		 
+		List<User> users = new ArrayList<User>();
+ 
+		Session session = entityManager.unwrap(Session.class);
+		users = session
+				.createQuery("from User where email=:email")
+				.setParameter("email", email).list();
+ 
+		if (users.size() > 0) {
+			return users.get(0);
+		} else {
+			return null;
+		}
+ 
 	}
 	
 }
