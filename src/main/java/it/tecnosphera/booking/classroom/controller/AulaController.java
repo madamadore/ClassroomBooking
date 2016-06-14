@@ -29,7 +29,7 @@ public class AulaController  {
         return "aula/edit";
     }
   
-    @RequestMapping(value="/view/{id}", method = RequestMethod.GET)
+    @RequestMapping(value="/view/{id}")
     public String viewAula(@PathVariable long id, Model model) {
     		Aula aula = aulaRepository.getAula(id);
         model.addAttribute("aula", aula);
@@ -42,7 +42,7 @@ public class AulaController  {
         return "aula/edit";
     }       
     
-    @RequestMapping(value="/", method = RequestMethod.GET)
+    @RequestMapping(value="/")
     public String viewAllAule(Model model) {
     		List<Aula> aule = aulaRepository.getAulas();
         model.addAttribute("aule", aule);
@@ -50,18 +50,15 @@ public class AulaController  {
     }
     
     @RequestMapping(value="/save", method = RequestMethod.POST)
-    public String saveAula(@ModelAttribute("aula") Aula aula, Model model) {
-    		aulaRepository.save(aula);
-		model.addAttribute("aula", aula);
-        return "aula/view";
+    public String saveAula(@ModelAttribute("aula") Aula aula) {
+    	long id = aulaRepository.save(aula);
+        return "forward:view/"+id;
     }
 
     @RequestMapping(value="/delete", method = RequestMethod.POST)
-    public String deleteAula(@PathVariable long id, Model model) {
+    public String deleteAula(@PathVariable long id) {
     		Aula aula = aulaRepository.getAula(id);
     		aulaRepository.delete(aula);
-    		List<Aula> aule = aulaRepository.getAulas();
-        model.addAttribute("aule", aule);
-        return "aula/list";
+        return "forward:list";
     }
 }
