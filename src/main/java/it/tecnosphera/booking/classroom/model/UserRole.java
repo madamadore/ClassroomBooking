@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -15,13 +17,14 @@ public class UserRole implements Serializable {
 
 	@Id
 	@Column(name="user_role_id")
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer userRoleId;
 	
 	@ManyToOne
-    @JoinColumn(name="email")
+    @JoinColumn(name="user_id")
 	private User user;
 	
-	@Column(name="ROLE")
+	@Column(name="ruolo")
 	private String role;
 	
 	public Integer getUserRoleId() {

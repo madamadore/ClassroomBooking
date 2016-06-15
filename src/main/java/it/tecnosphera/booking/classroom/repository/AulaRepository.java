@@ -41,7 +41,7 @@ public class AulaRepository implements RepositoryInterface<Aula> {
 	@Transactional
 	public long save(Aula object) {
 		Session session = em.unwrap(Session.class);
-		session.persist(object);
+		session.saveOrUpdate(object);
 		session.flush();
 		return object.getId();
 	}
