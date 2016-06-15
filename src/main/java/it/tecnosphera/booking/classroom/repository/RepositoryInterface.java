@@ -8,6 +8,6 @@ public interface RepositoryInterface<T> {
 	public List<T> findAll();
 	public List<T> find(String name);
 	public long save(T object);
-	public boolean delete(T object);
+	public boolean delete(long id);
 	
 }

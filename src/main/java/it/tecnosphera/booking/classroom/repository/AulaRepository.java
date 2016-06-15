@@ -1,17 +1,19 @@
 package it.tecnosphera.booking.classroom.repository;
 
 import it.tecnosphera.booking.classroom.model.Aula;
-import it.tecnosphera.booking.classroom.model.User;
 
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
 
+import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
+@Transactional
 public class AulaRepository implements RepositoryInterface<Aula> {
 
 	@PersistenceContext
@@ -35,19 +37,21 @@ public class AulaRepository implements RepositoryInterface<Aula> {
 		return lista;
 	}
 
-	@Transactional
 	@Override
+	@Transactional
 	public long save(Aula object) {
-		em.persist(object);
-		em.flush();
+		Session session = em.unwrap(Session.class);
+		session.persist(object);
+		session.flush();
 		return object.getId();
 	}
 
-	@Transactional
 	@Override
-	public boolean delete(Aula object) {
-		em.remove(object);
-		return false;
+	@Transactional
+	public boolean delete(long id) {
+		Aula aula = em.find(Aula.class, id);
+		em.remove(aula);
+		return true;
 	}
 
 }

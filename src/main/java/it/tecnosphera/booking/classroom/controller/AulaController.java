@@ -5,6 +5,8 @@ import it.tecnosphera.booking.classroom.repository.RepositoryInterface;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-@RequestMapping(value="/aula")
+@RequestMapping(value="/admin/aula")
 public class AulaController  {
 
 	@Autowired
@@ -53,10 +55,9 @@ public class AulaController  {
 		return "redirect:view/"+ id;
     }
 
-    @RequestMapping(value="/delete", method = RequestMethod.POST)
+    @RequestMapping(value="/delete/{id}", method = RequestMethod.POST)
     public String deleteAula(@PathVariable long id) {
-    		Aula aula = aulaRepository.find(id);
-    		aulaRepository.delete(aula);
-        return "redirect:list";
+    		aulaRepository.delete(id);
+        return "redirect:../";
     }
 }

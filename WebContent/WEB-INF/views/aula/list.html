@@ -6,15 +6,24 @@
 </head>
 <body>
     <div class="container">
-    	<a href="new" class="btn btn-primary">Create new</a>
+    	<div class="row">
+    	<h2><a href="new" class="btn btn-primary">Create new</a></h2>
+    	</div>
+    	<div class="row">
 	<table class="table table-striped">
 		<tr th:each="aula :${aule}">
 			<td th:text="${aula.id}"></td>
-			<td th:text="${aula.name}"></td>
+			<td><a th:href="'view/'+${aula.id}" th:text="${aula.name}"></a></td>
 			<td><a th:href="'edit/'+${aula.id}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></td>
-			<td><form th:action="'delete/'+${aula.id}" method="post"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></form></td>
+			<td><form th:action="'delete/'+${aula.id}" th:id="'deleteForm'+${aula.id}" method="post">
+				<a href="#" th:onclick="'document.getElementById(\'deleteForm'+${aula.id}+'\').submit()'"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+				<input type="hidden" th:name="${_csrf.parameterName}"
+				th:value="${_csrf.token}" />
+				</form>
+			</td>
 		</tr>
 	</table>
+	</div>
     </div>
     <div th:replace="include/footer"></div>
 </body>

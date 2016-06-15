@@ -25,6 +25,10 @@ public class UserService implements UserDetailsService {
 	@Autowired
 	private UserRepositoryInterface userDao;
 	
+	public void setUserDao(UserRepositoryInterface userDao) {
+		this.userDao = userDao;
+	}
+	
 	@Transactional(readOnly=true)
 	@Override
 	public UserDetails loadUserByUsername(final String username) 

@@ -5,18 +5,25 @@ import it.tecnosphera.booking.classroom.model.User;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
 import org.hibernate.Session;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-@Repository
+@Repository("userDao")
 public class UserRepository implements UserRepositoryInterface {
 
 	@PersistenceContext
 	private EntityManager entityManager;
+	
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
 	
 	@Override
 	public User find(long id) {
@@ -40,7 +47,8 @@ public class UserRepository implements UserRepositoryInterface {
 
 	@Transactional
 	@Override
-	public boolean delete(User user) {
+	public boolean delete(long id) {
+		User user = entityManager.find(User.class, id);
 		entityManager.remove(user);
 		return true;
 	}

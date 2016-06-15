@@ -10,15 +10,15 @@
        <beans:bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<beans:property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		 
+		<!--  
 		<beans:property name="url" value="jdbc:mysql://192.168.1.95:3306/prenotazioni" />
 		<beans:property name="username" value="prenotazioni" />
 		<beans:property name="password" value="Pr3not4Tecnos" />
-		<!--
+		-->
 		<beans:property name="url" value="jdbc:mysql://local.test:3306/prenotazioni" />
 		<beans:property name="username" value="prenotazioni" />
 		<beans:property name="password" value="prenotazioni" />
-		-->
+		
 	</beans:bean>
 
 	<beans:bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
@@ -34,9 +34,8 @@
 			</beans:props>
 		</beans:property>
 	</beans:bean>
-
-	<beans:bean id="transactionManager"
-		class="org.springframework.orm.jpa.JpaTransactionManager">
+	
+	<beans:bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 		<beans:property name="entityManagerFactory" ref="entityManagerFactory" />
 	</beans:bean>
 	
