@@ -1,20 +1,19 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<title>Aula</title>
-		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+		<link th:replace="include/header"></link>
 	</head>
 	<body>
 	    <div class="container">
-	    	<a href=".." class="btn btn-primary">Back to list</a>
-		<div>
+	    	<a th:href="@{/admin/aula/}" class="btn btn-primary">Back to list</a>
+		<div class="row">
 		   <span>ID:</span> <span th:text="${aula.id}"></span>
 		</div>
-		<div>
+		<div class="row">
 		   <span>Nome:</span> <span th:text="${aula.name}"></span>
 		</div>
-		<div>
+		<div class="row">
 		   <span>Descrizione:</span> <span th:text="${aula.description}"></span>
 		</div>
 	    </div>
