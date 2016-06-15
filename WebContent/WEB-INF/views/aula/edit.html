@@ -6,10 +6,10 @@
 </head>
 <body>
 	<div class="container">
-		<a href="../aula/" class="btn btn-primary">Back to list</a>
+		<a th:href="@{/admin/aula/}" class="btn btn-primary">Back to list</a>
 		<form th:action="@{/admin/aula/save}" method="POST" name="aula">
 			<div class="form-group">
-				<label for="id">ID:</label> <input type="text" readonly="readonly"
+				<label for="id">ID:</label> <input type="hidden" readonly="readonly"
 					id="id" name="id" th:value="${aula.id}" class="form-control" />
 			</div>
 			<div class="form-group">
