@@ -61,7 +61,7 @@ public class UserRepository implements UserRepositoryInterface {
 		return lista;
 	}
 	
-	public User findByUserName(String email) {
+	public User findByEmail(String email) {
 		 
 		List<User> users = new ArrayList<User>();
  
