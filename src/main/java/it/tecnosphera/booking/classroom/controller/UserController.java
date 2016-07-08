@@ -49,7 +49,11 @@ public class UserController {
     
     @RequestMapping(value="/save", method = RequestMethod.POST)
     public String saveUser(@ModelAttribute("user") User user) {
-    		long id = userRepository.save(user);
+    	String email = user.getEmail().trim();
+    	if(email != null && !email.contains("@tecnosphera.it")) {
+    		email = email.concat("@tecnosphera.it");
+    	}
+    	long id = userRepository.save(user);
         return "redirect:view/"+id;
     }
 

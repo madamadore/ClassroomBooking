@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import it.tecnosphera.booking.classroom.model.User;
+
 @Controller
 public class LoginController {
 
@@ -26,6 +28,12 @@ public class LoginController {
     public String login() {
         return "login";
     }
+    
+    @RequestMapping(value="/register", method = RequestMethod.GET)
+    public String newUser(Model model) {
+    		model.addAttribute(new User());
+        return "user/register";
+    }  
     
     @RequestMapping(value="/403", method = { RequestMethod.GET, RequestMethod.POST })
     public @ResponseBody String provideUploadInfo() {
