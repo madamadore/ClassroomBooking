@@ -33,17 +33,19 @@ public class MenuBarFilter extends OncePerRequestFilter {
 			chain.doFilter(req, res);
 			return;
 		}
-			//verifica se l'utente è loggato
-			if (SecurityContextHolder.getContext().getAuthentication() != null
-					&& SecurityContextHolder.getContext().getAuthentication().isAuthenticated()
-					&& !"anonymousUser".equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
-				req.setAttribute("isLogged", true);
-				
-				//verifica se è admin
-				if (new SecurityContextHolderAwareRequestWrapper(req, null).isUserInRole("ROLE_ADMIN")) {
-					req.setAttribute("isAdmin", true);
-				}
+		
+		//verifica se l'utente è loggato
+		if (SecurityContextHolder.getContext().getAuthentication() != null
+				&& SecurityContextHolder.getContext().getAuthentication().isAuthenticated()
+				&& !"anonymousUser".equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
+			req.setAttribute("isLogged", true);
+			
+			//verifica se è admin
+			if (new SecurityContextHolderAwareRequestWrapper(req, null).isUserInRole("ROLE_ADMIN")) {
+				req.setAttribute("isAdmin", true);
 			}
+		}
+		
 		chain.doFilter(req, res);
 	}
 }
