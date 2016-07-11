@@ -22,7 +22,7 @@ public class UserController {
 
     @RequestMapping(value="/edit/{id}", method = RequestMethod.GET)
     public String editUser(@PathVariable long id, Model model) {
-    		User user = userRepository.find(id);
+    	User user = userRepository.find(id);
         model.addAttribute("user", user);
         return "user/edit";
     }
@@ -49,7 +49,7 @@ public class UserController {
     
     @RequestMapping(value="/save", method = RequestMethod.POST)
     public String saveUser(@ModelAttribute("user") User user) {
-    	String email = user.getEmail().trim();
+    	String email = user.getEmail();
     	if(email != null && !email.contains("@tecnosphera.it")) {
     		email = email.concat("@tecnosphera.it");
     	}

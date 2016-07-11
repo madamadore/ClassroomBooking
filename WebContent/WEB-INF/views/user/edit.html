@@ -41,7 +41,7 @@
 						<label for="email">Indirizzo email:</label>
 						<div class="input-group">
 						   <span class="input-group-addon"><i class="glyphicon glyphicon-envelope" aria-hidden="true"></i></span>
-						   <input type="text" id=emailTecno name="emailTecno" th:value="${user.email}" class="form-control" placeholder="Email" required="true"/>
+						   <input type="text" id="emailTecno" name="emailTecno" th:value="${user.email}" class="form-control" placeholder="Email" required="true"/>
 						   <div class="input-group-addon">@tecnosphera.it</div>
 						</div>
 					</div>		
@@ -96,7 +96,7 @@
 	 		 conf_password: {
 	 	      equalTo: "#password"
 	 	    },
-	 	    email: {
+	 	   	 emailTecno: {
 	 	    	emailTecno: true
 	 	    }
 	 	  }
