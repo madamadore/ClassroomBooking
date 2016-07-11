@@ -5,7 +5,7 @@ import it.tecnosphera.booking.classroom.model.Prenotazione;
 import java.util.Date;
 import java.util.List;
 
-public interface PrenotazioneRepositoryInterface {
+public interface PrenotazioneRepositoryInterface extends RepositoryInterface<Prenotazione> {
 
 	public Prenotazione getPrenotazione(long id);
 	public List<Prenotazione> getPrenotazioni(Date da, Date a);
