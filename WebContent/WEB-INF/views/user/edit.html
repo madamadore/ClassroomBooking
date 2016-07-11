@@ -41,7 +41,7 @@
 						<label for="email">Indirizzo email:</label>
 						<div class="input-group">
 						   <span class="input-group-addon"><i class="glyphicon glyphicon-envelope" aria-hidden="true"></i></span>
-						   <input type="text" id="emailTecno" name="emailTecno" th:value="${user.email}" class="form-control" placeholder="Email" required="true"/>
+						   <input type="text" id="email" name="email" th:value="${user.email}" class="form-control" placeholder="Email" required="true"/>
 						   <div class="input-group-addon">@tecnosphera.it</div>
 						</div>
 					</div>		
@@ -56,7 +56,7 @@
 						<label for="conf_password">Conferma password:</label>
 						<div class="input-group">
 						   <span class="input-group-addon"><i class="glyphicon glyphicon-lock" aria-hidden="true"></i></span>
-					   		<input type="password" id="conf_password" name="conf_password" th:value="${user.password}" class="form-control" placeholder="Conferma password" required="true"/>
+					   		<input type="password" id="conf_password" name="conf_password" th:value="${user.conf_password}" class="form-control" placeholder="Conferma password" required="true"/>
 						</div>
 					</div>
 					
@@ -64,13 +64,13 @@
 						<label for="title">Seleziona ruolo utente:</label>
 						<div class="input-group">
 							  <span class="input-group-addon">
-							  	<input type="checkbox" name="rule" required="true" th:checked="${true}" th:value="${RULE_ADMIN}"/>
+							  	<input type="checkbox" name="rule" required="true" th:checked="${true}" th:value="${ROLE_ADMIN}"/>
 							  </span>
 							  <input type="text" class="form-control" readonly="readonly" aria-label="Amministratore" value="Amministratore"/>
 						</div>
 						<div class="input-group">
 							  <span class="input-group-addon">
-							    <input type="checkbox" name="rule" required="true" th:checked="${true}" th:value="${RULE_USER}"/>
+							    <input type="checkbox" name="rule" required="true" th:checked="${true}" th:value="${ROLE_USER}"/>
 							  </span>
 							  <input type="text" class="form-control" readonly="readonly" aria-label="User" value="User"/>
 						</div>

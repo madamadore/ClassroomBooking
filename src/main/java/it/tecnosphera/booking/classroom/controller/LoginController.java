@@ -6,16 +6,23 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import it.tecnosphera.booking.classroom.model.User;
+import it.tecnosphera.booking.classroom.model.UserRole;
+import it.tecnosphera.booking.classroom.repository.RepositoryInterface;
 
 @Controller
 public class LoginController {
+	
+	@Autowired
+	RepositoryInterface<User> userRepository;
 
 	@RequestMapping(value = "/")
     public String home(Model m) {
@@ -34,6 +41,20 @@ public class LoginController {
     		model.addAttribute(new User());
         return "user/register";
     }  
+    
+    @RequestMapping(value="/saveUserRegister", method = RequestMethod.POST)
+    public String saveUserRegister(@ModelAttribute("user") User user) {
+    	String email = user.getEmail();
+    	if(email != null && !email.contains("@tecnosphera.it")) {
+    		email = email.concat("@tecnosphera.it");
+    	}
+    	UserRole userRole = new UserRole();
+    	userRole.setRole("ROLE_USER");
+    	
+    	user.getUserRole().add(userRole);
+    	userRepository.save(user);
+        return "login";
+    }
     
     @RequestMapping(value="/403", method = { RequestMethod.GET, RequestMethod.POST })
     public @ResponseBody String provideUploadInfo() {
