@@ -21,6 +21,7 @@ public class User {
 	@Column(name="id")
 	private long id;
 	
+	
 	@Column(name="name")
 	private String name;
 	
@@ -32,6 +33,9 @@ public class User {
 	
 	@Column(name="password")
 	private String password;
+	
+	@Column(name="conf_password")
+	private String conf_password;
 	
 	@Column(name="enabled", columnDefinition="tinyint")
 	private boolean enabled;
@@ -68,6 +72,12 @@ public class User {
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	public String getConf_password() {
+		return conf_password;
+	}
+	public void setConf_password(String conf_password) {
+		this.conf_password = conf_password;
 	}
 	public boolean isEnabled() {
 		return enabled;

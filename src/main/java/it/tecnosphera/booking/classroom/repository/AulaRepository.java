@@ -1,7 +1,5 @@
 package it.tecnosphera.booking.classroom.repository;
 
-import it.tecnosphera.booking.classroom.model.Aula;
-
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -9,8 +7,9 @@ import javax.persistence.PersistenceContext;
 
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import it.tecnosphera.booking.classroom.model.Aula;
 
 @Repository
 @Transactional

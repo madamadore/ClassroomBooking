@@ -1,19 +1,16 @@
 package it.tecnosphera.booking.classroom.repository;
 
-import it.tecnosphera.booking.classroom.model.User;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
 import org.hibernate.Session;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import it.tecnosphera.booking.classroom.model.User;
 
 @Repository("userDao")
 public class UserRepository implements UserRepositoryInterface {
@@ -40,11 +37,12 @@ public class UserRepository implements UserRepositoryInterface {
 	@Transactional
 	@Override
 	public long save(User user) {
-		entityManager.persist(user);
-		entityManager.flush();
-		return user.getId();	
+		Session session = entityManager.unwrap(Session.class);
+		session.saveOrUpdate(user);
+		session.flush();
+		return user.getId();
 	}
-
+	
 	@Transactional
 	@Override
 	public boolean delete(long id) {

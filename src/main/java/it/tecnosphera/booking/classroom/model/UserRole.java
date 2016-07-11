@@ -15,6 +15,8 @@ import javax.persistence.Table;
 @Table(name="user_roles")
 public class UserRole implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@Column(name="user_role_id")
 	@GeneratedValue(strategy=GenerationType.AUTO)

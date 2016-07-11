@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Edit User</title>
+<title>Register User</title>
   <link th:replace="include/header"></link>
 </head>
 
@@ -9,20 +9,17 @@
     <div class="container">
     	<div class="row">
     		<div class="col-md-6 col-md-offset-3">
-				<h1 class="text-center">EDIT USER</h1>
+				<h1 class="text-center">REGISTER USER</h1>
 			</div>
 		</div>
     	<div class="row">
     		<div class="col-md-6 col-md-offset-3">
-				<a th:href="@{/admin/user/}" class="btn btn-primary">Back to list</a>
+				<a th:href="@{/}" class="btn btn-primary">Back to home</a>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-6 col-md-offset-3">
-				<form th:action="@{/admin/user/save}" id="form" method="POST" role="form">
-					<div class="form-group">
-					   <input type="hidden" id="id" name="id" th:value="${user.id}"/>
-					</div>
+				<form th:action="@{/saveUserRegister}" id="form" method="POST" role="form">
 					<div class="form-group">
 					   <label for="name">Nome:</label>
 					   <div class="input-group">
@@ -61,24 +58,9 @@
 					</div>
 					
 					<div class="form-group">
-						<label for="title">Seleziona ruolo utente:</label>
-						<div class="input-group">
-							  <span class="input-group-addon">
-							  	<input type="checkbox" name="rule" required="true" th:checked="${true}" th:value="${ROLE_ADMIN}"/>
-							  </span>
-							  <input type="text" class="form-control" readonly="readonly" aria-label="Amministratore" value="Amministratore"/>
-						</div>
-						<div class="input-group">
-							  <span class="input-group-addon">
-							    <input type="checkbox" name="rule" required="true" th:checked="${true}" th:value="${ROLE_USER}"/>
-							  </span>
-							  <input type="text" class="form-control" readonly="readonly" aria-label="User" value="User"/>
-						</div>
-					</div>		
-					
-					<div class="form-group">
-					   <input type="submit" value="Salva" class="btn btn-primary btn-lg btn-block login-button" />
+					   <input type="submit" value="Registrati" class="btn btn-primary btn-lg btn-block login-button" />
 					</div>
+					
 					<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 				</form>	
 			</div>
@@ -86,7 +68,6 @@
     </div>
     <div th:replace="include/footer"></div>
     <script>
-    
 	    $.validator.addMethod("emailTecno", function (value, element) {
 	        return (!value.indexOf('@')>-1); 
 	    }, "Inserire solo nome Utente");
@@ -95,9 +76,6 @@
 	 	  rules: {
 	 		 conf_password: {
 	 	      equalTo: "#password"
-	 	    },
-	 	   	 emailTecno: {
-	 	    	emailTecno: true
 	 	    }
 	 	  }
     	});

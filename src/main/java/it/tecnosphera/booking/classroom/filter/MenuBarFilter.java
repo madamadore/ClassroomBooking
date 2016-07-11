@@ -7,18 +7,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import it.tecnosphera.booking.classroom.model.User;
-import it.tecnosphera.booking.classroom.repository.UserRepositoryInterface;
-
 public class MenuBarFilter extends OncePerRequestFilter {
-
-	@Autowired
-	private UserRepositoryInterface userDao;
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain)

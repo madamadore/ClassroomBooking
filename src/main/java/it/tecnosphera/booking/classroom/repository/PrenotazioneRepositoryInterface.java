@@ -7,9 +7,6 @@ import java.util.List;
 
 public interface PrenotazioneRepositoryInterface extends RepositoryInterface<Prenotazione> {
 
-	public Prenotazione getPrenotazione(long id);
 	public List<Prenotazione> getPrenotazioni(Date da, Date a);
-	public long save(Prenotazione prenotazione);
-	public boolean cancel(Prenotazione prenotazione);
 	
 }

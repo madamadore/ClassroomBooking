@@ -3,20 +3,32 @@ package it.tecnosphera.booking.classroom.repository;
 import java.util.Date;
 import java.util.List;
 
-import it.tecnosphera.booking.classroom.model.Prenotazione;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
-public class PrenotazioneRepository implements PrenotazioneRepositoryInterface{
+import org.hibernate.Session;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import it.tecnosphera.booking.classroom.model.Prenotazione;
+import it.tecnosphera.booking.classroom.model.User;
+
+@Repository("prenotazioneDao")
+public class PrenotazioneRepository implements PrenotazioneRepositoryInterface {
+
+	@PersistenceContext
+	private EntityManager entityManager;
 
 	@Override
 	public Prenotazione find(long id) {
-		// TODO Auto-generated method stub
-		return null;
+		Prenotazione prenotazione = entityManager.find(Prenotazione.class, id);
+		return prenotazione;
 	}
 
 	@Override
 	public List<Prenotazione> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Prenotazione> lista = entityManager.createQuery("SELECT u FROM Prenotazione u").getResultList();
+		return lista;
 	}
 
 	@Override
@@ -27,32 +39,26 @@ public class PrenotazioneRepository implements PrenotazioneRepositoryInterface{
 
 	@Override
 	public boolean delete(long id) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public Prenotazione getPrenotazione(long id) {
-		// TODO Auto-generated method stub
-		return null;
+		Prenotazione p = entityManager.find(Prenotazione.class, id);
+		entityManager.remove(p);
+		return true;
 	}
 
 	@Override
 	public List<Prenotazione> getPrenotazioni(Date da, Date a) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Prenotazione> lista = entityManager
+				.createQuery(
+						"SELECT p FROM Prenotazione p WHERE (p.start BETWEEN :da AND :a) OR (p.end BETWEEN :da AND :a) ")
+				.getResultList();
+		return lista;
 	}
 
+	@Transactional
 	@Override
 	public long save(Prenotazione prenotazione) {
-		// TODO Auto-generated method stub
-		return 0;
+		Session session = entityManager.unwrap(Session.class);
+		session.saveOrUpdate(prenotazione);
+		session.flush();
+		return prenotazione.getId();
 	}
-
-	@Override
-	public boolean cancel(Prenotazione prenotazione) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 }
