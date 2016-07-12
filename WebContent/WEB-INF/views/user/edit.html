@@ -2,105 +2,138 @@
 <html>
 <head>
 <title>Edit User</title>
-  <link th:replace="include/header"></link>
+<link th:replace="include/header"></link>
 </head>
 
 <body>
-    <div class="container">
-    	<div class="row">
-    		<div class="col-md-6 col-md-offset-3">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
 				<h1 class="text-center">EDIT USER</h1>
 			</div>
 		</div>
-    	<div class="row">
-    		<div class="col-md-6 col-md-offset-3">
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
 				<a th:href="@{/admin/user/}" class="btn btn-primary">Back to list</a>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-6 col-md-offset-3">
-				<form th:action="@{/admin/user/save}" id="form" method="POST" role="form">
+				<form th:action="@{/admin/user/save}" id="form" method="POST"
+					role="form">
 					<div class="form-group">
-					   <input type="hidden" id="id" name="id" th:value="${user.id}"/>
+						<input type="hidden" id="id" name="id" th:value="${user.id}" />
 					</div>
 					<div class="form-group">
-					   <label for="name">Nome:</label>
-					   <div class="input-group">
-						   <span class="input-group-addon"><i class="glyphicon glyphicon-user" aria-hidden="true"></i></span>
-						   <input type="text" id="name" name="name" th:value="${user.name}" class="form-control" placeholder="Nome" required="true"/>
+						<label for="name">Nome:</label>
+						<div class="input-group">
+							<span class="input-group-addon">
+								<i class="glyphicon glyphicon-user" aria-hidden="true"></i>
+							</span> 
+							<input type="text" id="name" name="name" th:value="${user.name}" class="form-control" placeholder="Nome" required="true" />
 						</div>
 					</div>
 					<div class="form-group">
-					   <label for="cognome">Cognome:</label>
-					   <div class="input-group">
-						   <span class="input-group-addon"><i class="glyphicon glyphicon-user" aria-hidden="true"></i></span>
-					   	   <input type="text" id="cognome" name="cognome"  th:value="${user.cognome}" class="form-control" placeholder="Cognome" required="true"/>
+						<label for="cognome">Cognome:</label>
+						<div class="input-group">
+							<span class="input-group-addon">
+								<i class="glyphicon glyphicon-user" aria-hidden="true"></i>
+							</span> 
+							<input type="text" id="cognome" name="cognome" th:value="${user.cognome}" class="form-control" placeholder="Cognome" required="true" />
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="email">Indirizzo email:</label>
 						<div class="input-group">
-						   <span class="input-group-addon"><i class="glyphicon glyphicon-envelope" aria-hidden="true"></i></span>
-						   <input type="text" id="email" name="email" th:value="${user.email}" class="form-control" placeholder="Email" required="true"/>
-						   <div class="input-group-addon">@tecnosphera.it</div>
+							<span class="input-group-addon">
+								<i class="glyphicon glyphicon-envelope" aria-hidden="true"></i>
+							</span> 
+							<input type="text" id="email" name="email" th:value="${user.email}" class="form-control" placeholder="Email" required="true" />
+							<div class="input-group-addon">@tecnosphera.it</div>
 						</div>
-					</div>		
+					</div>
 					<div class="form-group">
-					   <label for="password">Password:</label>
-					   <div class="input-group">
-						   <span class="input-group-addon"><i class="glyphicon glyphicon-lock" aria-hidden="true"></i></span>
-						   <input type="password" id="password" name="password" th:value="${user.password}" class="form-control" placeholder="Password" required="true"/>
+						<label for="password">Password:</label>
+						<div class="input-group">
+							<span class="input-group-addon">
+								<i class="glyphicon glyphicon-lock" aria-hidden="true"></i>
+							</span> 
+							<input type="password" id="password" name="password" th:value="${user.password}" class="form-control" placeholder="Password" required="true" />
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="conf_password">Conferma password:</label>
 						<div class="input-group">
-						   <span class="input-group-addon"><i class="glyphicon glyphicon-lock" aria-hidden="true"></i></span>
-					   		<input type="password" id="conf_password" name="conf_password" th:value="${user.conf_password}" class="form-control" placeholder="Conferma password" required="true"/>
+							<span class="input-group-addon">
+								<i class="glyphicon glyphicon-lock" aria-hidden="true"></i>
+							</span> 
+							<input type="password" id="conf_password" name="conf_password" th:value="${user.conf_password}" class="form-control" placeholder="Conferma password" required="true" />
 						</div>
 					</div>
-					
+
 					<div class="form-group">
-						<label for="title">Seleziona ruolo utente:</label>
-						<div class="input-group">
-							  <span class="input-group-addon">
-							  	<input type="checkbox" name="rule" required="true" th:checked="${true}" th:value="${ROLE_ADMIN}"/>
-							  </span>
-							  <input type="text" class="form-control" readonly="readonly" aria-label="Amministratore" value="Amministratore"/>
-						</div>
-						<div class="input-group">
-							  <span class="input-group-addon">
-							    <input type="checkbox" name="rule" required="true" th:checked="${true}" th:value="${ROLE_USER}"/>
-							  </span>
-							  <input type="text" class="form-control" readonly="readonly" aria-label="User" value="User"/>
-						</div>
-					</div>		
-					
+						<label for="title">Seleziona ruolo da associare all'Utente:</label>
+						<select class="selectpicker" id="selectRuoli" data-style="btn-info">
+							<option text="Selezione ruolo" value="Selezione ruolo"></option>
+							<option th:each="r : ${listaRuoli}" th:value="${r}"  th:text="${r}"></option>
+						</select>
+						
+						<!-- Tabella Gestione Ruoli -->
+
+						<table class="table table-striped" id="tableNames">
+							<tbody>
+								<tr th:each="role, row : ${user.userRole}" th:id="'row-id-'+${role.userRoleId}">
+									<td>&nbsp;</td>
+									<td th:text="${role.role}"></td>
+									<td th:text="${role.descrizione}"></td>
+									<td>
+										<a data-toggle="tooltip" data-placement="top" title="Elimina" th:href="'javascript:jQuery.role.delete('+${role.userRoleId}+')'">
+											<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+										</a> 
+										<input type="hidden" th:name="'roles[' + ${row.index} + '].userRoleId'" th:value="${role.userRoleId}" /> 
+										<input type="hidden" th:name="'roles[' + ${row.index} + '].user'" th:value="${user.id}" /> 
+										<input type="hidden" th:name="'roles[' + ${row.index} + '].role'" th:value="${role.role}" />
+										<input type="hidden" th:name="'roles[' + ${row.index} + '].role'" th:value="${role.descrizione}" /> 
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
 					<div class="form-group">
-					   <input type="submit" value="Salva" class="btn btn-primary btn-lg btn-block login-button" />
+						<input type="submit" value="Salva" class="btn btn-primary btn-lg btn-block login-button" />
 					</div>
 					<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-				</form>	
+				</form>
 			</div>
 		</div>
-    </div>
-    <div th:replace="include/footer"></div>
-    <script>
-    
-	    $.validator.addMethod("emailTecno", function (value, element) {
-	        return (!value.indexOf('@')>-1); 
-	    }, "Inserire solo nome Utente");
-    
-    	$("#form").validate({
-	 	  rules: {
-	 		 conf_password: {
-	 	      equalTo: "#password"
-	 	    },
-	 	   	 emailTecno: {
-	 	    	emailTecno: true
-	 	    }
-	 	  }
-    	});
-    </script>
+	</div>
+	<div th:replace="include/footer"></div>
+	<script>
+		$.validator.addMethod("emailTecno", function(value, element) {
+			return (!value.indexOf('@') > -1);
+		}, "Inserire solo nome Utente");
+
+		$("#form").validate({
+			rules : {
+				conf_password : {
+					equalTo : "#password"
+				},
+				emailTecno : {
+					emailTecno : true
+				}
+			}
+		});
+		
+		var list = $("#listaRuoli");
+		$.each(items, function(index, item) {
+		  list.append(new Option(item.text, item.value));
+		});
+		
+		$("#listaRuoli").click(function(){
+			var ebid = jQuery(this).val();
+		});
+		
+	</script>
 </body>
 </html>

@@ -29,6 +29,9 @@ public class UserRole implements Serializable {
 	@Column(name="ruolo")
 	private String role;
 	
+	@Column(name="descrizione")
+	private String descrizione;
+	
 	public Integer getUserRoleId() {
 		return userRoleId;
 	}
@@ -51,6 +54,14 @@ public class UserRole implements Serializable {
 	
 	public void setRole(String role) {
 		this.role = role;
+	}
+	
+	public String getDescrizione() {
+		return descrizione;
+	}
+
+	public void setDescrizione(String descrizione) {
+		this.descrizione = descrizione;
 	}
 	
 }

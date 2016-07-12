@@ -49,9 +49,10 @@ public class LoginController {
     		email = email.concat("@tecnosphera.it");
     	}
     	UserRole userRole = new UserRole();
+    	userRole.setUser(user);
     	userRole.setRole("ROLE_USER");
-    	
     	user.getUserRole().add(userRole);
+    	
     	userRepository.save(user);
         return "login";
     }
