@@ -1,132 +1,37 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Prenotazioni</title>
-  <link th:replace="include/header"></link>
- <link  rel="stylesheet"  href="http://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.7.3/fullcalendar.min.css"></link>
- <link  rel="stylesheet"  media="print" href="http://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.7.3/fullcalendar.print.css"></link>
+<title>Prenotazioni</title>
+<link th:replace="include/header"></link>
+<link th:include="prenotazioni/new"></link>
+<link rel="stylesheet"
+	href="http://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.7.3/fullcalendar.min.css"></link>
+<link rel="stylesheet" media="print"
+	href="http://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.7.3/fullcalendar.print.css"></link>
 </head>
 
 <!--  all calendar goes here jv . html. etc...-->
 <body>
-    <div class="container">
-    	<div class="page-header">
-    	<h1>Ciao!</h1><h3>Io sono la pagina principale</h3>
-    	</div>
-    	<div>
-    		<a th:href="@{/register}" class="btn btn-primary">Create account</a>
-    	</div>
-    	<div class="row">
-    	Oggi è il <span th:text="${dataCorrente}"></span>
-    	</div>
-    	<hr></hr>
-    	<div id="calendar"></div>
-    	
-    </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js" ></script>
-    <div th:replace="include/footer"></div>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.7.3/fullcalendar.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.7.3/lang/it.js"></script>
-     
-  <script>
+	<div class="container">
+		<div class="page-header">
+			<h1>Ciao!</h1>
+			<h3>Io sono la pagina principale</h3>
+		</div>
+		<div class="row">
+			Oggi è il <span th:text="${dataCorrente}"></span>
+		</div>
+		<hr></hr>
+		<div id="calendar"></div>
 
-  $(document).ready(function() {
-		
-		$('#calendar').fullCalendar({
-			header: {
-				left: 'prev,next today',
-				center: 'title',
-				right: 'month,agendaWeek,agendaDay'
-			},
-			defaultDate: '2016-06-16',
-			editable: true,
-			eventLimit: true, // allow "more" link when too many events
-			dayClick: function(date, jsEvent, view) {
+	</div>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
+	<div th:replace="include/footer"></div>
+	<script
+		src="http://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.7.3/fullcalendar.min.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.7.3/lang/it.js"></script>
 
-		        alert('Clicked on: ' + date.format());
-
-		        alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
-
-		        alert('Current view: ' + view.name);
-
-		        // change the day's background color just for fun
-		        $(this).css('background-color', 'red');
-
-		    },
-		    eventClick: function(calEvent, jsEvent, view) {
-
-		        alert('Event: ' + calEvent.title);
-		        alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
-		        alert('View: ' + view.name);
-
-		        // change the border color just for fun
-		        $(this).css('border-color', 'red');
-
-		    },
-			events: [
-				{
-					title: 'All Day Event',
-					start: '2016-06-01'
-				},
-				{
-					title: 'Long Event',
-					start: '2016-06-07',
-					end: '2016-06-10',
-					backgroundColor: 'red'
-				},
-				{
-					id: 999,
-					title: 'Repeating Event',
-					start: '2016-06-09T16:00:00'
-				},
-				{
-					id: 999,
-					title: 'Repeating Event',
-					start: '2016-06-16T16:00:00'
-				},
-				{
-					title: 'Conference',
-					start: '2016-06-11',
-					end: '2016-06-13'
-				},
-				{
-					title: 'Meeting',
-					start: '2016-06-12T10:30:00',
-					end: '2016-06-12T12:30:00'
-				},
-				{
-					title: 'Lunch',
-					start: '2016-06-12T12:00:00'
-				},
-				{
-					title: 'Meeting',
-					start: '2016-06-12T14:30:00'
-				},
-				{
-					title: 'Happy Hour',
-					start: '2016-06-12T17:30:00'
-				},
-				{
-					title: 'Dinner',
-					start: '2016-06-12T20:00:00'
-				},
-				{
-					title: 'Birthday Party',
-					start: '2016-06-13T07:00:00'
-				},
-				{
-					title: 'Click for Google',
-					url: 'http://google.com/',
-					start: '2016-06-28'
-				}
-			]
-			
-			
-		});
-		
-	});
-	
-
-</script>
+	<script th:src="@{/js/calendar.js}"/>
 </body>
 </html>

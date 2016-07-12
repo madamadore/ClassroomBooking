@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<div class="modal fade" tabindex="-1" role="dialog" id="new_modal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">Nuova prenotazione</h4>
+			</div>
+			<form th:action="@{/prenotazioni/new}" id="form" method="POST"
+				role="form">
+				<div class="modal-body">
+					<div class="form-group">
+						<div class="input-group">
+							<input type="text" id="description" name="description"
+								th:value="${prenotazione.description}" class="form-control"
+								placeholder="Descrizione" required="true" />
+						</div>
+						<div class="input-group">
+							<input type="text" id="classRoom" name="classRoom"
+								th:value="${prenotazione.classRoom}" class="form-control"
+								placeholder="Aula" required="true" />
+						</div>
+						<div class="input-group">
+							<input type="date" id="start" name="start"
+								th:value="${prenotazione.start}" class="form-control"
+								placeholder="Data d'inizio" required="true" />
+						</div>
+						<div class="input-group">
+							<input type="date" id="end" name="end"
+								th:value="${prenotazione.end}" class="form-control"
+								placeholder="Data di fine" required="true" />
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Chiudi</button>
+						<input type="submit" class="btn btn-primary" value="Salva" />
+					</div>
+				</div>
+			</form>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+</html>

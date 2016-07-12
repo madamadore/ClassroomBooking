@@ -5,11 +5,7 @@ import java.util.Date;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import it.tecnosphera.booking.classroom.model.Prenotazione;
 import it.tecnosphera.booking.classroom.model.User;
 import it.tecnosphera.booking.classroom.model.UserRole;
 import it.tecnosphera.booking.classroom.repository.RepositoryInterface;
@@ -32,7 +29,7 @@ public class LoginController {
 	public String home(Model m) {
 		Date now = Calendar.getInstance().getTime();
 		m.addAttribute("dataCorrente", now);
-
+		m.addAttribute(new Prenotazione());
         return "prenotazioni/list";
     }
 	
