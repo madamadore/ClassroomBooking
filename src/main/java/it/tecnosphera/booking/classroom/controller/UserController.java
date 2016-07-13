@@ -23,6 +23,10 @@ public class UserController {
     @RequestMapping(value="/edit/{id}", method = RequestMethod.GET)
     public String editUser(@PathVariable long id, Model model) {
     	User user = userRepository.find(id);
+    	
+    	String email = "@tecnosphera.it";
+    	user.setEmail(user.getEmail().substring(0, user.getEmail().length() - email.length())); 
+    	
     	List<?> listaRuoli = userRepository.distinctUserRole();
     	model.addAttribute("user", user);
     	model.addAttribute("listaRuoli", listaRuoli);
