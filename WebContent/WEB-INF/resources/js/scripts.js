@@ -19,23 +19,23 @@
 			});
 			
 			$("#selectRuoli").change(function(){
-				$("#addRuolo").show();
+				$("#addRuolo").removeClass('hidden');
 			});
 			
 			$("#addRuolo").click(function(){
-				var ruolo = $("#selectRuoli option:selected").value();
+				var ruolo = $("#selectRuoli option:selected").val();
 				var descRuolo = $("#selectRuoli option:selected").text();
 				$("#rowRuoli").append('<tr><td>&nbsp;</td><td>' + ruolo + '</td>' +
 											'<td>' + descRuolo + '</td>' + 
-											'<td><a id="removeRuolo" data-toggle="tooltip" data-placement="top" title="Elimina" href="javascript:void(0);"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>' +  
+											'<td><a class="removeRuolo" data-toggle="tooltip" data-placement="top" title="Elimina" href="javascript:void(0);"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>' +  
 											'<input type="hidden" th:name="userRoleId" value="" />' +
-											'<input type="hidden" th:name="user" th:value="${user.id}" />' +
+											'<input type="hidden" th:name="user" value="' + $("#id").val() + '" />' +
 											'<input type="hidden" th:name="role" value="' + ruolo + '" />' +
-											'<input type="hidden" th:name="descrizione" th:value="' + descRuolo + '" />' +
+											'<input type="hidden" th:name="descrizione" value="' + descRuolo + '" />' +
 											'</td></tr>');
 			});
 			
-			$("#removeRuolo").click(function(){
+			$(".removeRuolo").click(function(){
 				$(this).parent().parent().remove();
 			});
 			

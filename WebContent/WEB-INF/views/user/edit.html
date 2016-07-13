@@ -92,7 +92,7 @@
 									<td th:text="${role.role}"></td>
 									<td th:text="${role.descrizione}"></td>
 									<td>
-										<a id="removeRuolo" data-toggle="tooltip" data-placement="top" title="Elimina" href="javascript:void(0);">
+										<a class="removeRuolo" data-toggle="tooltip" data-placement="top" title="Elimina" href="javascript:void(0);">
 											<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
 										</a> 
 										<input type="hidden" th:name="'roles[' + ${row.index} + '].userRoleId'" th:value="${role.userRoleId}" /> 
