@@ -19,6 +19,12 @@
 		<div class="row">
 		   <span>Email:</span> <span th:text="${user.email}"></span>
 		</div>
+		<div class="row">
+			<span >Ruoli:</span>
+			<div th:each="role, row : ${user.userRole}" >
+				<span th:text="${role.descrizione}"></span>
+			</div>
+		</div>
 	    </div>
        <div th:replace="include/footer"></div>
 </body>
