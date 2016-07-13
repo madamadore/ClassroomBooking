@@ -11,7 +11,6 @@ import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
 import it.tecnosphera.booking.classroom.model.User;
-import it.tecnosphera.booking.classroom.model.UserRole;
 
 @Repository("userDao")
 public class UserRepository implements UserRepositoryInterface {
@@ -77,10 +76,9 @@ public class UserRepository implements UserRepositoryInterface {
  
 	}
 
-	public List<UserRole> distinctUserRole(User user) {
-		List<UserRole> lista = entityManager.createQuery(
-				"SELECT DISTINCT r.role from UserRole as r WHERE r.user = :idd")
-				.setParameter("idd", user.getId())
+	public List<?> distinctUserRole() {
+		List<?> lista = entityManager.createQuery(
+				"SELECT DISTINCT r.role, r.descrizione from UserRole as r")
 				.getResultList();
 		return lista;
 	}

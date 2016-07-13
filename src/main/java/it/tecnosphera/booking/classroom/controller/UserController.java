@@ -25,10 +25,7 @@ public class UserController {
     @RequestMapping(value="/edit/{id}", method = RequestMethod.GET)
     public String editUser(@PathVariable long id, Model model) {
     	User user = userRepository.find(id);
-    	//List<UserRole> listaRuoli = new ArrayList<UserRole>(userRepository.distinctUserRole(user));
-    	List<String> listaRuoli = new ArrayList<String>();
-    	listaRuoli.add("amm");
-    	listaRuoli.add("user");
+    	List<?> listaRuoli = userRepository.distinctUserRole();
     	model.addAttribute("user", user);
     	model.addAttribute("listaRuoli", listaRuoli);
         return "user/edit";

@@ -12,6 +12,7 @@
 		
 	<mvc:annotation-driven />
 	<mvc:resources mapping="/resources/**" location="/resources/" />
+	<mvc:resources mapping="/js/**" location="/WEB-INF/resources/js/" />
 
 	<beans:bean id="templateResolver"
 		class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
