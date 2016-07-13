@@ -1,6 +1,5 @@
 package it.tecnosphera.booking.classroom.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import it.tecnosphera.booking.classroom.model.User;
-import it.tecnosphera.booking.classroom.model.UserRole;
 import it.tecnosphera.booking.classroom.repository.UserRepositoryInterface;
 
 @Controller
@@ -57,6 +55,10 @@ public class UserController {
     	if(email != null && !email.contains("@tecnosphera.it")) {
     		email = email.concat("@tecnosphera.it");
     	}
+    	
+    	user.setEmail(email);
+    	user.setPassword(userRepository.MD5Hashing(user.getPassword()));
+    	
     	long id = userRepository.save(user);
         return "redirect:view/"+id;
     }
@@ -66,4 +68,5 @@ public class UserController {
     		userRepository.delete(id);
         return "redirect:list";
     }
+    
 }

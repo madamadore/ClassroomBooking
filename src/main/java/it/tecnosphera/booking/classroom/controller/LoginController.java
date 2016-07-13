@@ -48,6 +48,11 @@ public class LoginController {
     	if(email != null && !email.contains("@tecnosphera.it")) {
     		email = email.concat("@tecnosphera.it");
     	}
+    	
+    	user.setEmail(email);
+    	user.setPassword(userRepository.MD5Hashing(user.getPassword()));
+    	user.setConf_password(userRepository.MD5Hashing(user.getConf_password())); 
+    	
     	UserRole userRole = new UserRole();
     	userRole.setUser(user);
     	userRole.setRole("ROLE_USER");

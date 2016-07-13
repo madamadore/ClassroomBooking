@@ -1,5 +1,7 @@
 package it.tecnosphera.booking.classroom.repository;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -82,5 +84,28 @@ public class UserRepository implements UserRepositoryInterface {
 				.getResultList();
 		return lista;
 	}
+	
+	public String MD5Hashing(String password){
+    	
+    	MessageDigest md;
+    	StringBuffer sb = new StringBuffer();
+    	
+		try {
+			md = MessageDigest.getInstance("MD5");
+			md.update(password.getBytes());
+	        byte byteData[] = md.digest();
+	 
+	        //convert the byte to hex format
+	        for (int i = 0; i < byteData.length; i++) {
+	        	sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
+	        }
+	        
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return sb.toString();
+    }
 	
 }
