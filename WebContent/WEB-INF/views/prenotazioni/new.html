@@ -14,25 +14,36 @@
 				role="form">
 				<div class="modal-body">
 					<div class="form-group">
+
 						<div class="input-group">
-							<input type="text" id="description" name="description"
-								th:value="${prenotazione.description}" class="form-control"
-								placeholder="Descrizione" required="true" />
+							<label>Aula:</label> <input type="text" id="aula" name="aula"
+								class="form-group" required="true" />
+						</div>
+
+						<div class="input-group">
+							<div class="well">
+								<div id="startTime" class="input-append">
+									<label>Ora d'inizio:</label> <input data-format="hh:mm"
+										type="text"></input> <span class="add-on"> <i
+										data-time-icon="icon-time" data-date-icon="icon-calendar">
+									</i>
+									</span>
+								</div>
+							</div>
+						</div>
+						
+						<div class="input-group">
+							<label>Ora di fine:</label> <input type="time" id="startTime"
+								class="form-group datepicker" required="true" />
+						</div>
+
+						<div class="input-group">
+							<label>Data d'inizio:</label> <input type="date" id="startDate"
+								class="form-group datepicker" required="true" />
 						</div>
 						<div class="input-group">
-							<input type="text" id="classRoom" name="classRoom"
-								th:value="${prenotazione.classRoom}" class="form-control"
-								placeholder="Aula" required="true" />
-						</div>
-						<div class="input-group">
-							<input type="date" id="start" name="start"
-								th:value="${prenotazione.start}" class="form-control"
-								placeholder="Data d'inizio" required="true" />
-						</div>
-						<div class="input-group">
-							<input type="date" id="end" name="end"
-								th:value="${prenotazione.end}" class="form-control"
-								placeholder="Data di fine" required="true" />
+							<label>Data di fine:</label> <input type="date" id="endDate"
+								class="form-group datepicker" required="true" />
 						</div>
 					</div>
 					<div class="modal-footer">
@@ -40,6 +51,8 @@
 						<input type="submit" class="btn btn-primary" value="Salva" />
 					</div>
 				</div>
+				<input type="hidden" th:name="${_csrf.parameterName}"
+					th:value="${_csrf.token}" />
 			</form>
 		</div>
 		<!-- /.modal-content -->

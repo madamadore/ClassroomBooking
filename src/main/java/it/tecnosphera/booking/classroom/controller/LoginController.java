@@ -29,7 +29,6 @@ public class LoginController {
 	public String home(Model m) {
 		Date now = Calendar.getInstance().getTime();
 		m.addAttribute("dataCorrente", now);
-		m.addAttribute(new Prenotazione());
         return "prenotazioni/list";
     }
 	
