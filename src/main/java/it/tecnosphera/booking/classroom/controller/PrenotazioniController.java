@@ -1,7 +1,6 @@
 package it.tecnosphera.booking.classroom.controller;
 
 import java.util.Date;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -9,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import it.tecnosphera.booking.classroom.model.Aula;
 import it.tecnosphera.booking.classroom.model.Prenotazione;
@@ -25,23 +25,24 @@ public class PrenotazioniController {
 
 	@Autowired
 	RepositoryInterface<Aula> aulaRepository;
-	
+
 	@Autowired
 	UserRepositoryInterface userRepository;
 
 	@RequestMapping(value = "/new", method = RequestMethod.POST)
-	public String nuovaPrenotazione(@ModelAttribute("aula") long aula, @ModelAttribute("startTime") String startTime,
-			@ModelAttribute("endTime") String endTime, @ModelAttribute("startDate") String startDate,
-			@ModelAttribute("endDate") String endDate) {
-		
-		//se non sei loggato vieni reindirizzato alla pagina di login
+	public String nuovaPrenotazione(@RequestParam("aula") long aula, @RequestParam("startTime") String startTime,
+			@RequestParam("endTime") String endTime, @RequestParam("startDate") String startDate,
+			@RequestParam("endDate") String endDate) {
+
+		// se non sei loggato vieni reindirizzato alla pagina di login
 		if (SecurityContextHolder.getContext().getAuthentication() == null
 				|| !SecurityContextHolder.getContext().getAuthentication().isAuthenticated()
 				|| "anonymousUser".equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
 			return "login";
 		}
-		
-		User user = userRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
+
+		User user = userRepository
+				.findByEmail(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
 		Prenotazione prenotazione = new Prenotazione();
 		Date start = new Date();
 		Date end = new Date();
@@ -69,7 +70,8 @@ public class PrenotazioniController {
 	}
 
 	private boolean verificaPrenotazione(Prenotazione prenotazione) {
-		// TODO deve verificare che l'aula non sia già occupata nell'intervallo specificato
+		// TODO deve verificare che l'aula non sia già occupata nell'intervallo
+		// specificato
 		return true;
 	}
 }

@@ -10,13 +10,26 @@ $(document).ready(function() {
 		editable : true,
 		eventLimit : true, // allow "more" link when too many events
 		dayClick : function(date, jsEvent, view) {
-//			$('#startTime').datetimepicker({
-//				pickDate : false
-//			});
+			$('#startTime').datetimepicker({
+				locale : 'it',
+				format: 'LT'
+			});
+			$('#endTime').datetimepicker({
+				locale : 'it',
+				format: 'LT'
+			});
+			$('#startDateDiv').datetimepicker({
+				locale : 'it',
+				format: 'DD-MM-YYYY'
+			});
+			$('#endDateDiv').datetimepicker({
+				locale : 'it',
+				format: 'DD-MM-YYYY'
+			});
 			var startDate = document.getElementById("startDate");
-			startDate.setAttribute("placeholder", date.format());
+			startDate.setAttribute("placeholder", date.format("DD-MM-YYYY"));
 			var endDate = document.getElementById("endDate");
-			endDate.setAttribute("placeholder", date.format());
+			endDate.setAttribute("placeholder", date.format("DD-MM-YYYY"));
 			$('#new_modal').modal('show');
 			// alert('Clicked on: ' + date.format());
 			// alert('Coordinates: ' + jsEvent.pageX + ','
