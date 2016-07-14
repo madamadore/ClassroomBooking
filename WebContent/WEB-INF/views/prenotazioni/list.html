@@ -3,19 +3,18 @@
 <head>
 <title>Prenotazioni</title>
 <link th:replace="include/header"></link>
-<link th:include="prenotazioni/new"></link>
 <link rel="stylesheet"
 	href="http://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.7.3/fullcalendar.min.css"></link>
 <link rel="stylesheet" media="print"
 	href="http://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.7.3/fullcalendar.print.css"></link>
-	
+
 </head>
 
 <!--  all calendar goes here jv . html. etc...-->
 <body>
 	<div class="container">
 		<div class="page-header">
-        
+
 			<h1>Ciao!</h1>
 			<h3>Io sono la pagina principale</h3>
 		</div>
@@ -26,7 +25,8 @@
 		<div id="calendar"></div>
 
 	</div>
-	
+
+	<div th:replace="prenotazioni/new"></div>
 	<div th:replace="include/footer"></div>
 
 	<script
@@ -34,6 +34,6 @@
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.7.3/lang/it.js"></script>
 	<script th:src="@{/js/calendar.js}" />
-	
+
 </body>
 </html>
