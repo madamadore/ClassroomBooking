@@ -51,11 +51,12 @@ public class LoginController {
     	
     	user.setEmail(email);
     	user.setPassword(userRepository.MD5Hashing(user.getPassword()));
-    	user.setConf_password(userRepository.MD5Hashing(user.getConf_password())); 
+    	user.setConf_password(userRepository.MD5Hashing(user.getPassword())); 
     	
     	UserRole userRole = new UserRole();
-    	userRole.setUser(user);
     	userRole.setRole("ROLE_USER");
+    	userRole.setDescrizione("Utente Guest");
+    	userRole.setUser(user);
     	user.getUserRole().add(userRole);
     	
     	userRepository.save(user);

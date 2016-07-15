@@ -3,6 +3,7 @@ package it.tecnosphera.booking.classroom.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -40,7 +41,9 @@ public class User {
 	@Column(name="enabled", columnDefinition="tinyint")
 	private boolean enabled;
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
+	@OneToMany(fetch = FetchType.EAGER, 
+			cascade={CascadeType.ALL}, 
+			mappedBy = "user")
 	private Set<UserRole> userRole = new HashSet<UserRole>(0);
 	
 	public long getId() {
