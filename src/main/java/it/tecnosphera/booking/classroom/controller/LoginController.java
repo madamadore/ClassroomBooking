@@ -5,8 +5,12 @@ import java.util.Date;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -25,7 +29,7 @@ public class LoginController {
 	RepositoryInterface<User> userRepository;
 
 	@RequestMapping(value = "/")
-    public String home(Model m) {
+	public String home(Model m) {
 		Date now = Calendar.getInstance().getTime();
 		m.addAttribute("dataCorrente", now);
         return "prenotazioni/list";
@@ -60,7 +64,7 @@ public class LoginController {
     	user.getUserRole().add(userRole);
     	
     	userRepository.save(user);
-        return "login";
+        return "redirect:login";
     }
     
     @RequestMapping(value="/403", method = { RequestMethod.GET, RequestMethod.POST })
@@ -78,21 +82,25 @@ public class LoginController {
         model.addAttribute("loginError", true);
         return "login";
     }
-    
-	 @RequestMapping(value="/logout", method = RequestMethod.GET)  
-	 public String logout(Model model) {  
-		 return "login";  	
-	 }  
-	
-	 @RequestMapping("/error")
-	 public String error(HttpServletRequest request, Model model) {
-		 model.addAttribute("errorCode", request.getAttribute("javax.servlet.error.status_code"));
-	     Throwable throwable = (Throwable) request.getAttribute("javax.servlet.error.exception");
-	     String errorMessage = null;
-	     if (throwable != null) {
-	    	 errorMessage = throwable.getMessage();
-	    	 model.addAttribute("errorMessage", errorMessage.toString());
-	     }
-	     return "error";
-	 }
+
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public String logout(HttpServletRequest request, HttpServletResponse response) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (auth != null) {
+			new SecurityContextLogoutHandler().logout(request, response, auth);
+		}
+		return "login";
+	}
+
+	@RequestMapping("/error")
+	public String error(HttpServletRequest request, Model model) {
+		model.addAttribute("errorCode", request.getAttribute("javax.servlet.error.status_code"));
+		Throwable throwable = (Throwable) request.getAttribute("javax.servlet.error.exception");
+		String errorMessage = null;
+		if (throwable != null) {
+			errorMessage = throwable.getMessage();
+			model.addAttribute("errorMessage", errorMessage.toString());
+		}
+		return "error";
+	}
 }

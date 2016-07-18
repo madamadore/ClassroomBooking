@@ -1,2 +1,26 @@
+
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+<link rel="stylesheet"
+	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+
+<nav class="navbar navbar-default">
+	<div class="container-fluid">
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="collapse navbar-collapse">
+			<ul class="nav navbar-nav">
+				<li><a class="navbar-brand" href="/ClassroomBooking/">Home</a></li>
+				<li th:if="${isAdmin} == true">
+				<a class="navbar-brand"
+					href="/ClassroomBooking/admin/aula/">Aule</a> 
+				<a class="navbar-brand" href="/ClassroomBooking/admin/user/">User</a>
+				</li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li th:if="${isLogged} == false"><a class="navbar-brand"
+					href="/ClassroomBooking/login">Login</a></li>
+				<li th:if="${isLogged} == true"><a class="navbar-brand"
+					href="/ClassroomBooking/logout">Logout</a></li>
+			</ul>
+		</div>
+	</div>
+</nav>
