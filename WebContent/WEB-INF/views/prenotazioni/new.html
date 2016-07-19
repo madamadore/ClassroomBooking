@@ -8,7 +8,7 @@
 				</button>
 				<h4 class="modal-title">Nuova prenotazione</h4>
 			</div>
-			<form th:action="@{/prenotazioni/new}" method="POST" role="form">
+			<form th:action="@{/prenotazioni/new}" method="POST" role="form" id="form">
 				<div class="modal-body">
 					<div class="form-group">
 						<div class="container">
@@ -38,8 +38,8 @@
 									</div>
 									<div class='col-sm-8'>
 										<div class="form-group">
-											<div class='input-group date' id='startTime'>
-												<input type='text' class="form-control" /> <span
+											<div class='input-group date' id='startTimeDiv'>
+												<input type='text' class="form-control" name='startTime'/> <span
 													class="input-group-addon"> <span
 													class="glyphicon glyphicon-time"></span>
 												</span>
@@ -56,8 +56,8 @@
 									</div>
 									<div class='col-sm-8'>
 										<div class="form-group">
-											<div class='input-group date' id='endTime'>
-												<input type='text' class="form-control" /> <span
+											<div class='input-group date' id='endTimeDiv'>
+												<input type='text' class="form-control" name='endTime' /> <span
 													class="input-group-addon"> <span
 													class="glyphicon glyphicon-time"></span>
 												</span>
@@ -75,7 +75,7 @@
 									<div class='col-sm-8'>
 										<div class="form-group">
 											<div class='input-group date' id="startDateDiv">
-												<input type='text' class="form-control" id="startDate" /> <span
+												<input type='text' class="form-control" id="startDate" name="startDate"/> <span
 													class="input-group-addon"> <span
 													class="glyphicon glyphicon-calendar"></span>
 												</span>
@@ -93,7 +93,7 @@
 									<div class='col-sm-8'>
 										<div class="form-group">
 											<div class='input-group date' id="endDateDiv">
-												<input type='text' class="form-control" id="endDate" /> <span
+												<input type='text' class="form-control" id="endDate" name="endDate" /> <span
 													class="input-group-addon"> <span
 													class="glyphicon glyphicon-calendar"></span>
 												</span>

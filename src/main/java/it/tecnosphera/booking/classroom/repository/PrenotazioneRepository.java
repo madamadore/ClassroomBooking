@@ -5,13 +5,13 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import it.tecnosphera.booking.classroom.model.Prenotazione;
-import it.tecnosphera.booking.classroom.model.User;
 
 @Repository("prenotazioneDao")
 public class PrenotazioneRepository implements PrenotazioneRepositoryInterface {
@@ -46,10 +46,14 @@ public class PrenotazioneRepository implements PrenotazioneRepositoryInterface {
 
 	@Override
 	public List<Prenotazione> getPrenotazioni(Date da, Date a) {
-		List<Prenotazione> lista = entityManager
-				.createQuery(
-						"SELECT p FROM Prenotazione p WHERE (p.start BETWEEN :da AND :a) OR (p.end BETWEEN :da AND :a) ")
-				.getResultList();
+
+		Query q = entityManager.createQuery(
+				"SELECT p FROM Prenotazione p WHERE (p.start > ? AND p.start < ?) OR (p.end > ? AND p.end < ?)");
+		q.setParameter(1, da);
+		q.setParameter(2, a);
+		q.setParameter(3, da);
+		q.setParameter(4, a);
+		List<Prenotazione> lista = q.getResultList();
 		return lista;
 	}
 

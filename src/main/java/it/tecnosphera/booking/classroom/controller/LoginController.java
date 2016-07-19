@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import it.tecnosphera.booking.classroom.model.Aula;
+import it.tecnosphera.booking.classroom.model.Prenotazione;
 import it.tecnosphera.booking.classroom.model.User;
 import it.tecnosphera.booking.classroom.model.UserRole;
 import it.tecnosphera.booking.classroom.repository.RepositoryInterface;
@@ -31,12 +32,16 @@ public class LoginController {
 
 	@Autowired
 	RepositoryInterface<Aula> aulaRepository;
+	
+	@Autowired
+	RepositoryInterface<Prenotazione> prenotazioniRepository;
 
 	@RequestMapping(value = "/")
 	public String home(Model m) {
 		Date now = Calendar.getInstance().getTime();
 		m.addAttribute("dataCorrente", now);
 		m.addAttribute("aule",aulaRepository.findAll());
+		m.addAttribute("prenotazioni", prenotazioniRepository.findAll());
 		return "prenotazioni/list";
 	}
 

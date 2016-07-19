@@ -51,6 +51,7 @@ public class UserRepository implements UserRepositoryInterface {
 		return true;
 	}
 
+	@Transactional
 	@Override
 	public List<User> find(String name) {
 		List<User> lista = entityManager.createQuery("SELECT u FROM User u WHERE u.name LIKE :name")
@@ -59,6 +60,7 @@ public class UserRepository implements UserRepositoryInterface {
 		return lista;
 	}
 	
+	@Transactional
 	public User findByEmail(String email) {
 		 
 		List<User> users = new ArrayList<User>();
