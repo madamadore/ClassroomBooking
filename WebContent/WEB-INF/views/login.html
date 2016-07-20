@@ -1,41 +1,59 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Babbage Login</title>
+<title>Login</title>
 <link th:replace="include/header"></link>
 </head>
 <body>
+	<div th:replace="include/navbar"></div>
 	<div class="container">
-
-		<div class="panel-header">
-			<h1>Login page</h1>
-			<p th:if="${loginError}">Wrong user or password</p>
-		</div>
-		<form th:action="@{/login}" method="post" role="form">
-			<div class="form-group">
-				<label for="j_email">Email:</label>
-				<div class="input-group">
-					<input type="text" id="j_email" name="email" class="form-control" />
-					<div class="input-group-addon">@tecnosphera.it</div>
+	    <div class="row">
+	        <div class="col-md-6 col-md-offset-3">
+	            <h1 class="text-center login-title">
+	            	LOGIN
+	            </h1>
+	            <div class="panel-header">
+					<p th:if="${loginError}">Wrong user or password</p>
 				</div>
-			</div>
-			<div class="form-group">
-				<label for="j_password">Password</label>: <input type="password"
-					id="j_password" name="password" class="form-control" />
-			</div>
-			
-			<div class="form-group">
-				<input type="submit" value="Log in" class="btn btn-primary" />
-			</div>
-			
-			<div class="form-group">
-            	<a th:href="@{/register}">Create account</a>
-          	</div>
-
-			<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" /> 
-			
-		</form>
-
+	            <div class="account-wall">
+	                <img th:src="@{/resources/img/login_img.png}" class="img-responsive img-rounded center-block"/>
+	                <form th:action="@{/login}" method="post" role="form" autocomplete="off">
+		                <div class="form-group">
+							<div class="input-group">
+								<span class="input-group-addon"><i class="glyphicon glyphicon-envelope" aria-hidden="true"></i></span>
+								<input type="text" id="j_email" name="email" class="form-control" placeholder="email"/>
+								<div class="input-group-addon">@tecnosphera.it</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="input-group">
+								<span class="input-group-addon"><i class="glyphicon glyphicon-lock" aria-hidden="true"></i></span>
+								<input type="password" id="j_password" name="password" class="form-control" placeholder="password"/>
+							</div>
+						</div>
+						<div class="form-group">
+			                <label class="checkbox pull-right">
+			                    <input type="checkbox" value="remember-me"/>
+			                    Remember me
+			                </label>
+			            </div>
+						<div class="form-group">
+			                <button class="btn btn-lg btn-primary btn-block" type="submit" value="Log in">
+			                    Log In
+			                </button>
+			            </div>
+		                <span class="clearfix"></span>
+		                
+		                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" /> 
+		                
+	                </form>
+	            </div>
+	            <p class="pull-right need-help">
+		            new user?
+		            <a th:href="@{/register}">create new account </a>
+		    	</p>
+	        </div>
+	    </div>
 	</div>
 	<div th:replace="include/footer"></div>
 </body>

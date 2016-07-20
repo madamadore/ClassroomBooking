@@ -63,9 +63,7 @@ public class UserController {
     	user.setEmail(email);
     	user.setPassword(userRepository.MD5Hashing(user.getPassword()));
     	user.setConf_password(userRepository.MD5Hashing(user.getConf_password()));
-    	
-    	user.getUserRole();
-    	
+
     	long id = userRepository.save(user);
         return "redirect:view/"+id;
     }

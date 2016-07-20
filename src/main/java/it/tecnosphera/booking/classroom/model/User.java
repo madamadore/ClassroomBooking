@@ -41,7 +41,7 @@ public class User {
 	@Column(name="enabled", columnDefinition="tinyint")
 	private boolean enabled;
 	
-	@OneToMany(fetch = FetchType.EAGER, 
+	@OneToMany(fetch = FetchType.LAZY, 
 			cascade={CascadeType.ALL}, 
 			mappedBy = "user")
 	private Set<UserRole> userRole = new HashSet<UserRole>(0);
@@ -85,11 +85,11 @@ public class User {
 	public boolean isEnabled() {
 		return enabled;
 	}
-	public Set<UserRole> getUserRole() {
-		return userRole;
-	}
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
+	}
+	public Set<UserRole> getUserRole() {
+		return userRole;
 	}
 	public void setUserRole(Set<UserRole> userRole) {
 		this.userRole = userRole;

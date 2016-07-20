@@ -54,6 +54,7 @@ public class LoginController {
     	}
     	
     	user.setEmail(email);
+    	user.setEnabled(true);
     	user.setPassword(userRepository.MD5Hashing(user.getPassword()));
     	user.setConf_password(userRepository.MD5Hashing(user.getPassword())); 
     	
