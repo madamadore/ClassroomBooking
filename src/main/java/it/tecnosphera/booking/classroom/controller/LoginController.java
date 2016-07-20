@@ -41,7 +41,6 @@ public class LoginController {
 		Date now = Calendar.getInstance().getTime();
 		m.addAttribute("dataCorrente", now);
 		m.addAttribute("aule",aulaRepository.findAll());
-		m.addAttribute("prenotazioni", prenotazioniRepository.findAll());
 		return "prenotazioni/list";
 	}
 

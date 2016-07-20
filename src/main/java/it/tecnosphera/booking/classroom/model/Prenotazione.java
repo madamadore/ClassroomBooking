@@ -15,6 +15,8 @@ import javax.persistence.Table;
 @Table(name = "prenotazioni")
 public class Prenotazione {
 
+	private String title;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id")
@@ -83,5 +85,15 @@ public class Prenotazione {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public String getTitle() {
+		if (title == null)
+			title = getClassRoom().getName();
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 }
