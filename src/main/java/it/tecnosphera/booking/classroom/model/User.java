@@ -41,7 +41,7 @@ public class User {
 	@Column(name="enabled", columnDefinition="tinyint")
 	private boolean enabled;
 	
-	@OneToMany(fetch = FetchType.LAZY, 
+	@OneToMany(fetch = FetchType.EAGER, 
 			cascade={CascadeType.ALL}, 
 			mappedBy = "user")
 	private Set<UserRole> userRole = new HashSet<UserRole>(0);

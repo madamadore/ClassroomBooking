@@ -29,10 +29,9 @@
 				$("#rowRuoli").append('<tr><td>&nbsp;</td><td>' + ruolo + '</td>' +
 											'<td>' + descRuolo + '</td>' + 
 											'<td><a class="removeRuolo" data-toggle="tooltip" data-placement="top" title="Elimina" href="javascript:void(0);"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>' +  
-											'<input type="hidden" th:name="user.userRole['+ rowCount +'].userRoleId" value="" />' +
-											'<input type="hidden" th:name="user.userRole['+ rowCount +'].user" value="' + $("#id").val() + '" />' +
-											'<input type="hidden" th:name="user.userRole['+ rowCount +'].role" value="' + ruolo + '" />' +
-											'<input type="hidden" th:name="user.userRole['+ rowCount +'].descrizione" value="' + descRuolo + '" />' +
+											'<input type="hidden" th:field="*{userRole[__${' + rowCount + '}__].user" value="' + $("#id").val() + '" />' +
+											'<input type="hidden" th:field="*{userRole[__${' + rowCount + '}__].role" value="' + ruolo + '" />' +
+											'<input type="hidden" th:field="*{userRole[__${' + rowCount + '}__].descrizione" value="' + descRuolo + '" />' +
 											'</td></tr>');
 			});
 			
