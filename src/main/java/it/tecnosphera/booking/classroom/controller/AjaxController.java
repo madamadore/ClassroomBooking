@@ -17,26 +17,6 @@ public class AjaxController {
 
 	@Autowired
 	PrenotazioneRepositoryInterface prenotazioneRepository;
-
-//	@RequestMapping(value = "/prenotazioni", method = RequestMethod.GET)
-//	public @ResponseBody String elaboraPrenotazioni() {
-//		StringBuilder returnText = new StringBuilder();
-//		Iterator<Prenotazione> i = prenotazioneRepository.findAll().iterator();
-//		returnText.append("[");
-//		while (i.hasNext()) {
-//			Prenotazione p = i.next();
-//			returnText.append("{");
-//			returnText.append("title:'" + p.getDescription() + "',");
-//			returnText.append("start:'" + p.getStart() + "',");
-//			returnText.append("end:'" + p.getEnd() + "'");
-//			returnText.append("}");
-//			if (i.hasNext()) {
-//				returnText.append(",");
-//			}
-//		}
-//		returnText.append("]");
-//		return returnText.toString();
-//	}
 	
 	@RequestMapping(value = "/prenotazioni", method = RequestMethod.GET)
 	public @ResponseBody List<Prenotazione> elaboraPrenotazioni() {

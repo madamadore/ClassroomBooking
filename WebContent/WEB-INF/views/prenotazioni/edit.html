@@ -1,4 +1,4 @@
-<div class="modal fade" tabindex="-1" role="dialog" id="view_modal">
+<div class="modal fade" tabindex="-1" role="dialog" id="edit_modal">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -18,8 +18,8 @@
 						<div class='col-sm-7'>
 							<select name="aula" class="form-control">
 								<option>Seleziona un'aula</option>
-								<option th:each="aula : ${aule}" th:value="${aula.id}"
-									th:text="${aula.name}">Aula</option>
+								<option id="selectAula" th:each="aula : ${aule}"
+									th:value="${aula.id}" th:text="${aula.name}">Aula</option>
 							</select>
 						</div>
 					</div>
@@ -28,8 +28,8 @@
 						<label class='col-sm-3 control-label'>Ora d'inizio:</label>
 						<div class='col-sm-7'>
 							<div class='input-group date' id='startTimeDiv'>
-								<input type='text' class="form-control" name='startTime' id='startTime' /> <span
-									class="input-group-addon"> <span
+								<input type='text' class="form-control" name='startTime'
+									id='startTime' /> <span class="input-group-addon"> <span
 									class="glyphicon glyphicon-time"></span>
 								</span>
 							</div>
@@ -41,8 +41,8 @@
 						<label class='col-sm-3 control-label'>Ora di fine:</label>
 						<div class='col-sm-7'>
 							<div class='input-group date' id='endTimeDiv'>
-								<input type='text' class="form-control" name='endTime' id='endTime' /> <span
-									class="input-group-addon"> <span
+								<input type='text' class="form-control" name='endTime'
+									id='endTime' /> <span class="input-group-addon"> <span
 									class="glyphicon glyphicon-time"></span>
 								</span>
 							</div>
@@ -79,10 +79,12 @@
 							data-dismiss="modal">Chiudi</button>
 						<div class='col-sm-2'></div>
 						<input type="submit" class="btn btn-primary col-sm-3"
-							value="Salva" /> <input type="hidden"
-							th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+							value="Salva" />
 						<div class='col-sm-2'></div>
 					</div>
+					<input type="hidden" th:name="${_csrf.parameterName}"
+						th:value="${_csrf.token}" /> <input type="hidden"
+						id="idPrenotazione" name="id" value="" />
 				</form>
 			</div>
 		</div>

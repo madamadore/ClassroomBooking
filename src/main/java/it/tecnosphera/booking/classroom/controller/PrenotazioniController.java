@@ -1,17 +1,17 @@
 package it.tecnosphera.booking.classroom.controller;
 
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import it.tecnosphera.booking.classroom.model.Aula;
 import it.tecnosphera.booking.classroom.model.Prenotazione;
@@ -33,10 +33,11 @@ public class PrenotazioniController {
 	@Autowired
 	UserRepositoryInterface userRepository;
 
-	@RequestMapping(value = "/new", method = RequestMethod.POST)
+	@RequestMapping(value = "/edit", method = RequestMethod.POST)
 	public String nuovaPrenotazione(Model m, @RequestParam("aula") long aula,
 			@RequestParam("startTime") String startTime, @RequestParam("endTime") String endTime,
-			@RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate) {
+			@RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate,
+			@RequestParam("id") String id) {
 
 		if (nonLoggato()) {
 			return "login";
@@ -53,13 +54,15 @@ public class PrenotazioniController {
 		Prenotazione prenotazione = new Prenotazione();
 		Date start = creaData(startTime, startDate);
 		Date end = creaData(endTime, endDate);
-
 		Aula a = aulaRepository.find(aula);
 		prenotazione.setOwner(user);
 		prenotazione.setClassRoom(a);
 		prenotazione.setStart(start);
 		prenotazione.setEnd(end);
-
+		if (!"".equals(id)) {
+			long preId = Long.parseLong(id);
+			prenotazione.setId(preId);
+		}
 		if (verificaPrenotazione(prenotazione)) {
 			prenotazioneRepository.save(prenotazione);
 			return "redirect:/";
@@ -104,11 +107,33 @@ public class PrenotazioniController {
 	}
 
 	private boolean verificaPrenotazione(Prenotazione prenotazione) {
-		List<Prenotazione> list = prenotazioneRepository.getPrenotazioni(prenotazione.getStart(),
-				prenotazione.getEnd());
-		if (list == null || list.size() == 0) {
-			return true;
+
+		// verifica che start ed end siano coerenti, ovvero che lo start sia
+		// precedente rispetto all'end
+		if (prenotazione.getStart().compareTo(prenotazione.getEnd()) >= 0) {
+			return false;
 		}
-		return false;
+
+		List<Prenotazione> list = null;
+		if (prenotazione.getId() > 0) {
+			// prende la lista delle prenotazioni
+			list = prenotazioneRepository.getPrenotazioni(prenotazione.getStart(), prenotazione.getEnd(),
+					prenotazione.getClassRoom(), prenotazione.getId());
+		} else {
+			list = prenotazioneRepository.getPrenotazioni(prenotazione.getStart(), prenotazione.getEnd(),
+					prenotazione.getClassRoom());
+		}
+
+		if (!list.isEmpty()) {
+			return false;
+		}
+
+		User owner = userRepository.find(list.get(0).getOwner().getId());
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (!auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))
+				&& !auth.getName().equals(owner.getEmail())) {
+			return false;
+		}
+		return true;
 	}
 }
