@@ -48,7 +48,7 @@ $(document)
 													.attr("disabled", "");
 											$(
 													'#edit_modal #selectAula option:selected')
-													.removeAttr("selected");
+													.prop("selected", false);
 											$('#edit_modal #idPrenotazione')
 													.val("");
 											$(
@@ -127,9 +127,11 @@ $(document)
 																		.format("DD-MM-YYYY"));
 												$(
 														'#edit_modal #selectAula option:selected')
-														.removeAttr("selected");
-												$('#edit_modal #aulaN'+ calEvent.classRoom.id)
-														.attr("selected", "");
+														.prop("selected", false);
+												$(
+														'#edit_modal #aulaN'
+																+ calEvent.classRoom.id)
+														.prop("selected", true);
 												$('#edit_modal #idPrenotazione')
 														.val(calEvent.id);
 												$(
