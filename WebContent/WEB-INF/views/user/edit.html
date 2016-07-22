@@ -73,7 +73,7 @@
 							<option text="Seleziona ruolo" value="Seleziona ruolo"></option>
 							<option th:each="r : ${listaRuoli}" th:value="${r[0]}"  th:text="${r[1]}"></option>
 						</select>
-						<a id="addRuolo" data-toggle="tooltip" data-placement="top" class="hidden" title="Aggiungi" href="javascript:void(0);">
+						<a id="addRuolo" name="addRole" data-placement="top" class="hidden" title="Aggiungi Ruolo" href="javascript:void(0);">
 							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
 						</a> 
 						
@@ -87,10 +87,10 @@
 									<td th:text="${role.role}"></td>
 									<td th:text="${role.descrizione}"></td>
 									<td>
-										<a class="removeRuolo" th:field="*{userRole[__${row.index}__].userRoleId}" data-toggle="tooltip" data-placement="top" title="Elimina" href="javascript:void(0);">
+										<a class="removeRole" th:id="${role.userRoleId}" name="removeRole" title="Elimina Ruolo" href="javascript:void(0);">
 											<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
 										</a> 
-										<input type="hidden" th:field="*{userRole[__${row.index}__].user}" th:value="idUser" /> 
+										<input type="hidden" th:field="*{userRole[__${row.index}__].user}" th:value="${user.id}" /> 
 										<input type="hidden" th:field="*{userRole[__${row.index}__].role}" th:value="${role.role}" />
 										<input type="hidden" th:field="*{userRole[__${row.index}__].descrizione}" th:value="${role.descrizione}" /> 
 									</td>
@@ -108,6 +108,6 @@
 		</div>
 	</div>
 	<div th:replace="include/footer"></div>
-	<script th:src="@{/js/user.js}" />
+	<script th:inline="javascript" th:src="@{/js/user.js}" />
 </body>
 </html>

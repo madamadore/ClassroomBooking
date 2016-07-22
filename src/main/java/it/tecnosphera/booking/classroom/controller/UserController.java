@@ -3,14 +3,20 @@ package it.tecnosphera.booking.classroom.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import it.tecnosphera.booking.classroom.model.User;
+import it.tecnosphera.booking.classroom.model.UserRole;
 import it.tecnosphera.booking.classroom.repository.UserRepositoryInterface;
 
 @Controller
@@ -74,4 +80,17 @@ public class UserController {
         return "redirect:list";
     }
     
+    @RequestMapping(value="/deleteRole", method = RequestMethod.POST)
+    public @ResponseBody Boolean deleteRole(@RequestBody long idUser, @PathVariable long idRole) {
+    	User user = userRepository.find(idUser);
+		boolean delete = false;
+    	for(UserRole role : user.getUserRole()){
+			if(role.getUserRoleId().equals(idRole)){
+				user.getUserRole().remove(role);
+				delete = true;
+				break;
+			}
+		}
+        return delete;
+    }
 }
