@@ -69,7 +69,19 @@ public class PrenotazioniController {
 		} else {
 			return "redirect:/prenotazioni/error";
 		}
+	}
 
+	@RequestMapping(value = "/delete", method = RequestMethod.POST)
+	public String deletePrenotazione(@RequestParam("id") String id) {
+		if (nonLoggato()) {
+			return "login";
+		}
+		long idPrenotazione = Long.parseLong(id);
+		if (!hasPermissions(prenotazioneRepository.find(idPrenotazione).getOwner())) {
+			return "redirect:/prenotazioni/error";
+		}
+		prenotazioneRepository.delete(idPrenotazione);
+		return "redirect:/";
 	}
 
 	private Date creaData(String time, String date) {
@@ -115,6 +127,8 @@ public class PrenotazioniController {
 		}
 
 		List<Prenotazione> list = null;
+		// se l'id vale 0 si tratta di una nuova prenotazione, altrimenti si sta
+		// cercando di editare una prenotazione esistente
 		if (prenotazione.getId() > 0) {
 			// prende la lista delle prenotazioni
 			list = prenotazioneRepository.getPrenotazioni(prenotazione.getStart(), prenotazione.getEnd(),
@@ -124,11 +138,19 @@ public class PrenotazioniController {
 					prenotazione.getClassRoom());
 		}
 
-		if (!list.isEmpty()) {
+		if (list != null && !list.isEmpty()) {
 			return false;
 		}
 
-		User owner = userRepository.find(list.get(0).getOwner().getId());
+		if (prenotazione.getId() > 0) {
+			if (!hasPermissions(prenotazioneRepository.find(prenotazione.getId()).getOwner())) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private boolean hasPermissions(User owner) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (!auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))
 				&& !auth.getName().equals(owner.getEmail())) {

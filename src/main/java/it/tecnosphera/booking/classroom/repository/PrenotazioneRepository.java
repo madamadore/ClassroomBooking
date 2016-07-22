@@ -39,6 +39,7 @@ public class PrenotazioneRepository implements PrenotazioneRepositoryInterface {
 		return null;
 	}
 
+	@Transactional
 	@Override
 	public boolean delete(long id) {
 		Prenotazione p = entityManager.find(Prenotazione.class, id);
@@ -50,7 +51,7 @@ public class PrenotazioneRepository implements PrenotazioneRepositoryInterface {
 	public List<Prenotazione> getPrenotazioni(Date da, Date a, Aula aula) {
 
 		Query q = entityManager.createQuery(
-				"SELECT p FROM Prenotazione p WHERE ((p.start > ? AND p.start < ?) OR (p.end > ? AND p.end < ?)) AND p.aula = ?");
+				"SELECT p FROM Prenotazione p WHERE ((p.start > ? AND p.start < ?) OR (p.end > ? AND p.end < ?)) AND p.classRoom = ?");
 		q.setParameter(1, da);
 		q.setParameter(2, a);
 		q.setParameter(3, da);
@@ -72,7 +73,7 @@ public class PrenotazioneRepository implements PrenotazioneRepositoryInterface {
 	@Override
 	public List<Prenotazione> getPrenotazioni(Date da, Date a, Aula aula, long id) {
 		Query q = entityManager.createQuery(
-				"SELECT p FROM Prenotazione p WHERE ((p.start > ? AND p.start < ?) OR (p.end > ? AND p.end < ?)) AND p.aula = ? AND p.id <> ?");
+				"SELECT p FROM Prenotazione p WHERE ((p.start > ? AND p.start < ?) OR (p.end > ? AND p.end < ?)) AND p.classRoom = ? AND p.id <> ?");
 		q.setParameter(1, da);
 		q.setParameter(2, a);
 		q.setParameter(3, da);

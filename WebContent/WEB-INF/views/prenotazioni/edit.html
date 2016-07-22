@@ -16,9 +16,9 @@
 					<div class="form-group">
 						<label class='col-sm-3 control-label'>Aula:</label>
 						<div class='col-sm-7'>
-							<select name="aula" class="form-control">
-								<option>Seleziona un'aula</option>
-								<option id="selectAula" th:each="aula : ${aule}"
+							<select id="selectAula" name="aula" class="form-control">
+								<option id="aulaDefault" selected="selected">Seleziona un'aula</option>
+								<option th:each="aula : ${aule}" th:id="${'aulaN'+aula.id}"
 									th:value="${aula.id}" th:text="${aula.name}">Aula</option>
 							</select>
 						</div>
@@ -85,6 +85,18 @@
 					<input type="hidden" th:name="${_csrf.parameterName}"
 						th:value="${_csrf.token}" /> <input type="hidden"
 						id="idPrenotazione" name="id" value="" />
+				</form>
+				<form th:action="@{/prenotazioni/delete}" method="POST" role="form"
+					id="form" class="form-horizontal">
+					<div class="form-group">
+						<div class='col-sm-4'></div>
+						<input id="deleteButton" type="submit"
+							class="btn btn-primary col-sm-4" value="Cancella" />
+						<div class='col-sm-4'></div>
+						<input type="hidden" th:name="${_csrf.parameterName}"
+							th:value="${_csrf.token}" /> <input type="hidden"
+							id="idPrenotazioneDelete" name="id" value="" />
+					</div>
 				</form>
 			</div>
 		</div>
