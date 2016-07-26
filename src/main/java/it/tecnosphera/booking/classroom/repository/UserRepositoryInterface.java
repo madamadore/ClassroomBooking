@@ -8,5 +8,5 @@ public interface UserRepositoryInterface extends RepositoryInterface<User> {
 
 	List<?> distinctUserRole();
 	User findByEmail(String username);
-
+	public String MD5Hashing(String password);
 }

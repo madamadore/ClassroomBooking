@@ -13,6 +13,7 @@ import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
 import it.tecnosphera.booking.classroom.model.User;
+import it.tecnosphera.booking.classroom.model.UserRole;
 
 @Repository("userDao")
 public class UserRepository implements UserRepositoryInterface {
@@ -53,6 +54,7 @@ public class UserRepository implements UserRepositoryInterface {
 		return true;
 	}
 
+	@Transactional
 	@Override
 	public List<User> find(String name) {
 		List<User> lista = entityManager.createQuery("SELECT u FROM User u WHERE u.name LIKE :name")
@@ -61,6 +63,7 @@ public class UserRepository implements UserRepositoryInterface {
 		return lista;
 	}
 	
+	@Transactional
 	public User findByEmail(String email) {
 		 
 		List<User> users = new ArrayList<User>();
@@ -78,9 +81,9 @@ public class UserRepository implements UserRepositoryInterface {
  
 	}
 
-	public List<?> distinctUserRole() {
-		List<?> lista = entityManager.createQuery(
-				"SELECT DISTINCT r.role, r.descrizione from UserRole as r")
+	public List<String> distinctUserRole() {
+		List<String> lista = entityManager.createQuery(
+				"SELECT DISTINCT r.role from UserRole as r")
 				.getResultList();
 		return lista;
 	}
@@ -107,5 +110,4 @@ public class UserRepository implements UserRepositoryInterface {
 		
 		return sb.toString();
     }
-	
 }

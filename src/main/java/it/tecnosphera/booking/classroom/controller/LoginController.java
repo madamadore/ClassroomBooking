@@ -18,71 +18,81 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import it.tecnosphera.booking.classroom.model.Aula;
+import it.tecnosphera.booking.classroom.model.Prenotazione;
 import it.tecnosphera.booking.classroom.model.User;
 import it.tecnosphera.booking.classroom.model.UserRole;
 import it.tecnosphera.booking.classroom.repository.RepositoryInterface;
+import it.tecnosphera.booking.classroom.repository.UserRepositoryInterface;
 
 @Controller
 public class LoginController {
-	
+
 	@Autowired
-	RepositoryInterface<User> userRepository;
+	UserRepositoryInterface userRepository;
+
+	@Autowired
+	RepositoryInterface<Aula> aulaRepository;
+
+	@Autowired
+	RepositoryInterface<Prenotazione> prenotazioniRepository;
 
 	@RequestMapping(value = "/")
 	public String home(Model m) {
 		Date now = Calendar.getInstance().getTime();
 		m.addAttribute("dataCorrente", now);
-        return "prenotazioni/list";
-    }
-	
-    @RequestMapping(value ="/login")
-    public String login() {
-        return "login";
-    }
-    
-    @RequestMapping(value="/register", method = RequestMethod.GET)
-    public String newUser(Model model) {
-    		model.addAttribute(new User());
-        return "user/register";
-    }  
-    
-    @RequestMapping(value="/saveUserRegister", method = RequestMethod.POST)
-    public String saveUserRegister(@ModelAttribute("user") User user) {
-    	String email = user.getEmail();
-    	if(email != null && !email.contains("@tecnosphera.it")) {
-    		email = email.concat("@tecnosphera.it");
-    	}
-    	
-    	user.setEmail(email);
-    	user.setEnabled(true);
-    	user.setPassword(userRepository.MD5Hashing(user.getPassword()));
-    	user.setConf_password(userRepository.MD5Hashing(user.getPassword())); 
-    	
-    	UserRole userRole = new UserRole();
-    	userRole.setRole("ROLE_USER");
-    	userRole.setDescrizione("Utente Guest");
-    	userRole.setUser(user);
-    	user.getUserRole().add(userRole);
-    	
-    	userRepository.save(user);
-        return "redirect:login";
-    }
-    
-    @RequestMapping(value="/403", method = { RequestMethod.GET, RequestMethod.POST })
-    public @ResponseBody String provideUploadInfo() {
-        return "Access Denied";
-    }
- 
-    // Login form with error
-    @RequestMapping("/login-error")
-    public String loginError(Model model) {
-    	Map<String, Object> map = model.asMap();
-    	for (String index : map.keySet()) {
-    		System.out.println( index + " : " + map.get(index).toString() );
-    	}
-        model.addAttribute("loginError", true);
-        return "login";
-    }
+		m.addAttribute("aule", aulaRepository.findAll());
+		return "prenotazioni/list";
+	}
+
+	@RequestMapping(value = "/login")
+	public String login() {
+		return "login";
+	}
+
+	@RequestMapping(value = "/register", method = RequestMethod.GET)
+	public String newUser(Model model) {
+		model.addAttribute(new User());
+		return "user/register";
+	}
+
+	@RequestMapping(value = "/saveUserRegister", method = RequestMethod.POST)
+	public String saveUserRegister(@ModelAttribute("user") User user) {
+		String email = user.getEmail();
+		if (email != null && !email.contains("@tecnosphera.it")) {
+			email = email.concat("@tecnosphera.it");
+		}
+
+		user.setEmail(email);
+		user.setEnabled(true);
+		user.setPassword(userRepository.MD5Hashing(user.getPassword()));
+		user.setConf_password(userRepository.MD5Hashing(user.getPassword()));
+
+		UserRole userRole = new UserRole();
+		userRole.setRole("ROLE_USER");
+		userRole.setDescrizione("Utente Guest");
+		userRole.setUser(user);
+		user.getUserRole().add(userRole);
+
+		userRepository.save(user);
+		return "redirect:login";
+	}
+
+	@RequestMapping(value = "/403", method = { RequestMethod.GET, RequestMethod.POST })
+	public @ResponseBody String provideUploadInfo() {
+		return "Access Denied";
+	}
+
+	// Login form with error
+	@RequestMapping("/login-error")
+	public String loginError(Model model) {
+		Map<String, Object> map = model.asMap();
+		for (String index : map.keySet()) {
+			System.out.println(index + " : " + map.get(index).toString());
+		}
+		model.addAttribute("loginError", true);
+		return "login";
+	}
 
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String logout(HttpServletRequest request, HttpServletResponse response) {

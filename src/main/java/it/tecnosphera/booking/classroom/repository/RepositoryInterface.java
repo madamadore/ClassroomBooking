@@ -9,5 +9,4 @@ public interface RepositoryInterface<T> {
 	public List<T> find(String name);
 	public long save(T object);
 	public boolean delete(long id);
-	public String MD5Hashing(String password);
 }

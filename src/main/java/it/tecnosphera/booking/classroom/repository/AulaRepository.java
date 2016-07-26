@@ -53,10 +53,4 @@ public class AulaRepository implements RepositoryInterface<Aula> {
 		return true;
 	}
 
-	@Override
-	public String MD5Hashing(String password) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

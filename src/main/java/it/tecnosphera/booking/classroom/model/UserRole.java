@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="user_roles")
 public class UserRole implements Serializable {
@@ -22,6 +24,7 @@ public class UserRole implements Serializable {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer userRoleId;
 	
+	@JsonIgnore 
 	@ManyToOne
     @JoinColumn(name="user_id")
 	private User user;

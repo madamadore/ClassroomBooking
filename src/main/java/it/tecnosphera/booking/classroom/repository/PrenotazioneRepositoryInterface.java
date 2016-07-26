@@ -1,15 +1,14 @@
 package it.tecnosphera.booking.classroom.repository;
 
-import it.tecnosphera.booking.classroom.model.Prenotazione;
-
 import java.util.Date;
 import java.util.List;
+import it.tecnosphera.booking.classroom.model.Aula;
+import it.tecnosphera.booking.classroom.model.User;
 
-public interface PrenotazioneRepositoryInterface {
+import it.tecnosphera.booking.classroom.model.Prenotazione;
 
-	public Prenotazione getPrenotazione(long id);
-	public List<Prenotazione> getPrenotazioni(Date da, Date a);
-	public long save(Prenotazione prenotazione);
-	public boolean cancel(Prenotazione prenotazione);
+public interface PrenotazioneRepositoryInterface extends RepositoryInterface<Prenotazione> {
+
+	public List<Prenotazione> getPrenotazioniInConflitto(Date da, Date a, Aula aula);
 	
 }
