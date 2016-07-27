@@ -66,7 +66,7 @@ $(document)
 
 				});
 
-// al caricamento della pagina questa parte una chiamata, va evitata
+// al caricamento della pagina parte una chiamata, questa va evitata
 var fakeCall = true;
 function enablePasswordConfirmation() {
 

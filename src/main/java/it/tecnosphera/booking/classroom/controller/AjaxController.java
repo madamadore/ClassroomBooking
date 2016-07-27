@@ -38,13 +38,19 @@ public class AjaxController {
 	UtilityMethods utilityMethods;
 
 	public static final String LOGIN_REQUIRED = "login";
-	public static final String INPUT_MISSING = "missInput";
+	public static final String MISSING_INPUT = "missInput";
 	public static final String OK = "ok";
 	public static final String WRONG_INPUT = "wrongInput";
+	public static final String MISSING_PERMISSION = "missingPermission";
 
 	@RequestMapping(value = "/prenotazioni", method = RequestMethod.GET)
 	public @ResponseBody List<Prenotazione> elaboraPrenotazioni() {
 		return prenotazioneRepository.findAll();
+	}
+	
+	@RequestMapping(value = "/getEvent", method = RequestMethod.POST)
+	private @ResponseBody Prenotazione getEvent(@RequestParam("id") String id) {
+		return prenotazioneRepository.find(Long.parseLong(id));
 	}
 
 	@RequestMapping(value = "/hasPermissions", method = RequestMethod.POST)
@@ -57,14 +63,13 @@ public class AjaxController {
 			@RequestParam("startTime") String startTime, @RequestParam("endTime") String endTime,
 			@RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate,
 			@RequestParam("id") String id) {
-
 		if (!utilityMethods.isLogged()) {
 			return LOGIN_REQUIRED;
 		}
 
 		// se mancano dei parametri
 		if ("".equals(startTime) || "".equals(endTime) || "".equals(startDate) || "".equals(endDate)) {
-			return INPUT_MISSING;
+			return MISSING_INPUT;
 		}
 
 		org.springframework.security.core.userdetails.User u = (org.springframework.security.core.userdetails.User) SecurityContextHolder
@@ -88,5 +93,18 @@ public class AjaxController {
 		} else {
 			return WRONG_INPUT;
 		}
+	}
+	
+	@RequestMapping(value = "/delete", method = RequestMethod.POST)
+	public @ResponseBody String deleteEvent(@RequestParam("id") String id) {
+		if (!utilityMethods.isLogged()) {
+			return LOGIN_REQUIRED;
+		}
+		long idPrenotazione = Long.parseLong(id);
+		if (!utilityMethods.hasPermissions(prenotazioneRepository.find(idPrenotazione).getOwner())) {
+			return MISSING_PERMISSION;
+		}
+		prenotazioneRepository.delete(idPrenotazione);
+		return OK;
 	}
 }

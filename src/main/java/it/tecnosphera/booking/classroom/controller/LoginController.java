@@ -66,7 +66,6 @@ public class LoginController {
 		user.setEmail(email);
 		user.setEnabled(true);
 		user.setPassword(userRepository.MD5Hashing(user.getPassword()));
-		user.setConf_password(userRepository.MD5Hashing(user.getPassword()));
 
 		UserRole userRole = new UserRole();
 		userRole.setRole("ROLE_USER");
@@ -91,7 +90,7 @@ public class LoginController {
 			System.out.println(index + " : " + map.get(index).toString());
 		}
 		model.addAttribute("loginError", true);
-		return "login";
+		return "redirect:login";
 	}
 
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
@@ -100,7 +99,7 @@ public class LoginController {
 		if (auth != null) {
 			new SecurityContextLogoutHandler().logout(request, response, auth);
 		}
-		return "login";
+		return "redirect:login";
 	}
 
 	@RequestMapping("/error")

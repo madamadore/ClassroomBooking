@@ -28,19 +28,6 @@ public class PrenotazioniController {
 	@Autowired
 	UtilityMethods utilityMethods;
 
-	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public String deletePrenotazione(@RequestParam("id") String id) {
-		if (!utilityMethods.isLogged()) {
-			return "login";
-		}
-		long idPrenotazione = Long.parseLong(id);
-		if (!utilityMethods.hasPermissions(prenotazioneRepository.find(idPrenotazione).getOwner())) {
-			return "redirect:/prenotazioni/error";
-		}
-		prenotazioneRepository.delete(idPrenotazione);
-		return "redirect:/";
-	}
-
 	@RequestMapping(value = "/view")
 	public String visualizzaPrenotazione() {
 		return "prenotazioni/view";

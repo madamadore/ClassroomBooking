@@ -13,12 +13,14 @@ $(document).ready(function(event) {
 		// events
 		dayClick : function(date, jsEvent, view) {
 			setCreationModal(date);
+			$("#edit_modal #errorDiv").css("display", "none");
 			$('#edit_modal').modal('show');
 		},
 		eventClick : function(calEvent, jsEvent, view) {
 			var hasPerm = hasPermissions(calEvent);
 			if (hasPerm) {
 				setEditModal(calEvent);
+				$("#edit_modal #errorDiv").css("display", "none");
 				$('#edit_modal').modal('show');
 			} else {
 				setViewModal(calEvent);
@@ -35,7 +37,16 @@ $(document).ready(function(event) {
 				revertFunc();
 			} else {
 				setEditModal(event);
-				$("#formEdit").submit();
+				salvaPrenotazione();
+			}
+		},
+		eventDrop : function(event, delta, revertFunc) {
+			var hasPerm = hasPermissions(event);
+			if (!hasPerm) {
+				revertFunc();
+			} else {
+				setEditModal(event);
+				salvaPrenotazione();
 			}
 		}
 	});
@@ -44,7 +55,8 @@ $(document).ready(function(event) {
 function areYouSure() {
 	var r = confirm("Sei sicuro di voler eliminare questa prenotazione?");
 	if (r == true) {
-		$("#formDelete").submit();
+		var id = $("#edit_modal #idPrenotazione").val();
+		deleteEvent(id);
 	}
 }
 
@@ -71,6 +83,7 @@ function hasPermissions(calEvent) {
 }
 
 function setCreationModal(date) {
+	$("#edit_modal #modalTitle").text("Crea una nuova prenotazione");
 	$('#edit_modal #startTimeDiv').datetimepicker({
 		locale : 'it',
 		format : 'LT'
@@ -100,6 +113,7 @@ function setCreationModal(date) {
 }
 
 function setEditModal(calEvent) {
+	$("#edit_modal #modalTitle").text("Modifica prenotazione");
 	$('#edit_modal #startTimeDiv').datetimepicker({
 		locale : 'it',
 		format : 'LT'
@@ -138,11 +152,13 @@ function setViewModal(calEvent) {
 }
 
 function salvaPrenotazione() {
-//	var token = $("input[name='_csrf']").val();
-//	var header = "X-CSRF-TOKEN";
-//	$(document).ajaxSend(function(e, xhr, options) {
-//		xhr.setRequestHeader(header, token);
-//	});
+	$("#edit_modal #inputPrenotazione").css("display", "none");
+	$("#edit_modal #attesa").css("display", "unset");
+	var token = $("input[name='_csrf']").val();
+	var header = "X-CSRF-TOKEN";
+	$(document).ajaxSend(function(e, xhr, options) {
+		xhr.setRequestHeader(header, token);
+	});
 	$.ajax({
 		type : "POST",
 		url : '/ClassroomBooking/ajax/edit',
@@ -157,7 +173,93 @@ function salvaPrenotazione() {
 		timeout : 10000,
 		async : false,
 		success : function(data) {
-			console.log(data);
+			if (data == "ok") {
+				$('#edit_modal').modal('hide');
+				$('#calendar').fullCalendar('refetchEvents');
+			} else {
+				if (data == "login") {
+					$("#edit_modal #errorMessage").text(
+							"E' necessario effettuare il login");
+				} else if (data == "missInput") {
+					$("#edit_modal #errorMessage").text(
+							"Uno o piu' input mancanti");
+				} else if (data == "wrongInput") {
+					$("#edit_modal #errorMessage").text(
+							"Uno o piu' input sono errati");
+				} else if (data == "missingPermission") {
+					$("#edit_modal #errorMessage").text("Non hai i permessi");
+				}
+				$("#edit_modal #errorDiv").css("display", "unset");
+			}
 		}
 	});
+	$("#edit_modal #inputPrenotazione").css("display", "unset");
+	$("#edit_modal #attesa").css("display", "none");
+}
+
+// questo metodo restituisce una prenotazione passando il suo id. L'ho fatto
+// perchè pensavo mi servisse, invece ho potuto farne a meno... Ma non lo
+// cancello perchè è funzionante e potrebbe ancora servire... Stesso discorso
+// vale per il getEvent dell'AjaxController
+function getEvent(idPrenotazione) {
+	var token = $("input[name='_csrf']").val();
+	var header = "X-CSRF-TOKEN";
+	$(document).ajaxSend(function(e, xhr, options) {
+		xhr.setRequestHeader(header, token);
+	});
+	var event;
+	$.ajax({
+		type : "POST",
+		url : '/ClassroomBooking/ajax/getEvent',
+		data : {
+			id : idPrenotazione
+		},
+		timeout : 10000,
+		async : false,
+		success : function(data) {
+			var event = data;
+		}
+	});
+	return event;
+}
+
+function deleteEvent(idPrenotazione) {
+	$("#edit_modal #inputPrenotazione").css("display", "none");
+	$("#edit_modal #attesa").css("display", "unset");
+	var token = $("input[name='_csrf']").val();
+	var header = "X-CSRF-TOKEN";
+	$(document).ajaxSend(function(e, xhr, options) {
+		xhr.setRequestHeader(header, token);
+	});
+	$.ajax({
+		type : "POST",
+		url : '/ClassroomBooking/ajax/delete',
+		data : {
+			id : idPrenotazione
+		},
+		timeout : 10000,
+		async : false,
+		success : function(data) {
+			if (data == "ok") {
+				$('#edit_modal').modal('hide');
+				$('#calendar').fullCalendar('refetchEvents');
+			} else {
+				if (data == "login") {
+					$("#edit_modal #errorMessage").text(
+							"E' necessario effettuare il login");
+				} else if (data == "missInput") {
+					$("#edit_modal #errorMessage").text(
+							"Uno o piu' input mancanti");
+				} else if (data == "wrongInput") {
+					$("#edit_modal #errorMessage").text(
+							"Uno o piu' input sono errati");
+				} else if (data == "missingPermission") {
+					$("#edit_modal #errorMessage").text("Non hai i permessi");
+				}
+				$("#edit_modal #errorDiv").css("display", "unset");
+			}
+		}
+	});
+	$("#edit_modal #inputPrenotazione").css("display", "unset");
+	$("#edit_modal #attesa").css("display", "none");
 }
