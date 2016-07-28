@@ -62,7 +62,7 @@
 							<span class="input-group-addon">
 								<i class="glyphicon glyphicon-lock" aria-hidden="true"></i>
 							</span> 
-							<input type="password" id="conf_password" name="conf_password" class="form-control" placeholder="Conferma password" />
+							<input type="password" id="conf_password" class="form-control" placeholder="Conferma password" />
 						</div>
 					</div>
 
@@ -71,7 +71,7 @@
 						
 						<select class="selectpicker" id="selectRuoli" data-style="btn-info">
 							<option text="Seleziona ruolo" value="Seleziona ruolo">Seleziona ruolo</option>
-							<option th:each="r : ${listaRuoli}" th:value="${r}"  th:text="${r}"></option>
+							<option th:each="r : ${listaRuoli}" th:value="${r.name}"  th:text="${r.description}" th:roleId="${r.id}"></option>
 						</select>
 						<a id="addRuolo" name="addRole" data-placement="top" class="hidden" title="Aggiungi Ruolo" href="javascript:void(0);">
 							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
@@ -82,18 +82,18 @@
 						<!-- Tabella Gestione Ruoli -->
 						<table class="table table-striped" id="tableRoles" >
 							<tbody id="rowRuoli">
-								<tr th:each="role, row : *{userRole}" th:id="'row-id-'+${role.userRoleId}">
+								<tr th:each="role, row : *{roles}" th:id="'row-id-'+${role.id}">
 									<td>&nbsp;</td>
-									<td th:text="${role.role}"></td>
-									<td th:text="${role.descrizione}"></td>
+									<td th:text="${role.name}"></td>
+									<td th:text="${role.description}"></td>
 									<td>
-										<a class="removeRole" th:id="${role.userRoleId}" name="removeRole" title="Elimina Ruolo" href="javascript:void(0);">
+										<a class="removeRole" th:id="${role.id}" name="removeRole" title="Elimina Ruolo" href="javascript:void(0);">
 											<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
 										</a> 
-										<!-- <input type="hidden" th:field="*{userRole[__${row.index}__].user}" th:value="${user.id}" /> 
-										<input type="hidden" th:field="*{userRole[__${row.index}__].role}" th:value="${role.role}" />
-										<input type="hidden" th:field="*{userRole[__${row.index}__].descrizione}" th:value="${role.descrizione}" /> -->
 									</td>
+									<input type="hidden" th:field="*{roles[__${row.index}__].id}" th:value="${role.id}" />
+									<input type="hidden" th:field="*{roles[__${row.index}__].name}" th:value="${role.name}" />
+									<input type="hidden" th:field="*{roles[__${row.index}__].description}" th:value="${role.description}" />
 								</tr>
 							</tbody>
 						</table>

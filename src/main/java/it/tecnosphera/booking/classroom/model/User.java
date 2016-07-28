@@ -1,20 +1,21 @@
 package it.tecnosphera.booking.classroom.model;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="utenti")
+@Table(name="user")
 public class User {
 	
 	@Id
@@ -38,10 +39,9 @@ public class User {
 	@Column(name="enabled", columnDefinition="tinyint")
 	private boolean enabled;
 	
-	@OneToMany(fetch = FetchType.EAGER, 
-			cascade={CascadeType.ALL}, 
-			mappedBy = "user")
-	private Set<UserRole> userRole = new HashSet<UserRole>(0);
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "user_roles", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = { @JoinColumn(name = "role_id") })
+	private List<Role> roles = new ArrayList<Role>();
 	
 	public long getId() {
 		return id;
@@ -79,10 +79,11 @@ public class User {
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
-	public Set<UserRole> getUserRole() {
-		return userRole;
+	public List<Role> getRoles() {
+		return roles;
 	}
-	public void setUserRole(Set<UserRole> userRole) {
-		this.userRole = userRole;
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
 	}
+	
 }

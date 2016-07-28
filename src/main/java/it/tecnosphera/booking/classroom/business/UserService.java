@@ -1,9 +1,5 @@
 package it.tecnosphera.booking.classroom.business;
 
-import it.tecnosphera.booking.classroom.model.User;
-import it.tecnosphera.booking.classroom.model.UserRole;
-import it.tecnosphera.booking.classroom.repository.UserRepositoryInterface;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -17,6 +13,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import it.tecnosphera.booking.classroom.model.Role;
+import it.tecnosphera.booking.classroom.model.User;
+import it.tecnosphera.booking.classroom.repository.UserRepositoryInterface;
 
 @Service("userDetailsService")
 public class UserService implements UserDetailsService {
@@ -33,7 +33,7 @@ public class UserService implements UserDetailsService {
 	public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
 
 		User user = userDao.findByEmail(username + "@tecnosphera.it");
-		List<GrantedAuthority> authorities = buildUserAuthority(user.getUserRole());
+		List<GrantedAuthority> authorities = buildUserAuthority(user.getRoles());
 
 		return buildUserForAuthentication(user, authorities);
 
@@ -45,13 +45,13 @@ public class UserService implements UserDetailsService {
 				user.isEnabled(), true, true, true, authorities);
 	}
 
-	private List<GrantedAuthority> buildUserAuthority(Set<UserRole> userRoles) {
+	private List<GrantedAuthority> buildUserAuthority(List<Role> roles) {
 
 		Set<GrantedAuthority> setAuths = new HashSet<GrantedAuthority>();
 
 		// Build user's authorities
-		for (UserRole userRole : userRoles) {
-			setAuths.add(new SimpleGrantedAuthority(userRole.getRole()));
+		for (Role role : roles) {
+			setAuths.add(new SimpleGrantedAuthority(role.getName()));
 		}
 
 		List<GrantedAuthority> Result = new ArrayList<GrantedAuthority>(setAuths);

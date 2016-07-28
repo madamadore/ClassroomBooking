@@ -17,39 +17,42 @@ $(document)
 					$("#addRuolo")
 							.click(
 									function() {
-										var ruolo = $(
+										var id = $("#selectRuoli option:selected").attr("roleId");
+										var name = $(
 												"#selectRuoli option:selected")
 												.val();
-										var descRuolo = $(
+										var description = $(
 												"#selectRuoli option:selected")
 												.text();
 										var rowCount = $("#tableRoles tr").length;
 
-										var input1 = '<input type="hidden"' /* [[th:field="*{userRole[__${']] */
-												+ rowCount
-												+ /* [['}__].user"]] */' value="'
-												+ $("#id").val() + '" />';
-										var input2 = '<input type="hidden"' /* [[th:field="*{userRole[__${']] */
-												+ rowCount
-												+ /* [['}__].role"]] */' value="'
-												+ ruolo + '" />';
-										var input3 = '<input type="hidden"' /* [[th:field="*{userRole[__${']] */
-												+ rowCount
-												+ /* [['}__].descrizione"]] */' value="'
-												+ descRuolo + '" />';
+										var input1 = '<input value="'+ id +'" id="roles'+ rowCount +'.id" name="roles[' + rowCount + '].id" type="hidden">';
+										var input2 = '<input value="'+ name +'" id="roles'+ rowCount +'.name" name="roles[' + rowCount + '].name" type="hidden">';
+										var input3 = '<input value="'+ description +'" id="roles'+ rowCount +'.description" name="roles[' + rowCount + '].description" type="hidden">';
+										
+//										var input1 = '<input type="hidden"' /* [[th:field="*{userRole[__${']] */
+//												+ rowCount
+//												+ /* [['}__].user"]] */' value="'
+//												+ $("#id").val() + '" />';
+//										var input2 = '<input type="hidden"' /* [[th:field="*{userRole[__${']] */
+//												+ rowCount
+//												+ /* [['}__].role"]] */' value="'
+//												+ ruolo + '" />';
+//										var input3 = '<input type="hidden"' /* [[th:field="*{userRole[__${']] */
+//												+ rowCount
+//												+ /* [['}__].descrizione"]] */' value="'
+//												+ descRuolo + '" />';
 
 										var context = '<tr><td>&nbsp;</td><td>'
-												+ ruolo
+												+ name
 												+ '</td>'
 												+ '<td>'
-												+ descRuolo
+												+ description
 												+ '</td>'
-												+ '<td><a class="removeRole" id=' /* [[th:field="*{userRole[__${']] */
-												+ rowCount
-												+ /* [['}__].userRoleId}"]] */' name="removeRole" data-placement="top" title="Elimina Ruolo" href="javascript:void(0);">'
-												+ '<span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>'
+												+ '<td><a class="removeRole" id='+ rowCount	+' name="removeRole" data-placement="top" title="Elimina Ruolo" href="javascript:void(0);">'
+												+ '<span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></td>'
 												+ input1 + input2 + input3
-												+ '</td></tr>';
+												+ '</tr>';
 
 										$("#rowRuoli").append(context);
 

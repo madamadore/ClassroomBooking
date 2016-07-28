@@ -22,8 +22,8 @@
 		</div>
 		<div class="row">
 			<span >Ruoli:</span>
-			<div th:each="role, row : ${user.userRole}" >
-				<span th:text="${role.descrizione}"></span>
+			<div th:each="role, row : ${user.roles}" >
+				<span th:text="${role.description}"></span>
 			</div>
 		</div>
 	    </div>

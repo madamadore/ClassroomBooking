@@ -13,7 +13,6 @@ import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
 import it.tecnosphera.booking.classroom.model.User;
-import it.tecnosphera.booking.classroom.model.UserRole;
 
 @Repository("userDao")
 public class UserRepository implements UserRepositoryInterface {
@@ -79,13 +78,6 @@ public class UserRepository implements UserRepositoryInterface {
 			return null;
 		}
  
-	}
-
-	public List<String> distinctUserRole() {
-		List<String> lista = entityManager.createQuery(
-				"SELECT DISTINCT r.role from UserRole as r")
-				.getResultList();
-		return lista;
 	}
 	
 	public String MD5Hashing(String password){
