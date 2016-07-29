@@ -17,7 +17,6 @@ $(document)
 					$("#addRuolo")
 							.click(
 									function() {
-										var id = $("#selectRuoli option:selected").attr("roleId");
 										var name = $(
 												"#selectRuoli option:selected")
 												.val();
@@ -26,9 +25,7 @@ $(document)
 												.text();
 										var rowCount = $("#tableRoles tr").length;
 
-										var input1 = '<input value="'+ id +'" id="roles'+ rowCount +'.id" name="roles[' + rowCount + '].id" type="hidden">';
-										var input2 = '<input value="'+ name +'" id="roles'+ rowCount +'.name" name="roles[' + rowCount + '].name" type="hidden">';
-										var input3 = '<input value="'+ description +'" id="roles'+ rowCount +'.description" name="roles[' + rowCount + '].description" type="hidden">';
+										var input1 = '<input value="'+ name +'" id="roles'+ rowCount +'.name" name="roles[' + rowCount + '].name" type="hidden">';
 										
 //										var input1 = '<input type="hidden"' /* [[th:field="*{userRole[__${']] */
 //												+ rowCount
@@ -51,7 +48,7 @@ $(document)
 												+ '</td>'
 												+ '<td><a class="removeRole" id='+ rowCount	+' name="removeRole" data-placement="top" title="Elimina Ruolo" href="javascript:void(0);">'
 												+ '<span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></td>'
-												+ input1 + input2 + input3
+												+ input1
 												+ '</tr>';
 
 										$("#rowRuoli").append(context);

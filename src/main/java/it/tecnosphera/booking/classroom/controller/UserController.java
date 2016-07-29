@@ -47,7 +47,9 @@ public class UserController {
 
 	@RequestMapping(value = "/new", method = RequestMethod.GET)
 	public String newUser(Model model) {
+		List<Role> listaRuoli = roleRepository.findAll();
 		model.addAttribute(new User());
+		model.addAttribute("listaRuoli", listaRuoli);
 		return "user/edit";
 	}
 
@@ -68,13 +70,19 @@ public class UserController {
 		user.setEmail(email);
 		user.setPassword(userRepository.MD5Hashing(user.getPassword()));
 		
+		for(Role r:user.getRoles()){
+			Role ruoloCompleto=roleRepository.find(r.getName()).get(0);
+			r.setId(ruoloCompleto.getId());
+			r.setDescription(r.getDescription());
+		}
+		
 		long id = userRepository.save(user);
 		return "redirect:view/" + id;
 	}
 
-	@RequestMapping(value = "/delete", method = RequestMethod.POST)
+	@RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
 	public String deleteUser(@PathVariable long id) {
 		userRepository.delete(id);
-		return "redirect:list";
+		return "redirect:/admin/user/";
 	}
 }

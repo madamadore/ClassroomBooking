@@ -31,7 +31,7 @@
 						</div>
 
 						<div class="form-group">
-							<label class='col-sm-3 control-label'>Aula:</label>
+							<label class='col-sm-3 col-md-offset-1 control-label'>Aula:</label>
 							<div class='col-sm-7'>
 								<select id="selectAula" name="aula" class="form-control">
 									<option id="aulaDefault" selected="selected">Seleziona
@@ -43,11 +43,12 @@
 						</div>
 
 						<div class="form-group">
-							<label class='col-sm-3 control-label'>Ora d'inizio:</label>
+							<label class='col-sm-3 col-md-offset-1 control-label'>Ora
+								d'inizio:</label>
 							<div class='col-sm-7'>
 								<div class='input-group date' id='startTimeDiv'>
 									<input type='text' class="form-control" name='startTime'
-										id='startTime' /> <span class="input-group-addon"
+										id='startTime' onblur="sincronizeDates()" /> <span class="input-group-addon"
 										required="true"> <span class="glyphicon glyphicon-time"></span>
 									</span>
 								</div>
@@ -56,7 +57,8 @@
 
 
 						<div class="form-group">
-							<label class='col-sm-3 control-label'>Ora di fine:</label>
+							<label class='col-sm-3 col-md-offset-1 control-label'>Ora
+								di fine:</label>
 							<div class='col-sm-7'>
 								<div class='input-group date' id='endTimeDiv'>
 									<input type='text' class="form-control" name='endTime'
@@ -68,11 +70,12 @@
 						</div>
 
 						<div class="form-group">
-							<label class='col-sm-3 control-label'>Data d'inizio:</label>
+							<label class='col-sm-3 col-md-offset-1 control-label'>Data
+								d'inizio:</label>
 							<div class='col-sm-7'>
 								<div class='input-group date' id="startDateDiv">
 									<input type='text' class="form-control" id="startDate"
-										name="startDate" /> <span class="input-group-addon"
+										name="startDate" onblur="sincronizeDates()"/> <span class="input-group-addon"
 										required="true"> <span
 										class="glyphicon glyphicon-calendar"></span>
 									</span>
@@ -81,7 +84,8 @@
 						</div>
 
 						<div class="form-group">
-							<label class='col-sm-3 control-label'>Data di fine:</label>
+							<label class='col-sm-3 col-md-offset-1 control-label'>Data
+								di fine:</label>
 							<div class='col-sm-7'>
 								<div class='input-group date' id="endDateDiv">
 									<input type='text' class="form-control" id="endDate"
@@ -89,6 +93,15 @@
 										required="true"> <span
 										class="glyphicon glyphicon-calendar"></span>
 									</span>
+								</div>
+							</div>
+						</div>
+
+						<div id="sendEmailDiv">
+							<div class="form-group">
+								<label class='col-sm-3 col-md-offset-1 control-label'>Contatto:</label>
+								<div class='col-sm-7'>
+									<a href="" id="sendEmail"></a>
 								</div>
 							</div>
 						</div>
