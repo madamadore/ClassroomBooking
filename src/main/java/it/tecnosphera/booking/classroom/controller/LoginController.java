@@ -66,6 +66,9 @@ public class LoginController {
 			email = email.concat("@tecnosphera.it");
 		}
 
+//		if(userRepository.findByEmail(email)!=null){
+//			return "redirect:/register/";
+//		}
 		user.setEmail(email);
 		user.setEnabled(true);
 		user.setPassword(userRepository.MD5Hashing(user.getPassword()));

@@ -63,18 +63,6 @@
 		</div>
     </div>
     <div th:replace="include/footer"></div>
-    <script>
-	    $.validator.addMethod("emailTecno", function (value, element) {
-	        return (!value.indexOf('@')>-1); 
-	    }, "Inserire solo nome Utente");
-    
-    	$("#form").validate({
-	 	  rules: {
-	 		 conf_password: {
-	 	      equalTo: "#password"
-	 	    }
-	 	  }
-    	});
-    </script>
+    <script th:src="@{/js/register.js}" />
 </body>
 </html>

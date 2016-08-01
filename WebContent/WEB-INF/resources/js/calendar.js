@@ -102,11 +102,10 @@ function setCreationModal(date) {
 		format : 'DD-MM-YYYY'
 	});
 
-	$('#edit_modal #startTime').val("");
-	$('#edit_modal #endTime').val("");
-
+	$('#edit_modal #startTime').val("09:00");
 	$('#edit_modal #startDate').val(date.format("DD-MM-YYYY"));
-	$('#edit_modal #endDate').val(date.format("DD-MM-YYYY"));
+	updateEndDate();
+	
 	$('#edit_modal #deleteButton').attr("disabled", "");
 	$('#edit_modal #selectAula option:selected').prop("selected", false);
 	$('#edit_modal #idPrenotazione').val("");
@@ -283,71 +282,21 @@ function deleteEvent(idPrenotazione) {
 	$("#edit_modal #attesa").css("display", "none");
 }
 
-function sincronizeDates() {
-	var startTime = $("#edit_modal #startTime").val();
-	var startDate = $("#edit_modal #startDate").val();
-	var endTime = $("#edit_modal #endTime").val();
-	var endDate = $("#edit_modal #endDate").val();
-
-	if (startDate != endDate) {
-		if (startDate.substring(6, 10) < endDate.substring(6, 10))
-			return;
-		else if (startDate.substring(6, 10) > endDate.substring(6, 10)) {
-			updateEndDate();
-			return;
-		}
-		if (startDate.substring(3, 5) < endDate.substring(3, 5))
-			return;
-		else if (startDate.substring(3, 5) > endDate.substring(3, 5)) {
-			updateEndDate();
-			return;
-		}
-		if (startDate.substring(0, 2) < endDate.substring(0, 2))
-			return;
-		else if (startDate.substring(0, 2) > endDate.substring(0, 2)) {
-			updateEndDate();
-			return;
-		}
-	} else if (startTime != endTime) {
-		if (startTime.substring(0, 2) < endTime.substring(0, 2))
-			return;
-		else if (startTime.substring(0, 2) > endTime.substring(0, 2)) {
-			updateEndDate();
-			return;
-		}
-		if (startTime.substring(3, 5) < endTime.substring(3, 5))
-			return;
-		else if (startTime.substring(3, 5) > endTime.substring(3, 5)) {
-			updateEndDate();
-			return;
-		}
-	}
-}
-
 function updateEndDate() {
-	$("#edit_modal #endTime").val($("#edit_modal #startTime").val());
-	$("#edit_modal #endDate").val($("#edit_modal #startDate").val());
-//	var ore = $("#edit_modal #startTime").val().substring(0, 2);
-//	var min = $("#edit_modal #startTime").val().substring(3, 5);
-//	var giorno = $("#edit_modal #startDate").val().substring(0, 2);
-//	var mese = $("#edit_modal #startDate").val().substring(3, 5);
-//	var anno = $("#edit_modal #startDate").val().substring(6, 10);
-//	var dataMinima = new Date(anno, mese - 1, giorno, ore, min, 0, 0);
-//	console.log(dataMinima);
-//	$('#edit_modal #endTimeDiv')
-//			.datetimepicker("option", "minDate", dataMinima);
-//	$('#edit_modal #endTimeDiv').datetimepicker("option", "defaultDate",
-//			dataMinima);
-//	$('#edit_modal #endDateDiv')
-//			.datetimepicker("option", "minDate", dataMinima);
-//	$('#edit_modal #endDateDiv').datetimepicker("option", "defaultDate",
-//			dataMinima);
+	var ore = $("#edit_modal #startTime").val().substring(0, 2);
+	var min = $("#edit_modal #startTime").val().substring(3, 5);
+	var giorno = $("#edit_modal #startDate").val().substring(0, 2);
+	var mese = $("#edit_modal #startDate").val().substring(3, 5);
+	var anno = $("#edit_modal #startDate").val().substring(6, 10);
+	var dataMinima = new Date(anno, mese - 1, giorno, +ore + 1, min, 0, 0);
+	$('#edit_modal #endTimeDiv').data("DateTimePicker").minDate(dataMinima);
+	$('#edit_modal #endDateDiv').data("DateTimePicker").minDate(dataMinima);
 }
 
-//$('#edit_modal #startTime').datetimepicker().on("input change", function(e) {
-//	updateEndDate()
-//});
-//
-//$('#edit_modal #endTime').datetimepicker().on("input change", function(e) {
-//	updateEndDate()
-//});
+$('#edit_modal #startTime').blur(function(e) {
+	updateEndDate();
+});
+
+$('#edit_modal #startDate').blur(function(e) {
+	updateEndDate();
+});

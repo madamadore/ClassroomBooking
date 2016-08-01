@@ -9,6 +9,8 @@
     <div class="container">
     	<a th:href="@{/admin/user/new}" class="btn btn-primary">Create new</a>
     	<a th:href="@{/}" class="btn btn-primary">Back to home</a>
+    	<br/>
+    	<br/>
 	<table class="table table-striped">
 		<tr th:each="user :${users}">
 			<td th:text="${user.id}"></td>

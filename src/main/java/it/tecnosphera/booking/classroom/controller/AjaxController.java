@@ -33,7 +33,7 @@ public class AjaxController {
 
 	@Autowired
 	UserRepositoryInterface userRepository;
-	
+
 	@Autowired
 	UtilityMethods utilityMethods;
 
@@ -47,10 +47,18 @@ public class AjaxController {
 	public @ResponseBody List<Prenotazione> elaboraPrenotazioni() {
 		return prenotazioneRepository.findAll();
 	}
-	
+
 	@RequestMapping(value = "/getEvent", method = RequestMethod.POST)
 	private @ResponseBody Prenotazione getEvent(@RequestParam("id") String id) {
 		return prenotazioneRepository.find(Long.parseLong(id));
+	}
+
+	@RequestMapping(value = "/emailValidation", method = RequestMethod.GET)
+	private @ResponseBody Boolean emailValidation(@RequestParam("email") String email) {
+		if (email != null && !email.contains("@tecnosphera.it")) {
+			email = email.concat("@tecnosphera.it");
+		}
+		return userRepository.findByEmail(email) == null;
 	}
 
 	@RequestMapping(value = "/hasPermissions", method = RequestMethod.POST)
@@ -78,7 +86,12 @@ public class AjaxController {
 		Prenotazione prenotazione = new Prenotazione();
 		Date start = utilityMethods.creaData(startTime, startDate);
 		Date end = utilityMethods.creaData(endTime, endDate);
-		Aula a = aulaRepository.find(Long.parseLong(aula));
+		Aula a = null;
+		try {
+			a = aulaRepository.find(Long.parseLong(aula));
+		} catch (NumberFormatException e) {
+			return MISSING_INPUT;
+		}
 		prenotazione.setOwner(user);
 		prenotazione.setClassRoom(a);
 		prenotazione.setStart(start);
@@ -94,7 +107,7 @@ public class AjaxController {
 			return WRONG_INPUT;
 		}
 	}
-	
+
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	public @ResponseBody String deleteEvent(@RequestParam("id") String id) {
 		if (!utilityMethods.isLogged()) {

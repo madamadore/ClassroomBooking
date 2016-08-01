@@ -2,31 +2,51 @@
 <html>
 <head>
 <title>User</title>
- <link th:replace="include/header"></link>
+<link th:replace="include/header"></link>
+<style>
+table, th, td {
+	border-collapse: collapse;
+}
+
+th, td {
+	padding: 15px;
+}
+</style>
 </head>
 <body>
-		<div th:replace="include/navbar"></div>
-      <div class="container">
-	    	<a th:href="@{/admin/user/}" class="btn btn-primary">Back to list</a>
-		<div class="row">
-		   <span>ID:</span> <span th:text="${user.id}"></span>
-		</div>
-		<div class="row">
-		   <span>Nome:</span> <span th:text="${user.name}"></span>
-		</div>
-		<div class="row">
-		   <span>Cognome:</span> <span th:text="${user.cognome}"></span>
-		</div>
-		<div class="row">
-		   <span>Email:</span> <span th:text="${user.email}"></span>
-		</div>
-		<div class="row">
-			<span >Ruoli:</span>
-			<div th:each="role, row : ${user.roles}" >
-				<span th:text="${role.description}"></span>
-			</div>
-		</div>
-	    </div>
-       <div th:replace="include/footer"></div>
+	<div th:replace="include/navbar"></div>
+	<div class="container">
+		<a th:href="@{/admin/user/}" class="btn btn-primary">Torna alla
+			lista degli utenti</a> <br /> <br />
+		<table class="table table-striped">
+			<tr>
+				<th>ID</th>
+				<td th:text="${user.id}"></td>
+			</tr>
+			<tr>
+				<th>Nome</th>
+				<td th:text="${user.name}"></td>
+			</tr>
+			<tr>
+				<th>Cognome</th>
+				<td th:text="${user.cognome}"></td>
+			</tr>
+			<tr>
+				<th>Email</th>
+				<td th:text="${user.email}"></td>
+			</tr>
+			<tr>
+				<th>Ruoli</th>
+				<td><span th:each="role, row : ${user.roles}"
+					th:text="${role.description}+' '"></span></td>
+			</tr>
+			<tr>
+				<th>Abilitato</th>
+				<td th:text="${user.enabled}"></td>
+			</tr>
+		</table>
+		<br /> <a th:href="'../edit/'+${user.id}" class="btn btn-primary">Modifica</a>
+	</div>
+	<div th:replace="include/footer"></div>
 </body>
 </html>
