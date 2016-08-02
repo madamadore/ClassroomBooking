@@ -80,8 +80,6 @@ public class Prenotazione {
 	}
 
 	public String getTitle() {
-		if (title == null)
-			title = getClassRoom().getName();
 		return title;
 	}
 

@@ -291,7 +291,6 @@ function deleteEvent(idPrenotazione) {
 }
 
 function updateEndDate() {
-	console.log("updateEndDate");
 	var ore = $("#edit_modal #startTime").val().substring(0, 2);
 	var min = $("#edit_modal #startTime").val().substring(3, 5);
 	var giorno = $("#edit_modal #startDate").val().substring(0, 2);

@@ -92,6 +92,7 @@ public class AjaxController {
 		} catch (NumberFormatException e) {
 			return MISSING_INPUT;
 		}
+		prenotazione.setTitle(a.getName());
 		prenotazione.setOwner(user);
 		prenotazione.setClassRoom(a);
 		prenotazione.setStart(start);
@@ -99,6 +100,8 @@ public class AjaxController {
 		if (!"".equals(id)) {
 			long preId = Long.parseLong(id);
 			prenotazione.setId(preId);
+			User owner = prenotazioneRepository.find(preId).getOwner();
+			prenotazione.setOwner(owner);
 		}
 		if (utilityMethods.verificaPrenotazione(prenotazione)) {
 			prenotazioneRepository.save(prenotazione);

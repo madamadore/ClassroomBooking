@@ -8,29 +8,30 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="aule")
+@Table(name = "aule")
 public class Aula {
-	
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="id")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "id")
 	private long id;
-	
-	@Column(name="name")
+
+	@Column(name = "name")
 	private String name;
-	
-	@Column(name="capacity")
+
+	@Column(name = "capacity")
 	private Integer capienza;
-	
-	@Column(name="description")
+
+	@Column(name = "description")
 	private String description;
 
-	public int getCapienza() {
+	public Integer getCapienza() {
+		if (capienza == null)
+			capienza = 0;
 		return capienza;
 	}
 
-	public void setCapienza(int capienza) {
+	public void setCapienza(Integer capienza) {
 		this.capienza = capienza;
 	}
 
@@ -57,6 +58,5 @@ public class Aula {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
-	
+
 }
