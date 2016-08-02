@@ -1,6 +1,20 @@
 $(document).ready(function(event) {
 	var currentDateTime = new Date();
 	$('#calendar').fullCalendar({
+		events : function(start, end, timezone, callback) {
+			$("#calendar").css("display", "none");
+			$("#attesaPrenotazioni").css("display", "unset");
+			$.ajax({
+				type : "GET",
+				url : '/ClassroomBooking/ajax/prenotazioni',
+				dataType: 'json',
+				success : function(data) {
+					$("#calendar").css("display", "unset");
+					$("#attesaPrenotazioni").css("display", "none");
+					callback(data);
+				}
+			})
+		},
 		header : {
 			left : 'prev,next today',
 			center : 'title',
@@ -27,10 +41,6 @@ $(document).ready(function(event) {
 				$('#view_modal').modal('show');
 			}
 		},
-		eventSources : [ {
-			url : '/ClassroomBooking/ajax/prenotazioni'
-		} ],
-
 		eventResize : function(event, delta, revertFunc) {
 			var hasPerm = hasPermissions(event);
 			if (!hasPerm) {
@@ -102,17 +112,19 @@ function setCreationModal(date) {
 		format : 'DD-MM-YYYY'
 	});
 
-	//$('#edit_modal #startTime').val("09:00");
-//	$('#edit_modal #startDate').val(date.format("DD-MM-YYYY"));
-//	$('#edit_modal #endTime').val("10:00");
-//	$('#edit_modal #endDate').val(date.format("DD-MM-YYYY"));
+	// $('#edit_modal #startTime').val("09:00");
+	// $('#edit_modal #startDate').val(date.format("DD-MM-YYYY"));
+	// $('#edit_modal #endTime').val("10:00");
+	// $('#edit_modal #endDate').val(date.format("DD-MM-YYYY"));
 	removeEndDateLimitation();
 	$('#edit_modal #startTimeDiv').data("DateTimePicker").date("09:00")
-	$('#edit_modal #startDateDiv').data("DateTimePicker").date(date.format("DD-MM-YYYY"));
+	$('#edit_modal #startDateDiv').data("DateTimePicker").date(
+			date.format("DD-MM-YYYY"));
 	$('#edit_modal #endTimeDiv').data("DateTimePicker").date("10:00");
-	$('#edit_modal #endDateDiv').data("DateTimePicker").date(date.format("DD-MM-YYYY"));
+	$('#edit_modal #endDateDiv').data("DateTimePicker").date(
+			date.format("DD-MM-YYYY"));
 	updateEndDate();
-	
+
 	$('#edit_modal #deleteButton').attr("disabled", "");
 	$('#edit_modal #selectAula option:selected').prop("selected", false);
 	$('#edit_modal #idPrenotazione').val("");
@@ -140,12 +152,16 @@ function setEditModal(calEvent) {
 	});
 
 	removeEndDateLimitation();
-	$('#edit_modal #startTimeDiv').data("DateTimePicker").date(calEvent.start.format("HH:mm"));
-	$('#edit_modal #endTimeDiv').data("DateTimePicker").date(calEvent.end.format("HH:mm"));
+	$('#edit_modal #startTimeDiv').data("DateTimePicker").date(
+			calEvent.start.format("HH:mm"));
+	$('#edit_modal #endTimeDiv').data("DateTimePicker").date(
+			calEvent.end.format("HH:mm"));
 
-	$('#edit_modal #startDateDiv').data("DateTimePicker").date(calEvent.start.format("DD-MM-YYYY"));
-	$('#edit_modal #endDateDiv').data("DateTimePicker").date(calEvent.end.format("DD-MM-YYYY"));
-	
+	$('#edit_modal #startDateDiv').data("DateTimePicker").date(
+			calEvent.start.format("DD-MM-YYYY"));
+	$('#edit_modal #endDateDiv').data("DateTimePicker").date(
+			calEvent.end.format("DD-MM-YYYY"));
+
 	$('#edit_modal #selectAula option:selected').prop("selected", false);
 	$('#edit_modal #aulaN' + calEvent.classRoom.id).prop("selected", true);
 	$('#edit_modal #idPrenotazione').val(calEvent.id);
@@ -198,7 +214,7 @@ function salvaPrenotazione() {
 			id : $("#edit_modal #idPrenotazione").val()
 		},
 		timeout : 10000,
-		//async : false,
+		// async : false,
 		success : function(data) {
 			$("#edit_modal #inputPrenotazione").css("display", "unset");
 			$("#edit_modal #attesa").css("display", "none");
@@ -301,7 +317,7 @@ function updateEndDate() {
 	$('#edit_modal #endDateDiv').data("DateTimePicker").minDate(dataMinima);
 }
 
-function removeEndDateLimitation(){
+function removeEndDateLimitation() {
 	var date = new Date(0);
 	$('#edit_modal #endTimeDiv').data("DateTimePicker").minDate(date);
 	$('#edit_modal #endDateDiv').data("DateTimePicker").minDate(date);

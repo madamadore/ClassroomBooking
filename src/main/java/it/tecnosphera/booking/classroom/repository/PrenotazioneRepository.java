@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import it.tecnosphera.booking.classroom.model.Aula;
 import it.tecnosphera.booking.classroom.model.Prenotazione;
-import it.tecnosphera.booking.classroom.model.User;
 
 @Repository("prenotazioneDao")
 public class PrenotazioneRepository implements PrenotazioneRepositoryInterface {
