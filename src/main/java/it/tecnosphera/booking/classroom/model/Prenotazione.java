@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -15,7 +17,8 @@ import javax.persistence.Table;
 @Table(name = "prenotazioni")
 public class Prenotazione {
 
-	private String title;
+	@Column(name = "title")
+	protected String title;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -35,9 +38,6 @@ public class Prenotazione {
 	@OneToOne
 	@JoinColumn(name = "aula_id")
 	private Aula classRoom;
-
-	@Column(name = "description")
-	private String description;
 
 	public long getId() {
 		return id;
@@ -59,10 +59,6 @@ public class Prenotazione {
 		return classRoom;
 	}
 
-	public String getDescription() {
-		return description;
-	}
-
 	public void setId(long id) {
 		this.id = id;
 	}
@@ -81,10 +77,6 @@ public class Prenotazione {
 
 	public void setClassRoom(Aula classRoom) {
 		this.classRoom = classRoom;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
 	}
 
 	public String getTitle() {

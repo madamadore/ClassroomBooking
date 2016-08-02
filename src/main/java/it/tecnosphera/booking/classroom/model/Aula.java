@@ -20,8 +20,19 @@ public class Aula {
 	@Column(name="name")
 	private String name;
 	
+	@Column(name="capacity")
+	private Integer capienza;
+	
 	@Column(name="description")
 	private String description;
+
+	public int getCapienza() {
+		return capienza;
+	}
+
+	public void setCapienza(int capienza) {
+		this.capienza = capienza;
+	}
 
 	public long getId() {
 		return id;

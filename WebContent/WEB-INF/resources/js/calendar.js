@@ -102,8 +102,15 @@ function setCreationModal(date) {
 		format : 'DD-MM-YYYY'
 	});
 
-	$('#edit_modal #startTime').val("09:00");
-	$('#edit_modal #startDate').val(date.format("DD-MM-YYYY"));
+	//$('#edit_modal #startTime').val("09:00");
+//	$('#edit_modal #startDate').val(date.format("DD-MM-YYYY"));
+//	$('#edit_modal #endTime').val("10:00");
+//	$('#edit_modal #endDate').val(date.format("DD-MM-YYYY"));
+	removeEndDateLimitation();
+	$('#edit_modal #startTimeDiv').data("DateTimePicker").date("09:00")
+	$('#edit_modal #startDateDiv').data("DateTimePicker").date(date.format("DD-MM-YYYY"));
+	$('#edit_modal #endTimeDiv').data("DateTimePicker").date("10:00");
+	$('#edit_modal #endDateDiv').data("DateTimePicker").date(date.format("DD-MM-YYYY"));
 	updateEndDate();
 	
 	$('#edit_modal #deleteButton').attr("disabled", "");
@@ -132,11 +139,13 @@ function setEditModal(calEvent) {
 		format : 'DD-MM-YYYY'
 	});
 
-	$('#edit_modal #startTime').val(calEvent.start.format("HH:mm"));
-	$('#edit_modal #endTime').val(calEvent.end.format("HH:mm"));
+	removeEndDateLimitation();
+	$('#edit_modal #startTimeDiv').data("DateTimePicker").date(calEvent.start.format("HH:mm"));
+	$('#edit_modal #endTimeDiv').data("DateTimePicker").date(calEvent.end.format("HH:mm"));
 
-	$('#edit_modal #startDate').val(calEvent.start.format("DD-MM-YYYY"));
-	$('#edit_modal #endDate').val(calEvent.end.format("DD-MM-YYYY"));
+	$('#edit_modal #startDateDiv').data("DateTimePicker").date(calEvent.start.format("DD-MM-YYYY"));
+	$('#edit_modal #endDateDiv').data("DateTimePicker").date(calEvent.end.format("DD-MM-YYYY"));
+	
 	$('#edit_modal #selectAula option:selected').prop("selected", false);
 	$('#edit_modal #aulaN' + calEvent.classRoom.id).prop("selected", true);
 	$('#edit_modal #idPrenotazione').val(calEvent.id);
@@ -189,8 +198,10 @@ function salvaPrenotazione() {
 			id : $("#edit_modal #idPrenotazione").val()
 		},
 		timeout : 10000,
-		async : false,
+		//async : false,
 		success : function(data) {
+			$("#edit_modal #inputPrenotazione").css("display", "unset");
+			$("#edit_modal #attesa").css("display", "none");
 			if (data == "ok") {
 				$('#edit_modal').modal('hide');
 				$('#calendar').fullCalendar('refetchEvents');
@@ -211,8 +222,6 @@ function salvaPrenotazione() {
 			}
 		}
 	});
-	$("#edit_modal #inputPrenotazione").css("display", "unset");
-	$("#edit_modal #attesa").css("display", "none");
 }
 
 // questo metodo restituisce una prenotazione passando il suo id. L'ho fatto
@@ -256,8 +265,9 @@ function deleteEvent(idPrenotazione) {
 			id : idPrenotazione
 		},
 		timeout : 10000,
-		async : false,
 		success : function(data) {
+			$("#edit_modal #inputPrenotazione").css("display", "unset");
+			$("#edit_modal #attesa").css("display", "none");
 			if (data == "ok") {
 				$('#edit_modal').modal('hide');
 				$('#calendar').fullCalendar('refetchEvents');
@@ -278,11 +288,10 @@ function deleteEvent(idPrenotazione) {
 			}
 		}
 	});
-	$("#edit_modal #inputPrenotazione").css("display", "unset");
-	$("#edit_modal #attesa").css("display", "none");
 }
 
 function updateEndDate() {
+	console.log("updateEndDate");
 	var ore = $("#edit_modal #startTime").val().substring(0, 2);
 	var min = $("#edit_modal #startTime").val().substring(3, 5);
 	var giorno = $("#edit_modal #startDate").val().substring(0, 2);
@@ -291,6 +300,12 @@ function updateEndDate() {
 	var dataMinima = new Date(anno, mese - 1, giorno, +ore + 1, min, 0, 0);
 	$('#edit_modal #endTimeDiv').data("DateTimePicker").minDate(dataMinima);
 	$('#edit_modal #endDateDiv').data("DateTimePicker").minDate(dataMinima);
+}
+
+function removeEndDateLimitation(){
+	var date = new Date(0);
+	$('#edit_modal #endTimeDiv').data("DateTimePicker").minDate(date);
+	$('#edit_modal #endDateDiv').data("DateTimePicker").minDate(date);
 }
 
 $('#edit_modal #startTime').blur(function(e) {
