@@ -30,8 +30,8 @@ public class Lezione extends Prenotazione {
 	private String description;
 
 	@OneToOne
-	@JoinColumn(name = "docente_id")
-	private User docente;
+	@JoinColumn(name = "docente")
+	private String docente;
 
 	public List<User> getIscritti() {
 		return iscritti;
@@ -57,16 +57,11 @@ public class Lezione extends Prenotazione {
 		this.description = description;
 	}
 
-	public User getDocente() {
+	public String getDocente() {
 		return docente;
 	}
 
-	public void setDocente(User docente) {
+	public void setDocente(String docente) {
 		this.docente = docente;
-	}
-
-	@Override
-	public String getTitle() {
-		return title;
 	}
 }

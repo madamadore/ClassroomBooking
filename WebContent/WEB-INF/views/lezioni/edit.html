@@ -1,4 +1,4 @@
-<div id="edit_prenotazione" class="form-horizontal">
+<div id="edit_lezione" class="form-horizontal" style="display: none">
 	<div class="form-group">
 		<div class='col-sm-2'></div>
 		<div class='col-sm-8'>
@@ -82,6 +82,33 @@
 			</div>
 		</div>
 
+		<div class="form-group">
+			<label class='col-sm-3 col-md-offset-1 control-label'>Limite iscrizioni:</label>
+			<div class='col-sm-7'>
+				<div class='input-group'>
+					<input type='text' class="form-control" id="limite" name="limite" />
+				</div>
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<label class='col-sm-3 col-md-offset-1 control-label'>Docente:</label>
+			<div class='col-sm-7'>
+				<div class='input-group'>
+					<input type='text' class="form-control" id="docente" name="docente" />
+				</div>
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<label class='col-sm-3 col-md-offset-1 control-label'>Descrizione:</label>
+			<div class='col-sm-7'>
+				<div class='input-group'>
+					<input type='text' class="form-control" id="descrizione" name="descrizione" rows="3"/>
+				</div>
+			</div>
+		</div>
+
 		<div id="sendEmailDiv">
 			<div class="form-group">
 				<label class='col-sm-3 col-md-offset-1 control-label'>Contatto:</label>
@@ -97,9 +124,10 @@
 				data-dismiss="modal">Chiudi</button>
 			<div class='col-sm-1'></div>
 			<button id="deleteButton" type="button"
-				class="btn btn-primary col-sm-3">Elimina</button>
+				class="btn btn-primary col-sm-3" onclick="areYouSure()">Elimina</button>
 			<div class='col-sm-1'></div>
-			<button id="salvaPrenotazione" type="button" class="btn btn-primary col-sm-3">Salva</button>
+			<button type="button" class="btn btn-primary col-sm-3"
+				onclick="salvaPrenotazione()">Salva</button>
 			<div class='col-sm-1'></div>
 		</div>
 		<input id="csrf" type="hidden" th:name="${_csrf.parameterName}"
