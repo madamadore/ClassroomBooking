@@ -1,129 +1,109 @@
-<div class="modal fade" tabindex="-1" role="dialog" id="edit_modal">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal"
-					aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-				<h4 id="modalTitle" class="modal-title"></h4>
+<div id="edit_prenotazione" class="form-horizontal">
+	<div class="form-group">
+		<div class='col-sm-2'></div>
+		<div class='col-sm-8'>
+			<img id="attesa" style="display: none" class="img-responsive"
+				src="resources/img/loading-icon.gif" />
+		</div>
+		<div class='col-sm-2'></div>
+	</div>
+
+	<div id="inputPrenotazione">
+
+		<div class="form-group">
+			<div id="errorDiv" class="alert alert-danger col-sm-12"
+				style="display: none">
+				<strong><span id="errorMessage">ERRORE</span></strong>
 			</div>
+		</div>
 
-			<div class="modal-body">
-				<div class="form-horizontal">
+		<div class="form-group">
+			<label class='col-sm-3 col-md-offset-1 control-label'>Aula:</label>
+			<div class='col-sm-7'>
+				<select id="selectAula" name="aula" class="form-control">
+					<option id="aulaDefault" value="-1" selected="selected">Seleziona
+						un'aula</option>
+					<option th:each="aula : ${aule}" th:id="${'aulaN'+aula.id}"
+						th:value="${aula.id}" th:text="${aula.name}">Aula</option>
+				</select>
+			</div>
+		</div>
 
-					<div class="form-group">
-						<div class='col-sm-2'></div>
-						<div class='col-sm-8'>
-							<img id="attesa" style="display: none" class="img-responsive"
-								src="resources/img/loading-icon.gif" />
-						</div>
-						<div class='col-sm-2'></div>
-					</div>
-
-					<div id="inputPrenotazione">
-
-						<div class="form-group">
-							<div id="errorDiv" class="alert alert-danger col-sm-12"
-								style="display: none">
-								<strong><span id="errorMessage">ERRORE</span></strong>
-							</div>
-						</div>
-
-						<div class="form-group">
-							<label class='col-sm-3 col-md-offset-1 control-label'>Aula:</label>
-							<div class='col-sm-7'>
-								<select id="selectAula" name="aula" class="form-control">
-									<option id="aulaDefault" selected="selected">Seleziona
-										un'aula</option>
-									<option th:each="aula : ${aule}" th:id="${'aulaN'+aula.id}"
-										th:value="${aula.id}" th:text="${aula.name}">Aula</option>
-								</select>
-							</div>
-						</div>
-
-						<div class="form-group">
-							<label class='col-sm-3 col-md-offset-1 control-label'>Ora
-								d'inizio:</label>
-							<div class='col-sm-7'>
-								<div class='input-group date' id='startTimeDiv'>
-									<input type='text' class="form-control" name='startTime'
-										id='startTime' /> <span class="input-group-addon"
-										required="true"> <span class="glyphicon glyphicon-time"></span>
-									</span>
-								</div>
-							</div>
-						</div>
-
-
-						<div class="form-group">
-							<label class='col-sm-3 col-md-offset-1 control-label'>Ora
-								di fine:</label>
-							<div class='col-sm-7'>
-								<div class='input-group date' id='endTimeDiv'>
-									<input type='text' class="form-control" name='endTime'
-										id='endTime' /> <span class="input-group-addon"
-										required="true"> <span class="glyphicon glyphicon-time"></span>
-									</span>
-								</div>
-							</div>
-						</div>
-
-						<div class="form-group">
-							<label class='col-sm-3 col-md-offset-1 control-label'>Data
-								d'inizio:</label>
-							<div class='col-sm-7'>
-								<div class='input-group date' id="startDateDiv">
-									<input type='text' class="form-control" id="startDate"
-										name="startDate" /> <span class="input-group-addon"
-										required="true"> <span
-										class="glyphicon glyphicon-calendar"></span>
-									</span>
-								</div>
-							</div>
-						</div>
-
-						<div class="form-group">
-							<label class='col-sm-3 col-md-offset-1 control-label'>Data
-								di fine:</label>
-							<div class='col-sm-7'>
-								<div class='input-group date' id="endDateDiv">
-									<input type='text' class="form-control" id="endDate"
-										name="endDate" /> <span class="input-group-addon"
-										required="true"> <span
-										class="glyphicon glyphicon-calendar"></span>
-									</span>
-								</div>
-							</div>
-						</div>
-
-						<div id="sendEmailDiv">
-							<div class="form-group">
-								<label class='col-sm-3 col-md-offset-1 control-label'>Contatto:</label>
-								<div class='col-sm-7'>
-									<a href="" id="sendEmail"></a>
-								</div>
-							</div>
-						</div>
-
-						<div class="form-group">
-							<div class='col-sm-1'></div>
-							<button type="button" class="btn btn-default col-sm-2"
-								data-dismiss="modal">Chiudi</button>
-							<div class='col-sm-1'></div>
-							<button id="deleteButton" type="button"
-								class="btn btn-primary col-sm-3" onclick="areYouSure()">Elimina</button>
-							<div class='col-sm-1'></div>
-							<button type="button" class="btn btn-primary col-sm-3"
-								onclick="salvaPrenotazione()">Salva</button>
-							<div class='col-sm-1'></div>
-						</div>
-						<input id="csrf" type="hidden" th:name="${_csrf.parameterName}"
-							th:value="${_csrf.token}" /> <input type="hidden"
-							id="idPrenotazione" name="id" value="" />
-					</div>
+		<div class="form-group">
+			<label class='col-sm-3 col-md-offset-1 control-label'>Ora
+				d'inizio:</label>
+			<div class='col-sm-7'>
+				<div class='input-group date' id='startTimeDiv'>
+					<input type='text' class="form-control" name='startTime'
+						id='startTime' /> <span class="input-group-addon" required="true">
+						<span class="glyphicon glyphicon-time"></span>
+					</span>
 				</div>
 			</div>
 		</div>
+
+
+		<div class="form-group">
+			<label class='col-sm-3 col-md-offset-1 control-label'>Ora di
+				fine:</label>
+			<div class='col-sm-7'>
+				<div class='input-group date' id='endTimeDiv'>
+					<input type='text' class="form-control" name='endTime' id='endTime' />
+					<span class="input-group-addon" required="true"> <span
+						class="glyphicon glyphicon-time"></span>
+					</span>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class='col-sm-3 col-md-offset-1 control-label'>Data
+				d'inizio:</label>
+			<div class='col-sm-7'>
+				<div class='input-group date' id="startDateDiv">
+					<input type='text' class="form-control" id="startDate"
+						name="startDate" /> <span class="input-group-addon"
+						required="true"> <span class="glyphicon glyphicon-calendar"></span>
+					</span>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class='col-sm-3 col-md-offset-1 control-label'>Data di
+				fine:</label>
+			<div class='col-sm-7'>
+				<div class='input-group date' id="endDateDiv">
+					<input type='text' class="form-control" id="endDate" name="endDate" />
+					<span class="input-group-addon" required="true"> <span
+						class="glyphicon glyphicon-calendar"></span>
+					</span>
+				</div>
+			</div>
+		</div>
+
+		<div id="sendEmailDiv">
+			<div class="form-group">
+				<label class='col-sm-3 col-md-offset-1 control-label'>Contatto:</label>
+				<div class='col-sm-7'>
+					<a href="" id="sendEmail"></a>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class='col-sm-1'></div>
+			<button type="button" class="btn btn-default col-sm-2"
+				data-dismiss="modal">Chiudi</button>
+			<div class='col-sm-1'></div>
+			<button id="deleteButton" type="button"
+				class="btn btn-primary col-sm-3">Elimina</button>
+			<div class='col-sm-1'></div>
+			<button id="salvaPrenotazione" type="button" class="btn btn-primary col-sm-3">Salva</button>
+			<div class='col-sm-1'></div>
+		</div>
+		<input id="csrf" type="hidden" th:name="${_csrf.parameterName}"
+			th:value="${_csrf.token}" /> <input type="hidden"
+			id="idPrenotazione" name="id" value="" />
 	</div>
 </div>

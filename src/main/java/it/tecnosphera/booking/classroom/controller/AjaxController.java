@@ -48,11 +48,6 @@ public class AjaxController {
 		return prenotazioneRepository.findAll();
 	}
 
-	@RequestMapping(value = "/getEvent", method = RequestMethod.POST)
-	private @ResponseBody Prenotazione getEvent(@RequestParam("id") String id) {
-		return prenotazioneRepository.find(Long.parseLong(id));
-	}
-
 	@RequestMapping(value = "/emailValidation", method = RequestMethod.GET)
 	private @ResponseBody Boolean emailValidation(@RequestParam("email") String email) {
 		if (email != null && !email.contains("@tecnosphera.it")) {
@@ -66,7 +61,7 @@ public class AjaxController {
 		return utilityMethods.hasPermissions(owner);
 	}
 
-	@RequestMapping(value = "/edit", method = RequestMethod.POST)
+	@RequestMapping(value = "/editPrenotazione", method = RequestMethod.POST)
 	public @ResponseBody String editPrenotazione(Model m, @RequestParam("aula") String aula,
 			@RequestParam("startTime") String startTime, @RequestParam("endTime") String endTime,
 			@RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate,
