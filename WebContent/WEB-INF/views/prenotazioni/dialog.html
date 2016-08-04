@@ -10,12 +10,30 @@
 				<h4 id="modalTitle" class="modal-title"></h4>
 			</div>
 			<div class="modal-body">
-				<div class="form-horizontal">
+
+				<div class="form-group">
+					<div class='col-sm-2'></div>
+					<div class='col-sm-8'>
+						<img id="attesa" style="display: none" class="img-responsive"
+							src="resources/img/loading-icon.gif" />
+					</div>
+					<div class='col-sm-2'></div>
+				</div>
+
+				<div class="form-group">
+					<div id="errorDiv" class="alert alert-danger col-sm-12"
+						style="display: none">
+						<strong><span id="errorMessage">ERRORE</span></strong>
+					</div>
+				</div>
+
+				<div class="form-horizontal" id="typePrenotazione">
 					<label class='col-sm-3 col-md-offset-1 control-label'>Tipo:</label>
-					<div id="typePrenotazione" class="col-sm-7 input-group">
+					<div class="col-sm-7 input-group">
 						<label class="radio-inline"><input type="radio"
-							name="optradio" checked="" />Prenotazione</label> <label
-							class="radio-inline"><input type="radio" name="optradio" />Lezione</label>
+							id="optPrenotazione" name="optRadio" checked="" />Prenotazione</label> <label
+							class="radio-inline"><input type="radio" id="optLezione"
+							name="optRadio" />Lezione</label>
 					</div>
 				</div>
 				<div th:replace="prenotazioni/edit"></div>

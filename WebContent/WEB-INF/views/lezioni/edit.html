@@ -1,26 +1,12 @@
 <div id="edit_lezione" class="form-horizontal" style="display: none">
-	<div class="form-group">
-		<div class='col-sm-2'></div>
-		<div class='col-sm-8'>
-			<img id="attesa" style="display: none" class="img-responsive"
-				src="resources/img/loading-icon.gif" />
-		</div>
-		<div class='col-sm-2'></div>
-	</div>
+	
 
 	<div id="inputPrenotazione">
 
 		<div class="form-group">
-			<div id="errorDiv" class="alert alert-danger col-sm-12"
-				style="display: none">
-				<strong><span id="errorMessage">ERRORE</span></strong>
-			</div>
-		</div>
-
-		<div class="form-group">
 			<label class='col-sm-3 col-md-offset-1 control-label'>Aula:</label>
-			<div class='col-sm-7'>
-				<select id="selectAula" name="aula" class="form-control">
+			<div class='input-group col-sm-7'>
+				<select id="selectAula" name="aula" class="form-control ">
 					<option id="aulaDefault" value="-1" selected="selected">Seleziona
 						un'aula</option>
 					<option th:each="aula : ${aule}" th:id="${'aulaN'+aula.id}"
@@ -32,13 +18,11 @@
 		<div class="form-group">
 			<label class='col-sm-3 col-md-offset-1 control-label'>Ora
 				d'inizio:</label>
-			<div class='col-sm-7'>
-				<div class='input-group date' id='startTimeDiv'>
-					<input type='text' class="form-control" name='startTime'
-						id='startTime' /> <span class="input-group-addon" required="true">
-						<span class="glyphicon glyphicon-time"></span>
-					</span>
-				</div>
+			<div class='input-group date col-sm-7' id='startTimeDiv'>
+				<input type='text' class="form-control" name='startTime'
+					id='startTime' /> <span class="input-group-addon" required="true">
+					<span class="glyphicon glyphicon-time"></span>
+				</span>
 			</div>
 		</div>
 
@@ -46,66 +30,63 @@
 		<div class="form-group">
 			<label class='col-sm-3 col-md-offset-1 control-label'>Ora di
 				fine:</label>
-			<div class='col-sm-7'>
-				<div class='input-group date' id='endTimeDiv'>
-					<input type='text' class="form-control" name='endTime' id='endTime' />
-					<span class="input-group-addon" required="true"> <span
-						class="glyphicon glyphicon-time"></span>
-					</span>
-				</div>
+			<div class='input-group date col-sm-7' id='endTimeDiv'>
+				<input type='text' class="form-control" name='endTime' id='endTime' />
+				<span class="input-group-addon" required="true"> <span
+					class="glyphicon glyphicon-time"></span>
+				</span>
 			</div>
 		</div>
 
 		<div class="form-group">
 			<label class='col-sm-3 col-md-offset-1 control-label'>Data
 				d'inizio:</label>
-			<div class='col-sm-7'>
-				<div class='input-group date' id="startDateDiv">
-					<input type='text' class="form-control" id="startDate"
-						name="startDate" /> <span class="input-group-addon"
-						required="true"> <span class="glyphicon glyphicon-calendar"></span>
-					</span>
-				</div>
+			<div class='input-group date col-sm-7' id="startDateDiv">
+				<input type='text' class="form-control" id="startDate"
+					name="startDate" /> <span class="input-group-addon"
+					required="true"> <span class="glyphicon glyphicon-calendar"></span>
+				</span>
 			</div>
 		</div>
 
 		<div class="form-group">
 			<label class='col-sm-3 col-md-offset-1 control-label'>Data di
 				fine:</label>
-			<div class='col-sm-7'>
-				<div class='input-group date' id="endDateDiv">
-					<input type='text' class="form-control" id="endDate" name="endDate" />
-					<span class="input-group-addon" required="true"> <span
-						class="glyphicon glyphicon-calendar"></span>
-					</span>
-				</div>
+			<div class='input-group date col-sm-7' id="endDateDiv">
+				<input type='text' class="form-control" id="endDate" name="endDate" />
+				<span class="input-group-addon" required="true"> <span
+					class="glyphicon glyphicon-calendar"></span>
+				</span>
 			</div>
 		</div>
 
 		<div class="form-group">
-			<label class='col-sm-3 col-md-offset-1 control-label'>Limite iscrizioni:</label>
-			<div class='col-sm-7'>
-				<div class='input-group'>
-					<input type='text' class="form-control" id="limite" name="limite" />
-				</div>
+			<label class='col-sm-3 col-md-offset-1 control-label'>Titolo:</label>
+			<div class='input-group col-sm-7'>
+				<input type='text' class="form-control" id="titolo" name="titolo" />
 			</div>
 		</div>
-		
+
+		<div class="form-group">
+			<label class='col-sm-3 col-md-offset-1 control-label'>Limite
+				iscritti:</label>
+			<div class='input-group col-sm-7'>
+				<input type='text' class="form-control" id="limite" name="limite" />
+			</div>
+		</div>
+
 		<div class="form-group">
 			<label class='col-sm-3 col-md-offset-1 control-label'>Docente:</label>
-			<div class='col-sm-7'>
-				<div class='input-group'>
-					<input type='text' class="form-control" id="docente" name="docente" />
-				</div>
+			<div class='input-group col-sm-7'>
+				<input type='text' class="form-control" id="docente" name="docente" />
 			</div>
 		</div>
-		
+
 		<div class="form-group">
 			<label class='col-sm-3 col-md-offset-1 control-label'>Descrizione:</label>
-			<div class='col-sm-7'>
-				<div class='input-group'>
-					<input type='text' class="form-control" id="descrizione" name="descrizione" rows="3"/>
-				</div>
+			<div class='input-group col-sm-7'>
+				<textarea class="form-control" id="descrizione" name="descrizione"
+					rows="3" />
 			</div>
 		</div>
 
@@ -124,10 +105,10 @@
 				data-dismiss="modal">Chiudi</button>
 			<div class='col-sm-1'></div>
 			<button id="deleteButton" type="button"
-				class="btn btn-primary col-sm-3" onclick="areYouSure()">Elimina</button>
+				class="btn btn-primary col-sm-3">Elimina</button>
 			<div class='col-sm-1'></div>
-			<button type="button" class="btn btn-primary col-sm-3"
-				onclick="salvaPrenotazione()">Salva</button>
+			<button id="salvaPrenotazione" type="button"
+				class="btn btn-primary col-sm-3">Salva</button>
 			<div class='col-sm-1'></div>
 		</div>
 		<input id="csrf" type="hidden" th:name="${_csrf.parameterName}"

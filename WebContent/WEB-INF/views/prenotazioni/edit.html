@@ -19,7 +19,7 @@
 
 		<div class="form-group">
 			<label class='col-sm-3 col-md-offset-1 control-label'>Aula:</label>
-			<div class='col-sm-7'>
+			<div class='input-group col-sm-7'>
 				<select id="selectAula" name="aula" class="form-control">
 					<option id="aulaDefault" value="-1" selected="selected">Seleziona
 						un'aula</option>
@@ -32,13 +32,11 @@
 		<div class="form-group">
 			<label class='col-sm-3 col-md-offset-1 control-label'>Ora
 				d'inizio:</label>
-			<div class='col-sm-7'>
-				<div class='input-group date' id='startTimeDiv'>
-					<input type='text' class="form-control" name='startTime'
-						id='startTime' /> <span class="input-group-addon" required="true">
-						<span class="glyphicon glyphicon-time"></span>
-					</span>
-				</div>
+			<div class='input-group date col-sm-7' id='startTimeDiv'>
+				<input type='text' class="form-control" name='startTime'
+					id='startTime' /> <span class="input-group-addon" required="true">
+					<span class="glyphicon glyphicon-time"></span>
+				</span>
 			</div>
 		</div>
 
@@ -46,46 +44,40 @@
 		<div class="form-group">
 			<label class='col-sm-3 col-md-offset-1 control-label'>Ora di
 				fine:</label>
-			<div class='col-sm-7'>
-				<div class='input-group date' id='endTimeDiv'>
-					<input type='text' class="form-control" name='endTime' id='endTime' />
-					<span class="input-group-addon" required="true"> <span
-						class="glyphicon glyphicon-time"></span>
-					</span>
-				</div>
+			<div class='input-group date col-sm-7' id='endTimeDiv'>
+				<input type='text' class="form-control" name='endTime' id='endTime' />
+				<span class="input-group-addon" required="true"> <span
+					class="glyphicon glyphicon-time"></span>
+				</span>
 			</div>
 		</div>
 
 		<div class="form-group">
 			<label class='col-sm-3 col-md-offset-1 control-label'>Data
 				d'inizio:</label>
-			<div class='col-sm-7'>
-				<div class='input-group date' id="startDateDiv">
-					<input type='text' class="form-control" id="startDate"
-						name="startDate" /> <span class="input-group-addon"
-						required="true"> <span class="glyphicon glyphicon-calendar"></span>
-					</span>
-				</div>
+			<div class='input-group date col-sm-7' id="startDateDiv">
+				<input type='text' class="form-control" id="startDate"
+					name="startDate" /> <span class="input-group-addon"
+					required="true"> <span class="glyphicon glyphicon-calendar"></span>
+				</span>
 			</div>
 		</div>
 
 		<div class="form-group">
 			<label class='col-sm-3 col-md-offset-1 control-label'>Data di
 				fine:</label>
-			<div class='col-sm-7'>
-				<div class='input-group date' id="endDateDiv">
-					<input type='text' class="form-control" id="endDate" name="endDate" />
-					<span class="input-group-addon" required="true"> <span
-						class="glyphicon glyphicon-calendar"></span>
-					</span>
-				</div>
+			<div class='input-group date col-sm-7' id="endDateDiv">
+				<input type='text' class="form-control" id="endDate" name="endDate" />
+				<span class="input-group-addon" required="true"> <span
+					class="glyphicon glyphicon-calendar"></span>
+				</span>
 			</div>
 		</div>
 
 		<div id="sendEmailDiv">
 			<div class="form-group">
 				<label class='col-sm-3 col-md-offset-1 control-label'>Contatto:</label>
-				<div class='col-sm-7'>
+				<div class='input-group col-sm-7'>
 					<a href="" id="sendEmail"></a>
 				</div>
 			</div>
@@ -99,7 +91,8 @@
 			<button id="deleteButton" type="button"
 				class="btn btn-primary col-sm-3">Elimina</button>
 			<div class='col-sm-1'></div>
-			<button id="salvaPrenotazione" type="button" class="btn btn-primary col-sm-3">Salva</button>
+			<button id="salvaPrenotazione" type="button"
+				class="btn btn-primary col-sm-3">Salva</button>
 			<div class='col-sm-1'></div>
 		</div>
 		<input id="csrf" type="hidden" th:name="${_csrf.parameterName}"

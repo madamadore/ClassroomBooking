@@ -14,6 +14,9 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name = "prenotazioni")
@@ -22,6 +25,10 @@ import javax.persistence.Table;
 @DiscriminatorValue(value = "Prenotazione")
 public class Prenotazione {
 
+	@Transient
+	@JsonProperty
+	private final String type = "Prenotazione";
+	
 	@Column(name = "title")
 	protected String title;
 

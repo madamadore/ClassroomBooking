@@ -28,11 +28,6 @@ public class UtilityMethods implements UtilityInterface {
 
 	@Override
 	public boolean verificaPrenotazione(Prenotazione prenotazione) {
-		// verifica che start ed end siano coerenti, ovvero che lo start sia
-		// precedente rispetto all'end
-		if (prenotazione.getStart().compareTo(prenotazione.getEnd()) >= 0) {
-			return false;
-		}
 
 		List<Prenotazione> list = null;
 
@@ -42,12 +37,6 @@ public class UtilityMethods implements UtilityInterface {
 		if (list != null) {
 			if (list.size() > 1 || (list.size() == 1 && list.get(0).getId() != prenotazione.getId()))
 				return false;
-		}
-
-		if (prenotazione.getId() > 0) {
-			if (!hasPermissions(prenotazioneRepository.find(prenotazione.getId()).getOwner())) {
-				return false;
-			}
 		}
 		return true;
 	}

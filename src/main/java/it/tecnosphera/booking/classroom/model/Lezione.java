@@ -10,13 +10,19 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name = "lezioni")
 @DiscriminatorValue(value = "Lezione")
 public class Lezione extends Prenotazione {
+	
+	@Transient
+	@JsonProperty
+	private final String type = "Lezione";
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "user_lezioni", joinColumns = { @JoinColumn(name = "lezione_id") }, inverseJoinColumns = {
@@ -27,9 +33,8 @@ public class Lezione extends Prenotazione {
 	private int limite;
 
 	@Column(name = "description")
-	private String description;
+	private String descrizione;
 
-	@OneToOne
 	@JoinColumn(name = "docente")
 	private String docente;
 
@@ -49,12 +54,12 @@ public class Lezione extends Prenotazione {
 		this.limite = limite;
 	}
 
-	public String getDescription() {
-		return description;
+	public String getDescrizione() {
+		return descrizione;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setDescrizione(String descrizione) {
+		this.descrizione = descrizione;
 	}
 
 	public String getDocente() {

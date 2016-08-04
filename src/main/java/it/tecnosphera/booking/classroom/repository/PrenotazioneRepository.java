@@ -32,12 +32,6 @@ public class PrenotazioneRepository implements PrenotazioneRepositoryInterface {
 		return lista;
 	}
 
-	@Override
-	public List<Prenotazione> find(String name) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	@Transactional
 	@Override
 	public boolean delete(long id) {

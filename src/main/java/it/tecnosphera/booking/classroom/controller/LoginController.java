@@ -20,9 +20,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import it.tecnosphera.booking.classroom.model.Aula;
 import it.tecnosphera.booking.classroom.model.Prenotazione;
-import it.tecnosphera.booking.classroom.model.Role;
 import it.tecnosphera.booking.classroom.model.User;
 import it.tecnosphera.booking.classroom.repository.RepositoryInterface;
+import it.tecnosphera.booking.classroom.repository.RoleRepositoryInterface;
 import it.tecnosphera.booking.classroom.repository.UserRepositoryInterface;
 
 @Controller
@@ -38,7 +38,7 @@ public class LoginController {
 	RepositoryInterface<Prenotazione> prenotazioniRepository;
 	
 	@Autowired
-	RepositoryInterface<Role> roleRepository;
+	RoleRepositoryInterface roleRepository;
 
 	@RequestMapping(value = "/")
 	public String home(Model m) {

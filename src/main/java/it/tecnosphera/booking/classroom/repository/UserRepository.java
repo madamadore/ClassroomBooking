@@ -52,15 +52,6 @@ public class UserRepository implements UserRepositoryInterface {
 		entityManager.remove(user);
 		return true;
 	}
-
-	@Transactional
-	@Override
-	public List<User> find(String name) {
-		List<User> lista = entityManager.createQuery("SELECT u FROM User u WHERE u.name LIKE :name")
-				.setParameter("name", "%" + name + "%")
-				.getResultList();
-		return lista;
-	}
 	
 	@Transactional
 	public User findByEmail(String email) {

@@ -13,7 +13,7 @@ import it.tecnosphera.booking.classroom.model.Aula;
 
 @Repository
 @Transactional
-public class AulaRepository implements RepositoryInterface<Aula> {
+public class AulaRepository implements AulaRepositoryInterface {
 
 	@PersistenceContext
 	private EntityManager em;
