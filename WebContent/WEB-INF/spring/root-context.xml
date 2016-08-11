@@ -10,7 +10,7 @@
        <beans:bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<beans:property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<beans:property name="url" value="jdbc:mysql://local.test:3306/prenotazioni" />
+		<beans:property name="url" value="jdbc:mysql://localhost:3306/prenotazioni" />
 		<beans:property name="username" value="prenotazioni" />
 		<beans:property name="password" value="Pr3not4Tecnos" />
 	</beans:bean>
