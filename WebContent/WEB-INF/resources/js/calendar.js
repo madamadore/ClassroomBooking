@@ -48,7 +48,7 @@ $(document).ready(function(event) {
 				revertFunc();
 			} else {
 				setEditModal(event);
-				salvaPrenotazione();
+				salvaPrenotazione(false);
 			}
 		},
 		eventDrop : function(event, delta, revertFunc) {
@@ -57,10 +57,14 @@ $(document).ready(function(event) {
 				revertFunc();
 			} else {
 				setEditModal(event);
-				salvaPrenotazione();
+				salvaPrenotazione(false);
 			}
 		}
 	});
+
+	$("#edit_prenotazione #salvaPrenotazione").click(function() {
+		salvaPrenotazione(true);
+	})
 });
 
 $("#edit_prenotazione #deleteButton").click(function areYouSure() {
@@ -112,11 +116,6 @@ function setCreationModal(date) {
 		locale : 'it',
 		format : 'DD-MM-YYYY'
 	});
-
-	// $('#edit_prenotazione #startTime').val("09:00");
-	// $('#edit_prenotazione #startDate').val(date.format("DD-MM-YYYY"));
-	// $('#edit_prenotazione #endTime').val("10:00");
-	// $('#edit_prenotazione #endDate').val(date.format("DD-MM-YYYY"));
 	removeEndDateLimitation();
 	$('#edit_prenotazione #startTimeDiv').data("DateTimePicker").date("09:00")
 	$('#edit_prenotazione #startDateDiv').data("DateTimePicker").date(
@@ -197,90 +196,13 @@ function setViewModal(calEvent) {
 							+ '<span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>');
 }
 
-$("#edit_prenotazione #salvaPrenotazione").click(
-		function salvaPrenotazione() {
-			var verifica = verificaInput();
-			if (!verifica) {
-				$("#edit_prenotazione #errorMessage").text(verifica);
-				$("#edit_prenotazione #errorDiv").css("display", "unset");
-				return;
-			}
-			$("#edit_prenotazione #inputPrenotazione").css("display", "none");
-			$("#edit_prenotazione #attesa").css("display", "unset");
-			var token = $("input[name='_csrf']").val();
-			var header = "X-CSRF-TOKEN";
-			$(document).ajaxSend(function(e, xhr, options) {
-				xhr.setRequestHeader(header, token);
-			});
-			$.ajax({
-				type : "POST",
-				url : '/ClassroomBooking/ajax/editPrenotazione',
-				data : {
-					aula : $("#edit_prenotazione #selectAula option:selected")
-							.val(),
-					startTime : $("#edit_prenotazione #startTime").val(),
-					endTime : $("#edit_prenotazione #endTime").val(),
-					startDate : $("#edit_prenotazione #startDate").val(),
-					endDate : $("#edit_prenotazione #endDate").val(),
-					id : $("#edit_prenotazione #idPrenotazione").val()
-				},
-				timeout : 10000,
-				complete : function(data, status) {
-					switch (status) {
-						case "success":
-							savePrenotazioneOk();
-							break;
-						case "timeout":
-							$("#edit_prenotazione #errorMessage").text("Errore di timeout");
-							break;
-						case "nocontent":
-							$("#edit_prenotazione #errorMessage").text("No content");
-							break;
-						case "abort":
-							$("#edit_prenotazione #errorMessage").text("Error Abort");
-							break;
-						default:
-							$("#edit_prenotazione #errorMessage").text("Errore generico");
-							break;
-					}
-				},
-				error : function() {
-					$("#edit_prenotazione #inputPrenotazione").css("display",
-							"unset");
-					$("#edit_prenotazione #attesa").css("display", "none");
-					$("#edit_prenotazione #errorMessage").text(
-							"Il server non risponde");
-					$("#edit_prenotazione #errorDiv").css("display", "unset");
-				}
-			});
-		})
-
-function savePrenotazioneOk() {
-	$("#edit_prenotazione #inputPrenotazione").css("display",
-	"unset");
-$("#edit_prenotazione #attesa").css("display", "none");
-if (data == "ok") {
-$('#dialog').modal('hide');
-$('#calendar').fullCalendar('refetchEvents');
-} else {
-if (data == "login") {
-	$("#edit_prenotazione #errorMessage").text(
-			"E' necessario effettuare il login");
-} else if (data == "missInput") {
-	$("#edit_prenotazione #errorMessage").text(
-			"Uno o piu' input mancanti");
-} else if (data == "wrongInput") {
-	$("#edit_prenotazione #errorMessage").text(
-			"Uno o piu' input sono errati");
-} else if (data == "missingPermission") {
-	$("#edit_prenotazione #errorMessage").text(
-			"Non hai i permessi");
-}
-$("#edit_prenotazione #errorDiv").css("display",
-		"unset");
-}
-}
-function deleteEvent(idPrenotazione) {
+function salvaPrenotazione(render) {
+	var verificaResult = verificaInput();
+	if (verificaResult != 'ok') {
+		$("#edit_prenotazione #errorMessage").text(verificaResult);
+		$("#edit_prenotazione #errorDiv").css("display", "unset");
+		return;
+	}
 	$("#edit_prenotazione #inputPrenotazione").css("display", "none");
 	$("#edit_prenotazione #attesa").css("display", "unset");
 	var token = $("input[name='_csrf']").val();
@@ -290,17 +212,26 @@ function deleteEvent(idPrenotazione) {
 	});
 	$.ajax({
 		type : "POST",
-		url : '/ClassroomBooking/ajax/delete',
+		url : '/ClassroomBooking/prenotazioni/ajax/save',
 		data : {
-			id : idPrenotazione
+			aula : $("#edit_prenotazione #selectAula option:selected").val(),
+			startTime : $("#edit_prenotazione #startTime").val(),
+			endTime : $("#edit_prenotazione #endTime").val(),
+			startDate : $("#edit_prenotazione #startDate").val(),
+			endDate : $("#edit_prenotazione #endDate").val(),
+			id : $("#edit_prenotazione #idPrenotazione").val()
 		},
 		timeout : 10000,
-		success : function(data) {
+		dataType : 'json',
+		success : function(ajaxResponse) {
+			var data = ajaxResponse.result;
 			$("#edit_prenotazione #inputPrenotazione").css("display", "unset");
 			$("#edit_prenotazione #attesa").css("display", "none");
 			if (data == "ok") {
 				$('#dialog').modal('hide');
-				$('#calendar').fullCalendar('refetchEvents');
+				if (render)
+					$('#calendar').fullCalendar('renderEvent',
+							ajaxResponse.event);
 			} else {
 				if (data == "login") {
 					$("#edit_prenotazione #errorMessage").text(
@@ -314,15 +245,79 @@ function deleteEvent(idPrenotazione) {
 				} else if (data == "missingPermission") {
 					$("#edit_prenotazione #errorMessage").text(
 							"Non hai i permessi");
+				} else if (data == "conflict") {
+					$("#edit_prenotazione #errorMessage").text(
+							"Prenotazione in conflitto con un'altra");
 				}
 				$("#edit_prenotazione #errorDiv").css("display", "unset");
 			}
 		},
-		error : function() {
+		error : function(jqXHR, textStatus, errorThrown) {
 			$("#edit_prenotazione #inputPrenotazione").css("display", "unset");
 			$("#edit_prenotazione #attesa").css("display", "none");
-			$("#edit_prenotazione #errorMessage")
-					.text("Il server non risponde");
+			if (errorThrown == "timeout") {
+				$("#edit_prenotazione #errorMessage").text(
+						"Il server non risponde");
+			} else {
+				$("#edit_prenotazione #errorMessage").text(
+						"E' necessario effettuare il login");
+			}
+			$("#edit_prenotazione #errorDiv").css("display", "unset");
+		}
+	});
+}
+
+function deleteEvent(idPrenotazione) {
+	$("#edit_prenotazione #inputPrenotazione").css("display", "none");
+	$("#edit_prenotazione #attesa").css("display", "unset");
+	var token = $("input[name='_csrf']").val();
+	var header = "X-CSRF-TOKEN";
+	$(document).ajaxSend(function(e, xhr, options) {
+		xhr.setRequestHeader(header, token);
+	});
+	$.ajax({
+		type : "POST",
+		url : '/ClassroomBooking/prenotazioni/ajax/delete',
+		data : {
+			id : idPrenotazione
+		},
+		timeout : 10000,
+		success : function(data) {
+			$("#edit_prenotazione #inputPrenotazione").css("display", "unset");
+			$("#edit_prenotazione #attesa").css("display", "none");
+			if (data == "ok") {
+				$('#dialog').modal('hide');
+				$('#calendar').fullCalendar('removeEvents', idPrenotazione);
+			} else {
+				if (data == "login") {
+					$("#edit_prenotazione #errorMessage").text(
+							"E' necessario effettuare il login");
+				} else if (data == "missInput") {
+					$("#edit_prenotazione #errorMessage").text(
+							"Uno o piu' input mancanti");
+				} else if (data == "wrongInput") {
+					$("#edit_prenotazione #errorMessage").text(
+							"Uno o piu' input sono errati");
+				} else if (data == "missingPermission") {
+					$("#edit_prenotazione #errorMessage").text(
+							"Non hai i permessi");
+				} else if (data == "conflict") {
+					$("#edit_prenotazione #errorMessage").text(
+							"Prenotazione in conflitto con un'altra");
+				}
+				$("#edit_prenotazione #errorDiv").css("display", "unset");
+			}
+		},
+		error : function(jqXHR, textStatus, errorThrown) {
+			$("#edit_prenotazione #inputPrenotazione").css("display", "unset");
+			$("#edit_prenotazione #attesa").css("display", "none");
+			if (errorThrown == "timeout") {
+				$("#edit_prenotazione #errorMessage").text(
+						"Il server non risponde");
+			} else {
+				$("#edit_prenotazione #errorMessage").text(
+						"E' necessario effettuare il login");
+			}
 			$("#edit_prenotazione #errorDiv").css("display", "unset");
 		}
 	});
@@ -335,8 +330,14 @@ function updateEndDate() {
 	var mese = $("#edit_prenotazione #startDate").val().substring(3, 5);
 	var anno = $("#edit_prenotazione #startDate").val().substring(6, 10);
 	var dataMinima = new Date(anno, mese - 1, giorno, +ore + 1, min, 0, 0);
-	$('#edit_prenotazione #endTimeDiv').data("DateTimePicker").minDate(
-			dataMinima);
+	if ($("#edit_prenotazione #startDate").val() != $(
+			"#edit_prenotazione #endDate").val()) {
+		$('#edit_prenotazione #endTimeDiv').data("DateTimePicker").minDate(
+				new Date(0));
+	} else {
+		$('#edit_prenotazione #endTimeDiv').data("DateTimePicker").minDate(
+				dataMinima);
+	}
 	$('#edit_prenotazione #endDateDiv').data("DateTimePicker").minDate(
 			dataMinima);
 }
@@ -355,26 +356,29 @@ $('#edit_prenotazione #startDate').blur(function(e) {
 	updateEndDate();
 });
 
+$('#edit_prenotazione #endTime').blur(function(e) {
+	updateEndDate();
+});
+
+$('#edit_prenotazione #endDate').blur(function(e) {
+	updateEndDate();
+});
+
 function verificaInput() {
 	var aula = $("#edit_prenotazione #selectAula option:selected").val();
 	var startTime = $("#edit_prenotazione #startTime").val();
 	var endTime = $("#edit_prenotazione #endTime").val();
 	var startDate = $("#edit_prenotazione #startDate").val();
 	var endDate = $("#edit_prenotazione #endDate").val();
-	if (aula == '-1') {
-		return "Aula mancante";
-	}
-	if (startTime == "") {
-		return "Ora di inizio mancante";
-	} 
-	if (endTime == "") {
-		return "Ora di fine mancante";
-	}
-	if (startDate == "") {
-		return "Data di inizio mancante";
-	} 
-	if (endDate == "") {
-		return "Data di fine mancante";
-	}
-	return true;
+	if (aula == '-1')
+		return "Selezionare un'aula";
+	if (startTime == "")
+		return "Selezionare l'ora d'inizio";
+	if (endTime == "")
+		return "Selezionare l'ora di fine";
+	if (startDate == "")
+		return "Selezionare la data d'inizio";
+	if (endDate == "")
+		return "Selezionare la  data di fine";
+	return 'ok';
 }
