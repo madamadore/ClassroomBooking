@@ -199,9 +199,9 @@ function setViewModal(calEvent) {
 
 $("#edit_prenotazione #salvaPrenotazione").click(
 		function salvaPrenotazione() {
-			if (!verificaInput()) {
-				$("#edit_prenotazione #errorMessage").text(
-						"Uno o piu' input mancanti");
+			var verifica = verificaInput();
+			if (!verifica) {
+				$("#edit_prenotazione #errorMessage").text(verifica);
 				$("#edit_prenotazione #errorDiv").css("display", "unset");
 				return;
 			}
@@ -225,29 +225,23 @@ $("#edit_prenotazione #salvaPrenotazione").click(
 					id : $("#edit_prenotazione #idPrenotazione").val()
 				},
 				timeout : 10000,
-				success : function(data) {
-					$("#edit_prenotazione #inputPrenotazione").css("display",
-							"unset");
-					$("#edit_prenotazione #attesa").css("display", "none");
-					if (data == "ok") {
-						$('#dialog').modal('hide');
-						$('#calendar').fullCalendar('refetchEvents');
-					} else {
-						if (data == "login") {
-							$("#edit_prenotazione #errorMessage").text(
-									"E' necessario effettuare il login");
-						} else if (data == "missInput") {
-							$("#edit_prenotazione #errorMessage").text(
-									"Uno o piu' input mancanti");
-						} else if (data == "wrongInput") {
-							$("#edit_prenotazione #errorMessage").text(
-									"Uno o piu' input sono errati");
-						} else if (data == "missingPermission") {
-							$("#edit_prenotazione #errorMessage").text(
-									"Non hai i permessi");
-						}
-						$("#edit_prenotazione #errorDiv").css("display",
-								"unset");
+				complete : function(data, status) {
+					switch (status) {
+						case "success":
+							savePrenotazioneOk();
+							break;
+						case "timeout":
+							$("#edit_prenotazione #errorMessage").text("Errore di timeout");
+							break;
+						case "nocontent":
+							$("#edit_prenotazione #errorMessage").text("No content");
+							break;
+						case "abort":
+							$("#edit_prenotazione #errorMessage").text("Error Abort");
+							break;
+						default:
+							$("#edit_prenotazione #errorMessage").text("Errore generico");
+							break;
 					}
 				},
 				error : function() {
@@ -261,6 +255,31 @@ $("#edit_prenotazione #salvaPrenotazione").click(
 			});
 		})
 
+function savePrenotazioneOk() {
+	$("#edit_prenotazione #inputPrenotazione").css("display",
+	"unset");
+$("#edit_prenotazione #attesa").css("display", "none");
+if (data == "ok") {
+$('#dialog').modal('hide');
+$('#calendar').fullCalendar('refetchEvents');
+} else {
+if (data == "login") {
+	$("#edit_prenotazione #errorMessage").text(
+			"E' necessario effettuare il login");
+} else if (data == "missInput") {
+	$("#edit_prenotazione #errorMessage").text(
+			"Uno o piu' input mancanti");
+} else if (data == "wrongInput") {
+	$("#edit_prenotazione #errorMessage").text(
+			"Uno o piu' input sono errati");
+} else if (data == "missingPermission") {
+	$("#edit_prenotazione #errorMessage").text(
+			"Non hai i permessi");
+}
+$("#edit_prenotazione #errorDiv").css("display",
+		"unset");
+}
+}
 function deleteEvent(idPrenotazione) {
 	$("#edit_prenotazione #inputPrenotazione").css("display", "none");
 	$("#edit_prenotazione #attesa").css("display", "unset");
@@ -342,10 +361,20 @@ function verificaInput() {
 	var endTime = $("#edit_prenotazione #endTime").val();
 	var startDate = $("#edit_prenotazione #startDate").val();
 	var endDate = $("#edit_prenotazione #endDate").val();
-	if (aula == '-1' || startTime == "" || endTime == "" || startDate == ""
-			|| endDate == "") {
-		return false;
+	if (aula == '-1') {
+		return "Aula mancante";
+	}
+	if (startTime == "") {
+		return "Ora di inizio mancante";
+	} 
+	if (endTime == "") {
+		return "Ora di fine mancante";
+	}
+	if (startDate == "") {
+		return "Data di inizio mancante";
+	} 
+	if (endDate == "") {
+		return "Data di fine mancante";
 	}
 	return true;
-
 }
