@@ -18,17 +18,14 @@ public class AulaRepository implements RepositoryInterface<Aula> {
 	@PersistenceContext
 	private EntityManager em;
 	
-	@Override
 	public Aula find(long id) {
 		return em.find(Aula.class, id);
 	}
 
-	@Override
 	public List<Aula> findAll() {
 		return em.createQuery("SELECT a FROM Aula a").getResultList();
 	}
 
-	@Override
 	public List<Aula> find(String name) {
 		List<Aula> lista = em.createQuery("SELECT a FROM Aula a WHERE a.name LIKE :name")
 				.setParameter("name", "%" + name + "%")
@@ -36,7 +33,6 @@ public class AulaRepository implements RepositoryInterface<Aula> {
 		return lista;
 	}
 
-	@Override
 	@Transactional
 	public long save(Aula object) {
 		Session session = em.unwrap(Session.class);
@@ -45,7 +41,6 @@ public class AulaRepository implements RepositoryInterface<Aula> {
 		return object.getId();
 	}
 
-	@Override
 	@Transactional
 	public boolean delete(long id) {
 		Aula aula = em.find(Aula.class, id);

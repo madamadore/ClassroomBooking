@@ -13,7 +13,6 @@
 	<mvc:annotation-driven />
 
 	<mvc:resources mapping="/resources/**" location="/WEB-INF/resources/" />
-	<mvc:resources mapping="/js/**" location="/WEB-INF/resources/js/" />
 
 	<beans:bean id="templateResolver"
 		class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
@@ -34,11 +33,5 @@
 
 	<component-scan base-package="it.tecnosphera.booking.classroom.*" />
 
-	<!-- 
-	<beans:bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-		<beans:property name="entityManagerFactory" ref="entityManagerFactory" />
-	</beans:bean>
-	-->
-	
 	<tx:annotation-driven transaction-manager="transactionManager" />
 </beans:beans>

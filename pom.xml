@@ -4,10 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>it.tecnosphera.booking</groupId>
-	<artifactId>classroom</artifactId>
-	<name>Classroom</name>
-	<version>0.1.0</version>
-
+	<artifactId>aule</artifactId>
+	<name>Aule</name>
+	<version>0.1.alpha</version>
+	<packaging>war</packaging>
+	
 	<properties>
 		<java.version>1.7</java.version>
 		<spring.version>4.1.6.RELEASE</spring.version>
@@ -17,6 +18,12 @@
 
 	<dependencies>
 		
+		<dependency>
+		    <groupId>javax.servlet</groupId>
+		    <artifactId>javax.servlet-api</artifactId>
+		    <version>3.0.1</version>
+		    <scope>provided</scope>
+		</dependency>
 		<!-- Form Validation using Annotations -->  
 		<!--<dependency>
 			<groupId>javax.validation</groupId>
@@ -123,4 +130,36 @@
 
 	</dependencies>
 
+	<build>
+	<finalName>Aule</finalName>
+	<plugins>
+		<plugin>            
+		  <groupId>org.apache.maven.plugins</groupId>
+		  <artifactId>maven-war-plugin</artifactId>
+		  <version>2.6</version>
+		  <configuration>
+		    <webXml>WebContent/WEB-INF/web.xml</webXml>
+		    <!-- 
+		    <webResources>
+		            <resource> 
+		              <directory>WebContent/WEB-INF/resources</directory>
+		              <directory>WebContent/WEB-INF/spring</directory>
+		              <directory>WebContent/WEB-INF/views</directory>
+		            
+		            </resource>
+		          </webResources>
+		           -->
+		    <modules>
+		             <webModule>
+		               <groupId>artifactGroupId</groupId>
+		               <artifactId>artifactId</artifactId>
+		               <contextRoot>aule</contextRoot>
+		             </webModule>
+	              </modules>      
+	              
+		  </configuration>
+		</plugin>
+		
+	</plugins>
+	</build>
 </project>

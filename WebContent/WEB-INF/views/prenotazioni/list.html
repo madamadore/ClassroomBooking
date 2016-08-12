@@ -8,15 +8,22 @@
 <link rel="stylesheet" media="print"
 	href="http://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.7.3/fullcalendar.print.css"></link>
 
+<style>
+#attesaPrenotazioni {
+  display:none;
+	
+}
+.centered{ text-align:center; } 
+</style>
 </head>
 
 <body>
 	<div th:replace="include/navbar"></div>
 	<div class="container">
 		<div class="row">
+			<div class="centered col-md-12"><img id="attesaPrenotazioni" class="img-responsive"
+					src="resources/img/loading-icon.gif" /></div>
 			<div class="col-md-12">
-				<img id="attesaPrenotazioni" style="display: none" class="img-responsive"
-					src="resources/img/loading-icon.gif" />
 				<div id="calendar"></div>
 			</div>
 		</div>
@@ -29,7 +36,7 @@
 		src="http://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.7.3/fullcalendar.min.js"></script>
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.7.3/lang/it.js"></script>
-	<script th:src="@{/js/calendar.js}" />
+	<script th:src="@{/resources/js/calendar.js}" />
 
 </body>
 </html>

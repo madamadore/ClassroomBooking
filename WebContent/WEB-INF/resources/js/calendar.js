@@ -7,7 +7,7 @@ $(document).ready(function(event) {
 			$("#attesaPrenotazioni").css("display", "unset");
 			$.ajax({
 				type : "GET",
-				url : '/ClassroomBooking/ajax/prenotazioni',
+				url : 'ajax/prenotazioni',
 				dataType : 'json',
 				success : function(data) {
 					$("#calendar").css("display", "unset");
@@ -85,7 +85,7 @@ function hasPermissions(calEvent) {
 	$.ajax({
 		type : "POST",
 		contentType : "application/json",
-		url : '/ClassroomBooking/ajax/hasPermissions',
+		url : 'ajax/hasPermissions',
 		data : JSON.stringify(calEvent.owner),
 		dataType : 'json',
 		timeout : 10000,
@@ -212,7 +212,7 @@ function salvaPrenotazione(render) {
 	});
 	$.ajax({
 		type : "POST",
-		url : '/ClassroomBooking/prenotazioni/ajax/save',
+		url : 'prenotazioni/ajax/save',
 		data : {
 			aula : $("#edit_prenotazione #selectAula option:selected").val(),
 			startTime : $("#edit_prenotazione #startTime").val(),
@@ -277,7 +277,7 @@ function deleteEvent(idPrenotazione) {
 	});
 	$.ajax({
 		type : "POST",
-		url : '/ClassroomBooking/prenotazioni/ajax/delete',
+		url : 'prenotazioni/ajax/delete',
 		data : {
 			id : idPrenotazione
 		},

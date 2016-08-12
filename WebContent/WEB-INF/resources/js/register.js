@@ -10,7 +10,7 @@ $("#form").validate({
 
 		email : {
 			required : true,
-			remote : '/ClassroomBooking/ajax/emailValidation'
+			remote : 'ajax/emailValidation'
 		}
 	},
 	messages : {
