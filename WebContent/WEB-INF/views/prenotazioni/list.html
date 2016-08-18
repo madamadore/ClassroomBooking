@@ -8,6 +8,7 @@
 <link rel="stylesheet" media="print"
 	href="http://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.7.3/fullcalendar.print.css"></link>
 
+
 <style>
 #attesaPrenotazioni {
   display:none;
@@ -15,9 +16,11 @@
 }
 .centered{ text-align:center; } 
 </style>
+
 </head>
 
 <body>
+
 	<div th:replace="include/navbar"></div>
 	<div class="container">
 		<div class="row">
@@ -30,6 +33,7 @@
 	</div>
 
 	<div th:replace="prenotazioni/dialog"></div>
+
 	<div th:replace="prenotazioni/view"></div>
 	<div th:replace="include/footer"></div>
 	<script

@@ -1,6 +1,7 @@
 package it.tecnosphera.booking.classroom.controller;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -42,9 +43,14 @@ public class PrenotazioniController {
 	public static final String MISSING_PERMISSION = "missingPermission";
 	public static final String PRENOTAZIONE_CONFLICT = "conflict";
 
-	@RequestMapping(value = "/view")
+	@RequestMapping(value = "/ajax/view")
 	public String visualizzaPrenotazione() {
 		return "prenotazioni/view";
+	}
+	
+	@RequestMapping(value = "/ajax/list", method = RequestMethod.GET)
+	public @ResponseBody List<Prenotazione> elaboraPrenotazioni() {
+		return prenotazioneRepository.findAll();
 	}
 
 	@RequestMapping(value = "/ajax/save", method = RequestMethod.POST)
@@ -65,6 +71,7 @@ public class PrenotazioniController {
 				.getContext().getAuthentication().getPrincipal();
 		User user = userRepository.findByEmail(u.getUsername());
 		Prenotazione prenotazione = new Prenotazione();
+
 		Date start = utilityMethods.creaData(startTime, startDate);
 		Date end = utilityMethods.creaData(endTime, endDate);
 		Aula a = null;
@@ -81,6 +88,7 @@ public class PrenotazioniController {
 		if (!"".equals(id)) {
 			long preId = Long.parseLong(id);
 			prenotazione.setId(preId);
+
 			User owner = prenotazioneRepository.find(preId).getOwner();
 			prenotazione.setOwner(owner);
 		}

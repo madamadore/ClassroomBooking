@@ -10,7 +10,7 @@ $("#form").validate({
 
 		email : {
 			required : true,
-			remote : 'ajax/emailValidation'
+			remote : 'uer/ajax/emailValidation'
 		}
 	},
 	messages : {

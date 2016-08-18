@@ -9,6 +9,5 @@ import it.tecnosphera.booking.classroom.model.Prenotazione;
 
 public interface PrenotazioneRepositoryInterface extends RepositoryInterface<Prenotazione> {
 
-	public List<Prenotazione> getPrenotazioniInConflitto(Date da, Date a, Aula aula);
-	
+	public List<Prenotazione> getPrenotazioniInConflitto(Date da, Date a, Aula aula);	
 }

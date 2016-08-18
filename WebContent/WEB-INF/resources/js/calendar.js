@@ -7,7 +7,7 @@ $(document).ready(function(event) {
 			$("#attesaPrenotazioni").css("display", "unset");
 			$.ajax({
 				type : "GET",
-				url : 'ajax/prenotazioni',
+				url : 'prenotazioni/ajax/list',
 				dataType : 'json',
 				success : function(data) {
 					$("#calendar").css("display", "unset");

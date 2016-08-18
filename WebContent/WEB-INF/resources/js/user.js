@@ -37,23 +37,6 @@ $(document)
 												+ rowCount
 												+ '].name" type="hidden">';
 
-										// var input1 = '<input type="hidden"'
-										// /* [[th:field="*{userRole[__${']] */
-										// + rowCount
-										// + /* [['}__].user"]] */' value="'
-										// + $("#id").val() + '" />';
-										// var input2 = '<input type="hidden"'
-										// /* [[th:field="*{userRole[__${']] */
-										// + rowCount
-										// + /* [['}__].role"]] */' value="'
-										// + ruolo + '" />';
-										// var input3 = '<input type="hidden"'
-										// /* [[th:field="*{userRole[__${']] */
-										// + rowCount
-										// + /* [['}__].descrizione"]] */'
-										// value="'
-										// + descRuolo + '" />';
-
 										var context = '<tr><td>&nbsp;</td><td>'
 												+ name
 												+ '</td>'
@@ -77,7 +60,6 @@ $(document)
 						$(this).parent().parent().remove();
 					});
 
-					/* ]]> */
 
 				});
 

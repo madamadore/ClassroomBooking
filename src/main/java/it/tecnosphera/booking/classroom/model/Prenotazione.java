@@ -17,6 +17,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "prenotazioni")
+
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type")
 @DiscriminatorValue(value = "Prenotazione")
@@ -91,14 +92,5 @@ public class Prenotazione {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	
-//	public String getJson(){
-//		StringBuilder sb = new StringBuilder();
-//		sb.append("{");
-//		sb.append("\"id\":\""+id+"\", ");
-//		sb.append("\"title\":\""+title+"\", ");
-//		sb.append("\"start\":\""+start+"\", ");
-//		sb.append("\"end\":\""+end+"\", ");
-//		sb.append("\"id\":\""+id+"\", ");
-//	}
+
 }
