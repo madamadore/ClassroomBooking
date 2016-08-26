@@ -1,21 +1,6 @@
 <div id="edit_prenotazione" class="form-horizontal">
-	<div class="form-group">
-		<div class='col-sm-2'></div>
-		<div class='col-sm-8'>
-			<img id="attesa" style="display: none" class="img-responsive"
-				src="resources/img/loading-icon.gif" />
-		</div>
-		<div class='col-sm-2'></div>
-	</div>
 
 	<div id="inputPrenotazione">
-
-		<div class="form-group">
-			<div id="errorDiv" class="alert alert-danger col-sm-12"
-				style="display: none">
-				<strong><span id="errorMessage">ERRORE</span></strong>
-			</div>
-		</div>
 
 		<div class="form-group">
 			<label class='col-sm-3 col-md-offset-1 control-label'>Aula:</label>
@@ -85,14 +70,11 @@
 
 		<div class="form-group">
 			<div class='col-sm-1'></div>
-			<button type="button" class="btn btn-default col-sm-2"
-				data-dismiss="modal">Chiudi</button>
-			<div class='col-sm-1'></div>
 			<button id="deleteButton" type="button"
-				class="btn btn-primary col-sm-3">Elimina</button>
-			<div class='col-sm-1'></div>
+				class="btn btn-danger col-sm-4">Elimina</button>
+			<div class='col-sm-2'></div>
 			<button id="salvaPrenotazione" type="button"
-				class="btn btn-primary col-sm-3">Salva</button>
+				class="btn btn-success col-sm-4">Salva</button>
 			<div class='col-sm-1'></div>
 		</div>
 		<input id="csrf" type="hidden" th:name="${_csrf.parameterName}"

@@ -1,6 +1,7 @@
 package it.tecnosphera.booking.classroom.controller;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,6 +24,8 @@ public class LezioniController extends PrenotazioniController {
 
 	@Autowired
 	LezioneRepositoryInterface lezioneRepository;
+
+	public static final String LIMIT_EXEEDED = "limitExeeded";
 
 	@RequestMapping(value = "/view")
 	public String visualizzaPrenotazione() {
@@ -65,14 +68,16 @@ public class LezioniController extends PrenotazioniController {
 		if (id != null && !id.isEmpty()) {
 			long preId = Long.parseLong(id);
 			lezione.setId(preId);
-			owner = lezioneRepository.find(preId).getOwner();
+			Lezione vecchiaLezione = lezioneRepository.find(preId);
+			owner = vecchiaLezione.getOwner();
+			lezione.setIscritti(vecchiaLezione.getIscritti());
 		}
 		lezione.setOwner(owner);
 		lezione.setDescrizione(descrizione);
 		lezione.setDocente(docente);
 		if (limite != null && !limite.isEmpty()) {
 			lezione.setLimite(Integer.parseInt(limite.trim()));
-		} else{
+		} else {
 			lezione.setLimite(a.getCapienza());
 		}
 		if (lezione.getId() > 0) {
@@ -100,5 +105,61 @@ public class LezioniController extends PrenotazioniController {
 		Prenotazione p = lezioneRepository.find(idLezione);
 		lezioneRepository.delete(idLezione);
 		return OK;
+	}
+
+	@RequestMapping(value = "/ajaxLezioni/iscriviti", method = RequestMethod.POST)
+	public @ResponseBody String iscriviti(@RequestParam("idLezione") String idLezione) {
+		if (!utilityMethods.isLogged()) {
+			return LOGIN_REQUIRED;
+		}
+		org.springframework.security.core.userdetails.User u = (org.springframework.security.core.userdetails.User) SecurityContextHolder
+				.getContext().getAuthentication().getPrincipal();
+		User user = userRepository.findByEmail(u.getUsername());
+		Lezione lezione = lezioneRepository.find(Long.parseLong(idLezione));
+		List<User> iscritti = lezione.getIscritti();
+		iscritti.add(user);
+		if (iscritti.size() > lezione.getLimite()) {
+			return LIMIT_EXEEDED;
+		}
+		lezioneRepository.save(lezione);
+		return OK;
+	}
+
+	@RequestMapping(value = "/ajaxLezioni/annullaIscrizione", method = RequestMethod.POST)
+	public @ResponseBody String annullaIscrizione(@RequestParam("idLezione") String idLezione) {
+		if (!utilityMethods.isLogged()) {
+			return LOGIN_REQUIRED;
+		}
+		org.springframework.security.core.userdetails.User u = (org.springframework.security.core.userdetails.User) SecurityContextHolder
+				.getContext().getAuthentication().getPrincipal();
+		User user = userRepository.findByEmail(u.getUsername());
+
+		Lezione lezione = lezioneRepository.find(Long.parseLong(idLezione));
+		lezione.getIscritti().remove(user);
+		lezioneRepository.save(lezione);
+		return OK;
+	}
+
+	@RequestMapping(value = "/ajaxLezioni/verificaIscrizione", method = RequestMethod.POST)
+	public @ResponseBody boolean verificaIscrizione(@RequestParam("idLezione") String idLezione) {
+		if (!utilityMethods.isLogged()) {
+			return false;
+		}
+		org.springframework.security.core.userdetails.User u = (org.springframework.security.core.userdetails.User) SecurityContextHolder
+				.getContext().getAuthentication().getPrincipal();
+		User user = userRepository.findByEmail(u.getUsername());
+		Lezione lezione = lezioneRepository.find(Long.parseLong(idLezione));
+		return lezione.getIscritti().contains(user);
+	}
+
+	@RequestMapping(value = "/ajaxLezioni/getIscritti", method = RequestMethod.POST)
+	public @ResponseBody String[] getIscritti(@RequestParam("idLezione") String idLezione) {
+		Object[] iscritti = lezioneRepository.find(Long.parseLong(idLezione)).getIscritti().toArray();
+		String[] nomi = new String[iscritti.length];
+		for (int i = 0; i < nomi.length; i++) {
+			User u = (User) iscritti[i];
+			nomi[i] = u.getName() + " " + u.getCognome();
+		}
+		return nomi;
 	}
 }

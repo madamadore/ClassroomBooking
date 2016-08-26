@@ -1,7 +1,9 @@
 package it.tecnosphera.booking.classroom.model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
@@ -19,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @Table(name = "lezioni")
 @DiscriminatorValue(value = "Lezione")
 public class Lezione extends Prenotazione {
-	
+
 	@Transient
 	@JsonProperty
 	private final String type = "Lezione";
@@ -39,6 +41,11 @@ public class Lezione extends Prenotazione {
 	private String docente;
 
 	public List<User> getIscritti() {
+		// hibernate (probabilmente a causa di un join) duplica gli iscritti,
+		// quest'operazione e' necessaria per rimuovere i duplicati
+		Set<User> set = new HashSet<User>(iscritti);
+		List<User> list = new ArrayList<User>(set);
+		iscritti = list;
 		return iscritti;
 	}
 
