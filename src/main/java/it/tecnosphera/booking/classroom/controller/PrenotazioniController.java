@@ -1,6 +1,7 @@
 package it.tecnosphera.booking.classroom.controller;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import it.tecnosphera.booking.classroom.business.UtilityMethods;
 import it.tecnosphera.booking.classroom.model.Aula;
+import it.tecnosphera.booking.classroom.model.Lezione;
 import it.tecnosphera.booking.classroom.model.Prenotazione;
 import it.tecnosphera.booking.classroom.model.User;
 import it.tecnosphera.booking.classroom.repository.PrenotazioneRepositoryInterface;
@@ -42,9 +44,14 @@ public class PrenotazioniController {
 	public static final String MISSING_PERMISSION = "missingPermission";
 	public static final String PRENOTAZIONE_CONFLICT = "conflict";
 
-	@RequestMapping(value = "/view")
+	@RequestMapping(value = "/ajax/view")
 	public String visualizzaPrenotazione() {
 		return "prenotazioni/view";
+	}
+
+	@RequestMapping(value = "/ajax/list", method = RequestMethod.GET)
+	public @ResponseBody List<Prenotazione> elaboraPrenotazioni() {
+		return prenotazioneRepository.findAll();
 	}
 
 	@RequestMapping(value = "/ajax/save", method = RequestMethod.POST)
@@ -52,6 +59,7 @@ public class PrenotazioniController {
 			@RequestParam("startTime") String startTime, @RequestParam("endTime") String endTime,
 			@RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate,
 			@RequestParam("id") String id) {
+		System.out.println("startDate = " + startDate);
 		if (!utilityMethods.isLogged()) {
 			return new AjaxResponse(LOGIN_REQUIRED, null);
 		}
@@ -64,8 +72,9 @@ public class PrenotazioniController {
 		org.springframework.security.core.userdetails.User u = (org.springframework.security.core.userdetails.User) SecurityContextHolder
 				.getContext().getAuthentication().getPrincipal();
 		User user = userRepository.findByEmail(u.getUsername());
-		
+
 		Prenotazione prenotazione = new Prenotazione();
+
 		Date start = utilityMethods.creaData(startTime, startDate);
 		Date end = utilityMethods.creaData(endTime, endDate);
 		Aula a = null;
@@ -79,7 +88,7 @@ public class PrenotazioniController {
 		prenotazione.setStart(start);
 		prenotazione.setEnd(end);
 		User owner = user;
-		if (id!=null && !id.isEmpty()) {
+		if (id != null && !id.isEmpty()) {
 			long preId = Long.parseLong(id);
 			prenotazione.setId(preId);
 			owner = prenotazioneRepository.find(preId).getOwner();

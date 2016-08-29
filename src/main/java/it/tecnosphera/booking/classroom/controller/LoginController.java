@@ -33,12 +33,10 @@ public class LoginController {
 
 	@Autowired
 	RepositoryInterface<Aula> aulaRepository;
-
-	@Autowired
-	RepositoryInterface<Prenotazione> prenotazioniRepository;
 	
 	@Autowired
 	RoleRepositoryInterface roleRepository;
+
 
 	@RequestMapping(value = "/")
 	public String home(Model m) {
@@ -66,9 +64,6 @@ public class LoginController {
 			email = email.concat("@tecnosphera.it");
 		}
 
-//		if(userRepository.findByEmail(email)!=null){
-//			return "redirect:/register/";
-//		}
 		user.setEmail(email);
 		user.setEnabled(true);
 		user.setPassword(userRepository.MD5Hashing(user.getPassword()));

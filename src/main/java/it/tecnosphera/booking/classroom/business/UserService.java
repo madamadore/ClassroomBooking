@@ -29,7 +29,6 @@ public class UserService implements UserDetailsService {
 	}
 
 	@Transactional(readOnly = true)
-	@Override
 	public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
 
 		User user = userDao.findByEmail(username + "@tecnosphera.it");

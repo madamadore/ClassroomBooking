@@ -20,27 +20,22 @@ public class PrenotazioneRepository implements PrenotazioneRepositoryInterface {
 	@PersistenceContext
 	private EntityManager entityManager;
 
-	@Override
 	public Prenotazione find(long id) {
 		Prenotazione prenotazione = entityManager.find(Prenotazione.class, id);
 		return prenotazione;
 	}
 
-	@Override
 	public List<Prenotazione> findAll() {
-		List<Prenotazione> lista = entityManager.createQuery("SELECT u FROM Prenotazione u").getResultList();
-		return lista;
+		return entityManager.createQuery("SELECT u FROM Prenotazione u").getResultList();
 	}
 
 	@Transactional
-	@Override
 	public boolean delete(long id) {
 		Prenotazione p = entityManager.find(Prenotazione.class, id);
 		entityManager.remove(p);
 		return true;
 	}
 
-	@Override
 	public List<Prenotazione> getPrenotazioniInConflitto(Date prenotazioneCorrenteStart, Date prenotazioneCorrenteEnd, Aula aula) {
 
 		Query q = entityManager.createQuery(
@@ -53,7 +48,6 @@ public class PrenotazioneRepository implements PrenotazioneRepositoryInterface {
 	}
 
 	@Transactional
-	@Override
 	public long save(Prenotazione prenotazione) {
 		Session session = entityManager.unwrap(Session.class);
 		session.saveOrUpdate(prenotazione);

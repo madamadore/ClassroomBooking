@@ -24,20 +24,17 @@ public class UserRepository implements UserRepositoryInterface {
 		this.entityManager = entityManager;
 	}
 	
-	@Override
 	public User find(long id) {
 		User user = entityManager.find(User.class, id);
 		return user;
 	}
 
-	@Override
 	public List<User> findAll() {
 		List<User> lista = entityManager.createQuery("SELECT u FROM User u").getResultList();
 		return lista;
 	}	
 
 	@Transactional
-	@Override
 	public long save(User user) {
 		Session session = entityManager.unwrap(Session.class);
 		session.saveOrUpdate(user);
@@ -46,18 +43,15 @@ public class UserRepository implements UserRepositoryInterface {
 	}
 	
 	@Transactional
-	@Override
 	public boolean delete(long id) {
 		User user = entityManager.find(User.class, id);
 		entityManager.remove(user);
 		return true;
 	}
-	
+
 	@Transactional
 	public User findByEmail(String email) {
-		 
 		List<User> users = new ArrayList<User>();
- 
 		Session session = entityManager.unwrap(Session.class);
 		users = session
 				.createQuery("from User where email=:email")

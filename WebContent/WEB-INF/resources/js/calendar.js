@@ -7,9 +7,14 @@ $(document).ready(function(event) {
 			$("#attesaPrenotazioni").css("display", "unset");
 			$.ajax({
 				type : "GET",
-				url : '/ClassroomBooking/ajax/prenotazioni',
+				url : 'prenotazioni/ajax/list',
 				dataType : 'json',
 				success : function(data) {
+					for (var i = 0; i < data.length; i++) {
+						if (data[i].type == "Lezione") {
+							data[i].color = "#01DF01";
+						}
+					}
 					$("#calendar").css("display", "unset");
 					$("#attesaPrenotazioni").css("display", "none");
 					callback(data);
@@ -27,10 +32,15 @@ $(document).ready(function(event) {
 		// when too many
 		// events
 		dayClick : function(date, jsEvent, view) {
+			console.log("hasRole = " + hasRole("ROLE_TECHER"));
 			setCreationModal(date, "edit_prenotazione");
-			setCreationModal(date, "edit_lezione");
+			if(hasRole("ROLE_TECHER")){
+				setCreationModal(date, "edit_lezione");
+				$("#dialog #optPrenotazione").prop("checked", true);
+			}else{
+				$("#dialog #typePrenotazione").css("display", "none");
+			}
 			$("#dialog #errorDiv").css("display", "none");
-			$("#dialog #optPrenotazione").prop("checked", true);
 			$("#edit_lezione").css("display", "none");
 			$("#edit_prenotazione").css("display", "unset");
 			$('#dialog').modal('show');
@@ -39,7 +49,7 @@ $(document).ready(function(event) {
 			var hasPerm = hasPermissions(calEvent);
 			if (hasPerm) {
 				$("#dialog #errorDiv").css("display", "none");
-				$("#typePrenotazione").css("display", "none");
+				$("#dialog #typePrenotazione").css("display", "none");
 				if (calEvent.type == "Prenotazione") {
 					setEditModal(calEvent, "edit_prenotazione");
 					$("#edit_lezione").css("display", "none");
@@ -186,7 +196,7 @@ function hasPermissions(calEvent) {
 	$.ajax({
 		type : "POST",
 		contentType : "application/json",
-		url : '/ClassroomBooking/ajax/hasPermissions',
+		url : 'ajax/hasPermissions',
 		data : JSON.stringify(calEvent.owner),
 		dataType : 'json',
 		timeout : 10000,
@@ -357,7 +367,7 @@ function salvaPrenotazione(render) {
 	});
 	$.ajax({
 		type : "POST",
-		url : '/ClassroomBooking/prenotazioni/ajax/save',
+		url : 'prenotazioni/ajax/save',
 		data : {
 			aula : $("#edit_prenotazione #selectAula option:selected").val(),
 			startTime : $("#edit_prenotazione #startTime").val(),
@@ -415,7 +425,7 @@ function salvaLezione(render) {
 	});
 	$.ajax({
 		type : "POST",
-		url : '/ClassroomBooking/lezioni/ajaxLezioni/save',
+		url : 'lezioni/ajaxLezioni/save',
 		data : {
 			aula : $("#edit_lezione #selectAula option:selected").val(),
 			startTime : $("#edit_lezione #startTime").val(),
@@ -439,6 +449,7 @@ function salvaLezione(render) {
 				if (render) {
 					$('#calendar').fullCalendar('removeEvents',
 							ajaxResponse.event.id);
+					ajaxResponse.event.color = "#01DF01";
 					$('#calendar').fullCalendar('renderEvent',
 							ajaxResponse.event);
 				}
@@ -470,7 +481,7 @@ function deleteEvent(idPrenotazione) {
 	});
 	$.ajax({
 		type : "POST",
-		url : '/ClassroomBooking/prenotazioni/ajax/delete',
+		url : 'prenotazioni/ajax/delete',
 		data : {
 			id : idPrenotazione
 		},
@@ -511,7 +522,8 @@ function updateEndDate(modalId) {
 			.format("YYYYMMDD")
 			+ $('#' + modalId + ' #endTimeDiv').data('DateTimePicker').date()
 					.format("HHmm");
-	if (end - start < 100) {
+	var unora = 100;
+	if (end - start < unora) {
 		$('#' + modalId + ' #endTimeDiv').data('DateTimePicker').date(
 				dataMinima);
 		$('#' + modalId + ' #endDateDiv').data('DateTimePicker').date(
@@ -591,7 +603,7 @@ function iscriviti(idLezione, modalId) {
 	}
 	$.ajax({
 		type : "POST",
-		url : '/ClassroomBooking/lezioni/ajaxLezioni/iscriviti',
+		url : 'lezioni/ajaxLezioni/iscriviti',
 		timeout : 10000,
 		data : {
 			idLezione : idLezione
@@ -657,7 +669,7 @@ function annullaIscrizione(idLezione, modalId) {
 	}
 	$.ajax({
 		type : "POST",
-		url : '/ClassroomBooking/lezioni/ajaxLezioni/annullaIscrizione',
+		url : 'lezioni/ajaxLezioni/annullaIscrizione',
 		timeout : 10000,
 		data : {
 			idLezione : idLezione
@@ -667,7 +679,7 @@ function annullaIscrizione(idLezione, modalId) {
 			if (modalId == "edit_lezione") {
 				$("#edit_lezione #inputPrenotazione").css("display", "unset");
 				$("#dialog #attesa").css("display", "none");
-				errorModal="dialog";
+				errorModal = "dialog";
 			} else {
 				$("#" + modalId + " #informazioni").css("display", "unset");
 				$("#" + modalId + " #attesa").css("display", "none");
@@ -687,7 +699,7 @@ function annullaIscrizione(idLezione, modalId) {
 			if (modalId == "edit_lezione") {
 				$("#edit_lezione #inputPrenotazione").css("display", "unset");
 				$("#dialog #attesa").css("display", "none");
-				errorModal="dialog";
+				errorModal = "dialog";
 			} else {
 				$("#" + modalId + " #informazioni").css("display", "unset");
 				$("#" + modalId + " #attesa").css("display", "none");
@@ -713,7 +725,7 @@ function verificaIscrizione(idLezione) {
 	var iscritto = false;
 	$.ajax({
 		type : "POST",
-		url : '/ClassroomBooking/lezioni/ajaxLezioni/verificaIscrizione',
+		url : 'lezioni/ajaxLezioni/verificaIscrizione',
 		dataType : 'json',
 		data : {
 			idLezione : idLezione
@@ -736,7 +748,7 @@ function getIscritti(idLezione) {
 	var nomi = [];
 	$.ajax({
 		type : "POST",
-		url : '/ClassroomBooking/lezioni/ajaxLezioni/getIscritti',
+		url : 'lezioni/ajaxLezioni/getIscritti',
 		dataType : 'json',
 		data : {
 			idLezione : idLezione
@@ -756,4 +768,27 @@ function getIscritti(idLezione) {
 		htmlNomi = '<li class="list-group-item">Nessun Iscritto</li>';
 	}
 	$("#registeredDialog #listaNomi").html(htmlNomi);
+}
+
+function hasRole(role) {
+	var token = $("input[name='_csrf']").val();
+	var header = "X-CSRF-TOKEN";
+	$(document).ajaxSend(function(e, xhr, options) {
+		xhr.setRequestHeader(header, token);
+	});
+	var hasRole = false;
+	$.ajax({
+		type : "POST",
+		url : 'admin/user/ajax/hasRole',
+		data : {
+			role : role
+		},
+		dataType : 'json',
+		timeout : 10000,
+		async : false,
+		success : function(data) {
+			hasRole = data;
+		}
+	});
+	return hasRole;
 }

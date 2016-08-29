@@ -20,6 +20,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name = "prenotazioni")
+
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type")
 @DiscriminatorValue(value = "Prenotazione")
@@ -27,7 +28,7 @@ public class Prenotazione {
 
 	@Transient
 	@JsonProperty
-	private final String type = "Prenotazione";
+	public final String type = "Prenotazione";
 	
 	@Column(name = "title")
 	protected String title;
@@ -50,6 +51,8 @@ public class Prenotazione {
 	@OneToOne
 	@JoinColumn(name = "aula_id")
 	private Aula classRoom;
+	
+	private String color;
 
 	public long getId() {
 		return id;
@@ -97,5 +100,13 @@ public class Prenotazione {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
 	}
 }

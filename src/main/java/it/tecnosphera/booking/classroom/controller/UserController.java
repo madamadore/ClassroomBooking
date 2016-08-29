@@ -7,9 +7,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import it.tecnosphera.booking.classroom.business.UtilityMethods;
 import it.tecnosphera.booking.classroom.model.Role;
 import it.tecnosphera.booking.classroom.model.User;
 import it.tecnosphera.booking.classroom.repository.RoleRepositoryInterface;
@@ -24,7 +28,18 @@ public class UserController {
 	
 	@Autowired
 	RoleRepositoryInterface roleRepository;
+	
+	@Autowired
+	UtilityMethods utilityMethods;
 
+	@RequestMapping(value = "/ajax/emailValidation", method = RequestMethod.GET)
+	private @ResponseBody Boolean emailValidation(@RequestParam("email") String email) {
+		if (email != null && !email.contains("@tecnosphera.it")) {
+			email = email.concat("@tecnosphera.it");
+		}
+		return userRepository.findByEmail(email) == null;
+	}
+	
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
 	public String editUser(@PathVariable long id, Model model) {
 		User user = userRepository.find(id);
@@ -85,4 +100,10 @@ public class UserController {
 		userRepository.delete(id);
 		return "redirect:/admin/user/";
 	}
+	
+	@RequestMapping(value = "/ajax/hasRole", method = RequestMethod.POST)
+	private @ResponseBody Boolean hasRole(@RequestParam String role) {
+		return utilityMethods.hasRole(role);
+	}
+	
 }

@@ -3,3 +3,5 @@
 .project
 /build/
 /target/
+.settings/org.hibernate.eclipse.console.prefs
+.tern-project

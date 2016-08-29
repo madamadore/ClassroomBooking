@@ -60,7 +60,6 @@ $(document)
 						$(this).parent().parent().remove();
 					});
 
-					/* ]]> */
 
 				});
 

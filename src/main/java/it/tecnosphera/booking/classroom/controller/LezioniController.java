@@ -47,6 +47,9 @@ public class LezioniController extends PrenotazioniController {
 			return new AjaxResponse(MISSING_INPUT, null);
 		}
 
+		if (!utilityMethods.hasRole("ROLE_TECHER"))
+			return new AjaxResponse(MISSING_PERMISSION, null);
+		
 		org.springframework.security.core.userdetails.User u = (org.springframework.security.core.userdetails.User) SecurityContextHolder
 				.getContext().getAuthentication().getPrincipal();
 		User user = userRepository.findByEmail(u.getUsername());
