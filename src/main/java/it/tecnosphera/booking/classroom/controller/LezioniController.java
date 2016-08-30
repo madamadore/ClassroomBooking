@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import it.tecnosphera.booking.classroom.controller.PrenotazioniController.AjaxResponse;
 import it.tecnosphera.booking.classroom.model.Aula;
 import it.tecnosphera.booking.classroom.model.Lezione;
 import it.tecnosphera.booking.classroom.model.Prenotazione;
@@ -49,7 +50,7 @@ public class LezioniController extends PrenotazioniController {
 
 		if (!utilityMethods.hasRole("ROLE_TECHER"))
 			return new AjaxResponse(MISSING_PERMISSION, null);
-		
+
 		org.springframework.security.core.userdetails.User u = (org.springframework.security.core.userdetails.User) SecurityContextHolder
 				.getContext().getAuthentication().getPrincipal();
 		User user = userRepository.findByEmail(u.getUsername());
@@ -111,9 +112,9 @@ public class LezioniController extends PrenotazioniController {
 	}
 
 	@RequestMapping(value = "/ajaxLezioni/iscriviti", method = RequestMethod.POST)
-	public @ResponseBody String iscriviti(@RequestParam("idLezione") String idLezione) {
+	public @ResponseBody AjaxResponse iscriviti(@RequestParam("idLezione") String idLezione) {
 		if (!utilityMethods.isLogged()) {
-			return LOGIN_REQUIRED;
+			return new AjaxResponse(LOGIN_REQUIRED, null);
 		}
 		org.springframework.security.core.userdetails.User u = (org.springframework.security.core.userdetails.User) SecurityContextHolder
 				.getContext().getAuthentication().getPrincipal();
@@ -122,16 +123,16 @@ public class LezioniController extends PrenotazioniController {
 		List<User> iscritti = lezione.getIscritti();
 		iscritti.add(user);
 		if (iscritti.size() > lezione.getLimite()) {
-			return LIMIT_EXEEDED;
+			return new AjaxResponse(LIMIT_EXEEDED, null);
 		}
 		lezioneRepository.save(lezione);
-		return OK;
+		return new AjaxResponse(OK, lezione);
 	}
 
 	@RequestMapping(value = "/ajaxLezioni/annullaIscrizione", method = RequestMethod.POST)
-	public @ResponseBody String annullaIscrizione(@RequestParam("idLezione") String idLezione) {
+	public @ResponseBody AjaxResponse annullaIscrizione(@RequestParam("idLezione") String idLezione) {
 		if (!utilityMethods.isLogged()) {
-			return LOGIN_REQUIRED;
+			return new AjaxResponse(LOGIN_REQUIRED, null);
 		}
 		org.springframework.security.core.userdetails.User u = (org.springframework.security.core.userdetails.User) SecurityContextHolder
 				.getContext().getAuthentication().getPrincipal();
@@ -140,7 +141,7 @@ public class LezioniController extends PrenotazioniController {
 		Lezione lezione = lezioneRepository.find(Long.parseLong(idLezione));
 		lezione.getIscritti().remove(user);
 		lezioneRepository.save(lezione);
-		return OK;
+		return new AjaxResponse(OK, lezione);
 	}
 
 	@RequestMapping(value = "/ajaxLezioni/verificaIscrizione", method = RequestMethod.POST)

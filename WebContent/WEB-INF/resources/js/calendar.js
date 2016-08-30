@@ -34,10 +34,10 @@ $(document).ready(function(event) {
 		dayClick : function(date, jsEvent, view) {
 			console.log("hasRole = " + hasRole("ROLE_TECHER"));
 			setCreationModal(date, "edit_prenotazione");
-			if(hasRole("ROLE_TECHER")){
+			if (hasRole("ROLE_TECHER")) {
 				setCreationModal(date, "edit_lezione");
 				$("#dialog #optPrenotazione").prop("checked", true);
-			}else{
+			} else {
 				$("#dialog #typePrenotazione").css("display", "none");
 			}
 			$("#dialog #errorDiv").css("display", "none");
@@ -335,7 +335,8 @@ function setViewModal(calEvent, modalId) {
 							+ '<span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>');
 	if (calEvent.type == "Lezione") {
 		$('#' + modalId + ' #titolo').text(calEvent.title);
-		$('#' + modalId + ' #limite').text(calEvent.limite);
+		$('#' + modalId + ' #posti').text(
+				calEvent.limite - calEvent.iscritti.length);
 		$('#' + modalId + ' #docente').text(calEvent.docente);
 		$('#' + modalId + ' #descrizione').text(calEvent.descrizione);
 		$('#' + modalId + ' #idLezione').val(calEvent.id);
@@ -608,8 +609,13 @@ function iscriviti(idLezione, modalId) {
 		data : {
 			idLezione : idLezione
 		},
-		success : function(data) {
+		dataType : 'json',
+		success : function(ajaxResponse) {
+			data = ajaxResponse.result;
 			var errorModal = modalId;
+			$('#calendar').fullCalendar('removeEvents', ajaxResponse.event.id);
+			ajaxResponse.event.color = "#01DF01";
+			$('#calendar').fullCalendar('renderEvent', ajaxResponse.event);
 			if (modalId == "edit_lezione") {
 				$("#edit_lezione #inputPrenotazione").css("display", "unset");
 				$("#dialog #attesa").css("display", "none");
@@ -622,6 +628,11 @@ function iscriviti(idLezione, modalId) {
 				$('#' + modalId + ' #iscrivitiDiv').css("display", "none");
 				$('#' + modalId + ' #annullaIscrizioneDiv').css("display",
 						"unset");
+				if (modalId == "viewLezione_modal") {
+					$('#' + modalId + ' #posti').text(
+							ajaxResponse.event.limite
+									- ajaxResponse.event.iscritti.length);
+				}
 			} else if (data == "limitExeeded") {
 				$("#" + errorModal + " #errorMessage").text(
 						"Limite di iscritti raggiunto");
@@ -674,8 +685,13 @@ function annullaIscrizione(idLezione, modalId) {
 		data : {
 			idLezione : idLezione
 		},
-		success : function(data) {
+		dataType : 'json',
+		success : function(ajaxResponse) {
+			data = ajaxResponse.result;
 			var errorModal = modalId;
+			$('#calendar').fullCalendar('removeEvents', ajaxResponse.event.id);
+			ajaxResponse.event.color = "#01DF01";
+			$('#calendar').fullCalendar('renderEvent', ajaxResponse.event);
 			if (modalId == "edit_lezione") {
 				$("#edit_lezione #inputPrenotazione").css("display", "unset");
 				$("#dialog #attesa").css("display", "none");
@@ -688,6 +704,11 @@ function annullaIscrizione(idLezione, modalId) {
 				$('#' + modalId + ' #iscrivitiDiv').css("display", "unset");
 				$('#' + modalId + ' #annullaIscrizioneDiv').css("display",
 						"none");
+				if (modalId == "viewLezione_modal") {
+					$('#' + modalId + ' #posti').text(
+							ajaxResponse.event.limite
+									- ajaxResponse.event.iscritti.length);
+				}
 			} else {
 				$("#" + errorModal + " #errorMessage").text(
 						"E' necessario effettuare il login");
