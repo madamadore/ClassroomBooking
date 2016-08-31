@@ -46,6 +46,8 @@ $(document).ready(function(event) {
 			$('#dialog').modal('show');
 		},
 		eventClick : function(calEvent, jsEvent, view) {
+			refreshedEvent = refreshEvent(calEvent.id);
+			calEvent = $("#calendar").fullCalendar('clientEvents', refreshedEvent.id)[0];
 			var hasPerm = hasPermissions(calEvent);
 			if (hasPerm) {
 				$("#dialog #errorDiv").css("display", "none");
@@ -275,14 +277,11 @@ function setEditModal(calEvent, modalId) {
 		format : 'DD-MM-YYYY'
 	});
 
-	$('#' + modalId + ' #startTimeDiv').data("DateTimePicker").date(
-			calEvent.start);
+	$('#' + modalId + ' #startTimeDiv').data("DateTimePicker").date(calEvent.start);
 	$('#' + modalId + ' #endTimeDiv').data("DateTimePicker").date(calEvent.end);
 
-	$('#' + modalId + ' #startDateDiv').data("DateTimePicker").date(
-			calEvent.start.format("DD-MM-YYYY"));
-	$('#' + modalId + ' #endDateDiv').data("DateTimePicker").date(
-			calEvent.end.format("DD-MM-YYYY"));
+	$('#' + modalId + ' #startDateDiv').data("DateTimePicker").date(calEvent.start.format("DD-MM-YYYY"));
+	$('#' + modalId + ' #endDateDiv').data("DateTimePicker").date(calEvent.end.format("DD-MM-YYYY"));
 
 	$('#' + modalId + ' #selectAula option:selected').prop("selected", false);
 	$('#' + modalId + ' #aulaN' + calEvent.classRoom.id).prop("selected", true);
@@ -290,15 +289,8 @@ function setEditModal(calEvent, modalId) {
 	$('#' + modalId + ' #idPrenotazioneDelete').val(calEvent.id);
 	$('#' + modalId + ' #deleteButton').removeAttr("disabled");
 	$('#' + modalId + ' #sendEmailDiv').css("display", "unset");
-	$('#' + modalId + ' #sendEmail').prop("href",
-			"mailto:" + calEvent.owner.email);
-	$('#' + modalId + ' #sendEmail')
-			.html(
-					calEvent.owner.name
-							+ " "
-							+ calEvent.owner.cognome
-							+ " "
-							+ '<span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>');
+	$('#' + modalId + ' #sendEmail').prop("href", "mailto:" + calEvent.owner.email);
+	$('#' + modalId + ' #sendEmail').html(calEvent.owner.name + " " + calEvent.owner.cognome + " " + '<span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>');
 
 	if (calEvent.type == "Lezione") {
 		$('#' + modalId + ' #titolo').val(calEvent.title);
@@ -324,19 +316,11 @@ function setViewModal(calEvent, modalId) {
 	$('#' + modalId + ' #startDate').text(calEvent.start.format("DD-MM-YYYY"));
 	$('#' + modalId + ' #endDate').text(calEvent.end.format("DD-MM-YYYY"));
 	$('#' + modalId + ' #aula').text(calEvent.classRoom.name);
-	$('#' + modalId + ' #sendEmail').prop("href",
-			"mailto:" + calEvent.owner.email);
-	$('#' + modalId + ' #sendEmail')
-			.html(
-					calEvent.owner.name
-							+ " "
-							+ calEvent.owner.cognome
-							+ " "
-							+ '<span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>');
+	$('#' + modalId + ' #sendEmail').prop("href", "mailto:" + calEvent.owner.email);
+	$('#' + modalId + ' #sendEmail').html(calEvent.owner.name + " " + calEvent.owner.cognome + " " + '<span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>');
 	if (calEvent.type == "Lezione") {
 		$('#' + modalId + ' #titolo').text(calEvent.title);
-		$('#' + modalId + ' #posti').text(
-				calEvent.limite - calEvent.iscritti.length);
+		$('#' + modalId + ' #posti').text(calEvent.limite - calEvent.iscritti.length);
 		$('#' + modalId + ' #docente').text(calEvent.docente);
 		$('#' + modalId + ' #descrizione').text(calEvent.descrizione);
 		$('#' + modalId + ' #idLezione').val(calEvent.id);
@@ -386,10 +370,8 @@ function salvaPrenotazione(render) {
 			if (data == "ok") {
 				$('#dialog').modal('hide');
 				if (render) {
-					$('#calendar').fullCalendar('removeEvents',
-							ajaxResponse.event.id);
-					$('#calendar').fullCalendar('renderEvent',
-							ajaxResponse.event);
+					$('#calendar').fullCalendar('removeEvents', ajaxResponse.event.id);
+					$('#calendar').fullCalendar('renderEvent', ajaxResponse.event);
 				}
 			} else {
 				showErrorMessage(data);
@@ -402,8 +384,7 @@ function salvaPrenotazione(render) {
 				$("#dialog #errorMessage").text("Il server non risponde");
 			} else {
 				console.log("Errore qui");
-				$("#dialog #errorMessage").text(
-						"E' necessario effettuare il login");
+				$("#dialog #errorMessage").text("E' necessario effettuare il login");
 			}
 			$("#dialog #errorDiv").css("display", "unset");
 		}
@@ -448,11 +429,9 @@ function salvaLezione(render) {
 			if (data == "ok") {
 				$('#dialog').modal('hide');
 				if (render) {
-					$('#calendar').fullCalendar('removeEvents',
-							ajaxResponse.event.id);
+					$('#calendar').fullCalendar('removeEvents', ajaxResponse.event.id);
 					ajaxResponse.event.color = "#01DF01";
-					$('#calendar').fullCalendar('renderEvent',
-							ajaxResponse.event);
+					$('#calendar').fullCalendar('renderEvent', ajaxResponse.event);
 				}
 			} else {
 				showErrorMessage(data);
@@ -464,8 +443,7 @@ function salvaLezione(render) {
 			if (errorThrown == "timeout") {
 				$("#dialog #errorMessage").text("Il server non risponde");
 			} else {
-				$("#dialog #errorMessage").text(
-						"E' necessario effettuare il login");
+				$("#dialog #errorMessage").text("E' necessario effettuare il login");
 			}
 			$("#dialog #errorDiv").css("display", "unset");
 		}
@@ -503,8 +481,7 @@ function deleteEvent(idPrenotazione) {
 			if (errorThrown == "timeout") {
 				$("#dialog #errorMessage").text("Il server non risponde");
 			} else {
-				$("#dialog #errorMessage").text(
-						"E' necessario effettuare il login");
+				$("#dialog #errorMessage").text("E' necessario effettuare il login");
 			}
 			$("#dialog #errorDiv").css("display", "unset");
 		}
@@ -519,16 +496,11 @@ function updateEndDate(modalId) {
 	var anno = $('#' + modalId + ' #startDate').val().substring(6, 10);
 	var dataMinima = new Date(anno, mese - 1, giorno, +ore + 1, min, 0, 0);
 	var start = "" + anno + mese + giorno + ore + min;
-	var end = $('#' + modalId + ' #endDateDiv').data('DateTimePicker').date()
-			.format("YYYYMMDD")
-			+ $('#' + modalId + ' #endTimeDiv').data('DateTimePicker').date()
-					.format("HHmm");
+	var end = $('#' + modalId + ' #endDateDiv').data('DateTimePicker').date().format("YYYYMMDD") + $('#' + modalId + ' #endTimeDiv').data('DateTimePicker').date().format("HHmm");
 	var unora = 100;
 	if (end - start < unora) {
-		$('#' + modalId + ' #endTimeDiv').data('DateTimePicker').date(
-				dataMinima);
-		$('#' + modalId + ' #endDateDiv').data('DateTimePicker').date(
-				dataMinima);
+		$('#' + modalId + ' #endTimeDiv').data('DateTimePicker').date(dataMinima);
+		$('#' + modalId + ' #endDateDiv').data('DateTimePicker').date(dataMinima);
 	}
 }
 
@@ -561,8 +533,7 @@ function showErrorMessage(data) {
 	} else if (data == "missingPermission") {
 		$("#dialog #errorMessage").text("Non hai i permessi");
 	} else if (data == "conflict") {
-		$("#dialog #errorMessage").text(
-				"Prenotazione in conflitto con un'altra");
+		$("#dialog #errorMessage").text("Prenotazione in conflitto con un'altra");
 	}
 	$("#dialog #errorDiv").css("display", "unset");
 }
@@ -626,20 +597,15 @@ function iscriviti(idLezione, modalId) {
 			}
 			if (data == "ok") {
 				$('#' + modalId + ' #iscrivitiDiv').css("display", "none");
-				$('#' + modalId + ' #annullaIscrizioneDiv').css("display",
-						"unset");
+				$('#' + modalId + ' #annullaIscrizioneDiv').css("display", "unset");
 				if (modalId == "viewLezione_modal") {
-					$('#' + modalId + ' #posti').text(
-							ajaxResponse.event.limite
-									- ajaxResponse.event.iscritti.length);
+					$('#' + modalId + ' #posti').text(ajaxResponse.event.limite - ajaxResponse.event.iscritti.length);
 				}
 			} else if (data == "limitExeeded") {
-				$("#" + errorModal + " #errorMessage").text(
-						"Limite di iscritti raggiunto");
+				$("#" + errorModal + " #errorMessage").text("Limite di iscritti raggiunto");
 				$("#" + errorModal + " #errorDiv").css("display", "unset");
 			} else {
-				$("#" + errorModal + " #errorMessage").text(
-						"E' necessario effettuare il login");
+				$("#" + errorModal + " #errorMessage").text("E' necessario effettuare il login");
 				$("#" + errorModal + " #errorDiv").css("display", "unset");
 			}
 		},
@@ -654,11 +620,9 @@ function iscriviti(idLezione, modalId) {
 				$("#" + modalId + " #attesa").css("display", "none");
 			}
 			if (errorThrown == "timeout") {
-				$("#" + errorModal + " #errorMessage").text(
-						"Il server non risponde");
+				$("#" + errorModal + " #errorMessage").text("Il server non risponde");
 			} else {
-				$("#" + errorModal + " #errorMessage").text(
-						"E' necessario effettuare il login");
+				$("#" + errorModal + " #errorMessage").text("E' necessario effettuare il login");
 			}
 			$("#" + errorModal + " #errorDiv").css("display", "unset");
 		}
@@ -702,16 +666,12 @@ function annullaIscrizione(idLezione, modalId) {
 			}
 			if (data == "ok") {
 				$('#' + modalId + ' #iscrivitiDiv').css("display", "unset");
-				$('#' + modalId + ' #annullaIscrizioneDiv').css("display",
-						"none");
+				$('#' + modalId + ' #annullaIscrizioneDiv').css("display", "none");
 				if (modalId == "viewLezione_modal") {
-					$('#' + modalId + ' #posti').text(
-							ajaxResponse.event.limite
-									- ajaxResponse.event.iscritti.length);
+					$('#' + modalId + ' #posti').text(ajaxResponse.event.limite - ajaxResponse.event.iscritti.length);
 				}
 			} else {
-				$("#" + errorModal + " #errorMessage").text(
-						"E' necessario effettuare il login");
+				$("#" + errorModal + " #errorMessage").text("E' necessario effettuare il login");
 				$("#" + errorModal + " #errorDiv").css("display", "unset");
 			}
 		},
@@ -726,11 +686,9 @@ function annullaIscrizione(idLezione, modalId) {
 				$("#" + modalId + " #attesa").css("display", "none");
 			}
 			if (errorThrown == "timeout") {
-				$("#" + errorModal + " #errorMessage").text(
-						"Il server non risponde");
+				$("#" + errorModal + " #errorMessage").text("Il server non risponde");
 			} else {
-				$("#" + errorModal + " #errorMessage").text(
-						"E' necessario effettuare il login");
+				$("#" + errorModal + " #errorMessage").text("E' necessario effettuare il login");
 			}
 			$("#" + errorModal + " #errorDiv").css("display", "unset");
 		}
@@ -782,8 +740,7 @@ function getIscritti(idLezione) {
 	});
 	var htmlNomi = "";
 	for (var i = 0; i < nomi.length; i++) {
-		htmlNomi = htmlNomi + '<li class="list-group-item">' + nomi[i]
-				+ '</li>';
+		htmlNomi = htmlNomi + '<li class="list-group-item">' + nomi[i] + '</li>';
 	}
 	if (htmlNomi == "") {
 		htmlNomi = '<li class="list-group-item">Nessun Iscritto</li>';
@@ -812,4 +769,36 @@ function hasRole(role) {
 		}
 	});
 	return hasRole;
+}
+
+function refreshEvent(eventId) {
+	$("#calendar").css("display", "none");
+	$("#attesaPrenotazioni").css("display", "unset");
+	var token = $("input[name='_csrf']").val();
+	var header = "X-CSRF-TOKEN";
+	$(document).ajaxSend(function(e, xhr, options) {
+		xhr.setRequestHeader(header, token);
+	});
+	var refreshedEvent = null;
+	$.ajax({
+		type : "POST",
+		url : 'prenotazioni/ajax/getPrenotazione',
+		data : {
+			id : eventId
+		},
+		async : false,
+		timeout : 10000,
+		dataType : 'json',
+		success : function(event) {
+			if (event.type == "Lezione") {
+				event.color = "#01DF01";
+			}
+			$('#calendar').fullCalendar('removeEvents', event.id);
+			$('#calendar').fullCalendar('renderEvent', event);
+			$("#calendar").css("display", "unset");
+			$("#attesaPrenotazioni").css("display", "none");
+			refreshedEvent = event;
+		}
+	});
+	return refreshedEvent;
 }

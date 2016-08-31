@@ -122,6 +122,12 @@ public class PrenotazioniController {
 		return OK;
 	}
 
+	@RequestMapping(value = "/ajax/getPrenotazione", method = RequestMethod.POST)
+	public @ResponseBody Prenotazione getPrenotazione(@RequestParam("id") String id) {
+		long preId = Long.parseLong(id);
+		return prenotazioneRepository.find(preId);
+	}
+
 	protected class AjaxResponse {
 		String result;
 		Prenotazione event;

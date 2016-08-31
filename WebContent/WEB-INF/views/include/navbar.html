@@ -21,8 +21,8 @@
 						class="glyphicon glyphicon-user"></span> Sign Up</a></li>
 				<li th:if="${isLogged} == false"><a th:href="@{/login}"><span
 						class="glyphicon glyphicon-log-in"></span> Login</a></li>
-				<li th:if="${isLogged} == true"><span
-					th:text="${'Benvenuto '+username}" class="glyphicon"></span></li>
+				<li th:if="${isLogged} == true"><a><span
+						th:text="${'Benvenuto '+username}" class="glyphicon"></span></a></li>
 				<li th:if="${isLogged} == true"><a th:href="@{/logout}"><span
 						class="glyphicon glyphicon-log-out"></span> Logout</a></li>
 			</ul>

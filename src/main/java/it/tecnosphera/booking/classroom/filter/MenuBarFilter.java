@@ -35,7 +35,7 @@ public class MenuBarFilter extends OncePerRequestFilter {
 			req.setAttribute("isLogged", true);
 			org.springframework.security.core.userdetails.User u = (org.springframework.security.core.userdetails.User) SecurityContextHolder
 					.getContext().getAuthentication().getPrincipal();
-			req.setAttribute("username", u.getUsername());
+			req.setAttribute("username", u.getUsername().replace("@tecnosphera.it", ""));
 
 			// verifica se è admin
 			if (new SecurityContextHolderAwareRequestWrapper(req, null).isUserInRole("ROLE_ADMIN")) {

@@ -22,6 +22,7 @@
 		<intercept-url pattern="/login" access="permitAll" />
 
 		<intercept-url pattern="/prenotazioni/ajax/list" access="permitAll" />
+		<intercept-url pattern="/prenotazioni/ajax/getPrenotazione" access="permitAll" />
 		<intercept-url pattern="/admin/user/ajax/**" access="permitAll" />
 		<intercept-url pattern="/prenotazioni/**" access="hasRole('ROLE_USER')" />
 		<intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')" />
