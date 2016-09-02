@@ -11,21 +11,24 @@
     	</div>
 		<div id="navbarCollapse" class="collapse navbar-collapse">
            	<ul class="nav navbar-nav">
-				<li th:if="${isAdmin} == true">
+				<li sec:authorize="hasRole('ROLE_ADMIN')">
 					<a th:href="@{/admin/aula/}">Aule</a>
 				</li>
-				<li th:if="${isAdmin} == true">
+				<li sec:authorize="hasRole('ROLE_ADMIN')">
 					<a th:href="@{/admin/user/}">Utenti</a>
 				</li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
-				<li th:if="${isLogged} == false">
+				<li sec:authorize="isAnonymous()">
 					<a th:href="@{/register}"><span class="glyphicon glyphicon-user"></span> Sign Up</a>
 				</li>
-				<li th:if="${isLogged} == false">
+				<li sec:authorize="isAnonymous()">
 					<a th:href="@{/login}"><span class="glyphicon glyphicon-log-in"></span> Login</a>
 				</li>
-				<li th:if="${isLogged} == true">
+				<li sec:authorize="isAuthenticated()">
+        					Benvenuto <span th:text="${#authentication.name}"></span>
+    				</li>
+				<li sec:authorize="isAuthenticated()">
 					<a th:href="@{/logout}"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
 				</li>
 			</ul>

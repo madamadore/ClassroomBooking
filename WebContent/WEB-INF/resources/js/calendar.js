@@ -12,7 +12,7 @@ $(document).ready(function(event) {
 				success : function(data) {
 					for (var i = 0; i < data.length; i++) {
 						if (data[i].type == "Lezione") {
-							data[i].color = "#01DF01";
+							data[i].color = "#01AC01";
 						}
 					}
 					$("#calendar").css("display", "unset");
@@ -32,9 +32,9 @@ $(document).ready(function(event) {
 		// when too many
 		// events
 		dayClick : function(date, jsEvent, view) {
-			console.log("hasRole = " + hasRole("ROLE_TECHER"));
+			console.log("hasRole = " + hasRole("ROLE_TEACHER"));
 			setCreationModal(date, "edit_prenotazione");
-			if(hasRole("ROLE_TECHER")){
+			if(hasRole("ROLE_TEACHER")){
 				setCreationModal(date, "edit_lezione");
 				$("#dialog #optPrenotazione").prop("checked", true);
 			}else{

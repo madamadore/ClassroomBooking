@@ -21,6 +21,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table(name = "role")
 public class Role implements Serializable {
 
+	public static final String ROLE_ADMIN = "ROLE_ADMIN";
+	public static final String ROLE_TEACHER = "ROLE_TEACHER";
+	public static final String ROLE_USER = "ROLE_USER";
+	
 	private static final long serialVersionUID = 1L;
 
 	@Id

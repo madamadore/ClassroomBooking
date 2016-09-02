@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import it.tecnosphera.booking.classroom.model.Aula;
 import it.tecnosphera.booking.classroom.model.Lezione;
 import it.tecnosphera.booking.classroom.model.Prenotazione;
+import it.tecnosphera.booking.classroom.model.Role;
 import it.tecnosphera.booking.classroom.model.User;
 import it.tecnosphera.booking.classroom.repository.LezioneRepositoryInterface;
 
@@ -47,7 +48,7 @@ public class LezioniController extends PrenotazioniController {
 			return new AjaxResponse(MISSING_INPUT, null);
 		}
 
-		if (!utilityMethods.hasRole("ROLE_TECHER"))
+		if (!utilityMethods.hasRole(Role.ROLE_TEACHER))
 			return new AjaxResponse(MISSING_PERMISSION, null);
 		
 		org.springframework.security.core.userdetails.User u = (org.springframework.security.core.userdetails.User) SecurityContextHolder

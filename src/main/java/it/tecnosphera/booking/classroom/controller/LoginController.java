@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import it.tecnosphera.booking.classroom.model.Aula;
 import it.tecnosphera.booking.classroom.model.Prenotazione;
+import it.tecnosphera.booking.classroom.model.Role;
 import it.tecnosphera.booking.classroom.model.User;
 import it.tecnosphera.booking.classroom.repository.RepositoryInterface;
 import it.tecnosphera.booking.classroom.repository.RoleRepositoryInterface;
@@ -68,7 +69,7 @@ public class LoginController {
 		user.setEnabled(true);
 		user.setPassword(userRepository.MD5Hashing(user.getPassword()));
 
-		user.getRoles().add(roleRepository.find("ROLE_USER").get(0));
+		user.getRoles().add(roleRepository.find(Role.ROLE_USER).get(0));
 
 		userRepository.save(user);
 		return "redirect:login";
