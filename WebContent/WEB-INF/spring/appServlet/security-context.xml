@@ -17,7 +17,7 @@
 		class="it.tecnosphera.booking.classroom.business.UserService">
 		<beans:property name="userDao" ref="userDao" />
 	</beans:bean>
-
+	
 	<http auto-config="true" use-expressions="true">
 		<intercept-url pattern="/login" access="permitAll" />
 

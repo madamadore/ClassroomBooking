@@ -23,16 +23,16 @@
 		<beans:property name="cacheable" value="false" />
 	</beans:bean>
 
-	<beans:bean id="templateEngine" class="org.thymeleaf.spring3.SpringTemplateEngine">
+	<beans:bean id="templateEngine" class="org.thymeleaf.spring4.SpringTemplateEngine">
 		<beans:property name="templateResolver" ref="templateResolver" />
 		<beans:property name="additionalDialects">
 		        <beans:set>
-		          <beans:bean class="org.thymeleaf.extras.springsecurity3.dialect.SpringSecurityDialect"/>
+		          <beans:bean class="org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect"/>
 		        </beans:set>
 	      	</beans:property>
 	</beans:bean>
 
-	<beans:bean class="org.thymeleaf.spring3.view.ThymeleafViewResolver">
+	<beans:bean class="org.thymeleaf.spring4.view.ThymeleafViewResolver">
 		<beans:property name="templateEngine" ref="templateEngine" />
 	</beans:bean>
 
